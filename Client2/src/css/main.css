@@ -1,0 +1,98 @@
+.left-bar-item{
+  transition: all 0.15s ease-in-out;  
+}
+.left-bar-item:hover{
+    background-color: #dddddd;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color .15s ease-in-out
+}
+
+.item{
+    box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.09);
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: white;
+}
+.online{
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    top: 0;
+    right: 0;
+    border-radius: 99999px;
+    background-color: limegreen;
+}
+
+.item_postcreate:hover span {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0.1rem);
+    z-index: 1;
+  }
+  .post_button:hover{
+    background-color: #cc8000;
+    transition: all ease-in-out .3s;
+  }
+
+  .method-share:hover{
+    background-color: #ddd;
+    border-radius: 5px;
+    transition: all ease-in-out .2s;
+    color: #000;
+  }
+  .method-share_close:hover{
+      transition: all ease-in-out .3s;
+      color: #fff;
+      background-color: rgb(248, 51, 51);
+  }
+  .thin-scroll::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  
+  .thin-scroll::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.8);
+    border-radius: 999px;
+  }
+  
+  .thin-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(156, 163, 175, 1);
+  }
+  
+  .thin-scroll::-webkit-scrollbar-track {
+    background-color: rgba(209, 213, 219, 0.5);
+    border-radius: 999px;
+  }
+
+  .thin-scroll {
+    scrollbar-width: thin;
+  }
+
+  .thin-scroll::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+  }
+  
+  /* Thiết lập màu nền cho thanh cuộn */
+  .thin-scroll::-webkit-scrollbar-track {
+    background-color: #eee;
+  }
+
+.fadeDown {
+    animation: fadeDown 0.3s ease-in-out;
+}
+
+@keyframes fadeDown {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+.border_bottom{
+    border-bottom: 1px solid transparent;
+    border-image: linear-gradient(0.25turn, rgb(255 255 255 / 40%), rgb(99 99 99 / 60%), rgb(255 255 255 / 0%));
+    border-image-slice: 1;
+}
