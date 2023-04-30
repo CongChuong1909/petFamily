@@ -1,32 +1,22 @@
-import Post from "../post/Post";
-import "./posts.scss";
+import React, { useState } from 'react';
+import PostTool from './PostCreate/PostsTool/PostTool';
+import PostCreate from './PostCreate/PostCreate';
+import Post from './Post/Post';
 
-const Posts = () => {
-  const posts = [
+function Posts(props) {
+    const [showCreatePost, setShowCreatePost] = useState(false);
+    // lock scroll on modal open 
+    if(showCreatePost === true)
     {
-      id: 1,
-      name: "John Doe",
-      userId: 1,
-      profilePic:
-        "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
-      img: "https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    },
-    {
-      id: 2,
-      name: "Jane Doe",
-      userId: 2,
-      profilePic:
-        "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      desc: "Tenetur iste voluptates dolorem rem commodi voluptate pariatur, voluptatum, laboriosam consequatur enim nostrum cumque! Maiores a nam non adipisci minima modi tempore.",
-    },
-  ];
-
-  return <div className="posts">
-    {posts.map(post=>(
-      <Post post={post} key={post.id}/>
-    ))}
-  </div>;
-};
+        document.body.style.overflow = 'hidden';
+    }
+    return (
+        <div>
+            <PostCreate handleClosePostCreate = {()=>setShowCreatePost(false)}  show = {showCreatePost}/>
+            <PostTool onOpenCreatePost = {()=>setShowCreatePost(true)}/>
+            <Post/>
+        </div>
+    );
+}
 
 export default Posts;
