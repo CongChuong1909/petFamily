@@ -12,9 +12,19 @@
   "dependencies": {
     "@emoji-mart/data": "^1.1.2",
     "@emoji-mart/react": "^1.1.1",
+    "@reduxjs/toolkit": "^1.9.5",
+    "@tanstack/react-query": "^4.29.5",
+    "axios": "^1.4.0",
+    "emoji-js": "^3.7.0",
     "emoji-mart": "^5.5.2",
+    "emoji-regex": "^10.2.1",
+    "moment": "^2.29.4",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.11.1",
+    "react-toastify": "^9.1.2",
+    "unescape-js": "^1.1.4"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",

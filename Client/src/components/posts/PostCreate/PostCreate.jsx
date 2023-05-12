@@ -4,6 +4,10 @@ import PostMethodShare from './PostMethodShare/PostMethodShare';
 import  Picker  from '@emoji-mart/react';
 import  data  from '@emoji-mart/data';
 import PreviewImages from './PreviewImages/PreviewImage';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { makeRequest} from '~/axios';
+import axios from 'axios';
+import uploadImages from '~/API/uploadAPI';
 const dataBg = [  {    
     imgBg: "https://pety.vn/static/media/p1.562333b0.jpg",    title: "Phá"  },
     {imgBg: "https://pety.vn/static/media/p2.e2fedf9e.jpg",    title: "Đói"  }, 
@@ -12,26 +16,29 @@ const dataBg = [  {
 ];
 
 function PostCreate(props) {
-  const [background, setBackground] = useState('');
+  const [background, setBackground] = useState({url:'', index: null});
   const [text, setText] = useState("");
   const [showEmoji, setShowEmoji] = useState(false);
   const [images, setImages] = useState([]);
   const [showMore, setShowMore] = useState(false);
-
+  const [listImageURL, setListImageURL] = useState([]);
+  const queryClient = useQueryClient();
   const fileInputRef = useRef(null);
 
   const handleClickChooseImages = () => {
     fileInputRef.current.click();
   };
-  const handleAddBackground = (image) => {
-    setBackground(image);
+  const handleAddBackground = (i,image) => {
+    setBackground({index: i, url: image});
     setImages([]);
   };
-  
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     const fileList = event.target.files;
     const imagesArray = Array.from(fileList);
     setImages(imagesArray);
+    const filesToSend = imagesArray.length === 1 ? [imagesArray[0]] : imagesArray;
+    console.log(filesToSend);
+    uploadFilesMutation.mutate(filesToSend);
   };
   const addEmoji = (e) => {
     let sym = e.unified.split("-");
@@ -43,6 +50,42 @@ function PostCreate(props) {
   const handleShowMore = () => {
     setShowMore(!showMore);
   };
+  
+  const uploadFilesMutation = useMutation(uploadImages, {
+    onSuccess: (data) => {
+        setListImageURL(data);
+        queryClient.invalidateQueries('uploads');
+    },
+  });
+  const mutation = useMutation(
+    (newPost)=>{
+    return makeRequest.post("posts/addPost", newPost)
+    },{
+    onSuccess:()=>{
+        props.handleClosePostCreate;
+        queryClient.invalidateQueries(["posts"]);
+    }
+  })
+
+
+  const handleAddPost  = () =>{
+    const values = {
+        textContent: text,
+        postStatus: 1,
+        postCategory: 1,
+        methodPost: 1,
+        images: listImageURL,
+        videos: [],
+        postBg:background.index !== null ? background.index + 1 : null,
+    }
+    mutation.mutate(values);
+    props.handleClosePostCreate();
+    setText("");
+    setImages([]);
+    setBackground({url:'', index: null});
+  }
+
+
   
 
   return (
@@ -66,11 +109,11 @@ function PostCreate(props) {
         {images.length <= 0 ? (
             <div
                 className="bg-cover bg-right-bottom"
-                style={  background === '' ? { height: '100px' } : {  backgroundImage: `url(${background})`, display: 'flex', alignItems: 'center',  justifyContent: 'center', height: '280px', }}>
+                style={  background.url === '' ? { height: '100px' } : {  backgroundImage: `url(${background.url})`, display: 'flex', alignItems: 'center',  justifyContent: 'center', height: '280px', }}>
                      <textarea
                      value={text}
                      onChange={(e) => setText(e.target.value)}
-                         className={`w-full h-[100px] bg-[rgba(0,0,0,0)] p-[10px] thin-scroll outline-none rounded-md mb-3 text-[24px] ${background === '' ? '' : 'text-center drop-shadow-md font-bold text-[#fff] drop-shadow-sha shadow-black'}`}
+                         className={`w-full h-[100px] bg-[rgba(0,0,0,0)] p-[10px] thin-scroll outline-none rounded-md mb-3 text-[24px] ${background.url === '' ? '' : 'text-center drop-shadow-md font-bold text-[#fff] drop-shadow-sha shadow-black'}`}
                          placeholder="What's on your mind?"
                      />
             </div>
@@ -78,13 +121,22 @@ function PostCreate(props) {
             (
                 <div className=" h-96">
                     <textarea value={text} onChange={(e)=>setText(e.target.value)} className='outline-none thin-scroll p-2 w-full' placeholder="What's on your mind?" type="text"/>
-                     {images.length > 0 && (
-                        <PreviewImages
-                            images={images}
-                            showMore={showMore}
-                            handleShowMore={handleShowMore}
-                        />
-                    )}
+                    {uploadFilesMutation.isLoading? 
+                    <>
+                        <div className='flex justify-center items-center'>
+                            <img className='w-40 h-30' src="../../../../public/Loading_icon.gif" alt="" />
+                        </div>
+                    </>
+                    :
+                        images.length > 0 && (
+                            <PreviewImages
+                                images={images}
+                                showMore={showMore}
+                                handleShowMore={handleShowMore}
+                            />
+                        )
+                    }
+                     
                 </div>
             )
         }
@@ -108,15 +160,15 @@ function PostCreate(props) {
             <div className='flex gap-4 mt-4'>
             <div onClick={()=>{setBackground('')}} className='w-[84px] rounded-md flex justify-center items-center text-[#fff] shadow-lg h-[60px] bg-center bg-cover ' ></div>
                 {dataBg.map((item, index)=>(
-                    <div key = {index} onClick={() =>handleAddBackground(item.imgBg)} className='w-[84px] cursor-pointer rounded-md flex justify-center items-center text-[#fff] shadow-lg h-[60px] bg-center bg-cover ' style={{backgroundImage: `url(${item.imgBg})`}}>{item.title}</div>
+                    <div key = {index} onClick={() =>handleAddBackground(index,item.imgBg)} className='w-[84px] cursor-pointer rounded-md flex justify-center items-center text-[#fff] shadow-lg h-[60px] bg-center bg-cover ' style={{backgroundImage: `url(${item.imgBg})`}}>{item.title}</div>
                 ))}
             </div>
             <PostTag/>
           </div>    
-          <button className='outline-none post_button flex w-full items-center justify-center bg-[#ffa000] mt-3 p-2 rounded-xl text-[#fff] text-[20px]' >Post</button>
+          <button onClick={handleAddPost}  className='outline-none post_button flex w-full items-center justify-center bg-[#ffa000] mt-3 p-2 rounded-xl text-[#fff] text-[20px]' >Post</button>
         </div>
         {showEmoji && (
-              <div onClick={(e)=>{e.stopPropagation();}} PreviewPosition = "none" className="absolute top-[20%] bottom-[-80%] z-50 right-[8%]">
+              <div onClick={(e)=>{e.stopPropagation();}} previewposition = "none" className="absolute top-[20%] bottom-[-80%] z-50 right-[8%]">
                 <Picker  onEmojiSelect={addEmoji} />
               </div>
             )}

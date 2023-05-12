@@ -96,3 +96,12 @@
     border-image: linear-gradient(0.25turn, rgb(255 255 255 / 40%), rgb(99 99 99 / 60%), rgb(255 255 255 / 0%));
     border-image-slice: 1;
 }
+
+.cover_image{
+    background-image:  url(https://res.cloudinary.com/dohmfb8tt/image/upload/v1683813533/img_pet_social/ycz6h2xuuwb2dovfpyqx.jpg);
+    height: 220px;
+    background-size: cover;
+    background-position: center;
+    object-fit: cover;
+    background-repeat: no-repeat;
+}
