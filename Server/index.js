@@ -39,7 +39,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/images", imageRoutes);
 app.use("/api/comment", commentRoutes);
-app.use("/api/like", likeRoutes);
+app.use("/api/likes", likeRoutes);
 app.use("/api", uploadRoutes);
 
 app.listen(4000, ()=>{
