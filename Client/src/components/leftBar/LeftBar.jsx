@@ -6,7 +6,9 @@ function Leftbar(props) {
         <div className='grid grid-cols-1 bg-[#fff] px-5'>
             <div className='flex items-center gap-3 pt-4'>
                 <div className='flex items-center gap-3 pl-2 pr-10 w-[200px] py-1 left-bar-item'>
+                <div className='rounded-[50%] w-[40px] h-[40px] overflow-hidden'>
                     <img className='w-[40px] rounded-full border border-[#ccc]' src={currentUser.avatar} alt="" />
+                    </div>
                     <span className='text-[#333]'>{currentUser.name}</span>
                 </div>
             </div>

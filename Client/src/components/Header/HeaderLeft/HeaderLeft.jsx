@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function HeaderLeft(props) {
     return (
@@ -7,7 +8,9 @@ function HeaderLeft(props) {
                 <h2 className='text-[18px] font-bold'>CONGCHUONG</h2>
             </div>
             <div className='flex justify-between gap-5'>
-                <i className="fa-duotone fa-house-chimney cursor-pointer p-3 text-[18px]"></i>
+                <Link to ='/'>
+                    <i className="fa-duotone fa-house-chimney cursor-pointer p-3 text-[18px]"></i>
+                </Link>
                 <i className="fa-light fa-moon cursor-pointer p-3 text-[18px]"></i>
                 <i className="fa-solid fa-grid-2 cursor-pointer p-3 text-[18px]"></i>
             </div>

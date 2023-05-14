@@ -16,6 +16,7 @@ function App() {
 
         const location = useLocation();
         const currentPath = location.pathname;
+        const isProfilePath = /^\/profile\/[^/]+$/.test(currentPath);
 
         return (
             <QueryClientProvider client={queryClient}>
@@ -24,10 +25,10 @@ function App() {
                     <div className="col-span-2">
                         <Leftbar />
                     </div>
-                    <div className={`${currentPath === '/profile' ? 'col-span-9': ''} col-span-6`}>
+                    <div className={`${isProfilePath ? 'col-span-9': ''} col-span-6`}>
                         <Outlet />
                     </div>
-                        <div className={`${currentPath === '/profile' ? 'hidden ': ''}col-span-3`}>
+                        <div className={`${isProfilePath ? 'hidden ': ''}col-span-3`}>
                         <Rightbar />
                     </div>
                 </div>
@@ -53,7 +54,7 @@ function App() {
                     element:<Home/>
                 },
                 {
-                    path:"/profile",
+                    path:"/profile/:id",
                     element:<Profile/>
                 },
             ]

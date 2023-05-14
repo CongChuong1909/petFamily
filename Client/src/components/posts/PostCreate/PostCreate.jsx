@@ -2,12 +2,12 @@ import React, { useRef, useState } from 'react';
 import PostTag from './PostTag/PostTag';
 import PostMethodShare from './PostMethodShare/PostMethodShare';
 import  Picker  from '@emoji-mart/react';
-import  data  from '@emoji-mart/data';
 import PreviewImages from './PreviewImages/PreviewImage';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { makeRequest} from '~/axios';
 import axios from 'axios';
 import uploadImages from '~/API/uploadAPI';
+import Loading from '~/components/Loading/Loading';
 const dataBg = [  {    
     imgBg: "https://pety.vn/static/media/p1.562333b0.jpg",    title: "Phá"  },
     {imgBg: "https://pety.vn/static/media/p2.e2fedf9e.jpg",    title: "Đói"  }, 
@@ -37,7 +37,6 @@ function PostCreate(props) {
     const imagesArray = Array.from(fileList);
     setImages(imagesArray);
     const filesToSend = imagesArray.length === 1 ? [imagesArray[0]] : imagesArray;
-    console.log(filesToSend);
     uploadFilesMutation.mutate(filesToSend);
   };
   const addEmoji = (e) => {
@@ -122,11 +121,7 @@ function PostCreate(props) {
                 <div className=" h-96">
                     <textarea value={text} onChange={(e)=>setText(e.target.value)} className='outline-none thin-scroll p-2 w-full' placeholder="What's on your mind?" type="text"/>
                     {uploadFilesMutation.isLoading? 
-                    <>
-                        <div className='flex justify-center items-center'>
-                            <img className='w-40 h-30' src="../../../../public/Loading_icon.gif" alt="" />
-                        </div>
-                    </>
+                    <Loading/>
                     :
                         images.length > 0 && (
                             <PreviewImages

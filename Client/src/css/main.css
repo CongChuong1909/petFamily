@@ -9,6 +9,7 @@
 }
 
 .item{
+    border-radius: 10px;
     box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.09);
     padding: 20px;
     margin-bottom: 20px;
@@ -96,6 +97,11 @@
     border-image: linear-gradient(0.25turn, rgb(255 255 255 / 40%), rgb(99 99 99 / 60%), rgb(255 255 255 / 0%));
     border-image-slice: 1;
 }
+.border_top{
+    border-top: 1px solid transparent;
+    border-image: linear-gradient(0.25turn, rgb(255 255 255 / 40%), rgb(99 99 99 / 60%), rgb(255 255 255 / 0%));
+    border-image-slice: 1;
+}
 
 .cover_image{
     background-image:  url(https://res.cloudinary.com/dohmfb8tt/image/upload/v1683813533/img_pet_social/ycz6h2xuuwb2dovfpyqx.jpg);
@@ -104,4 +110,95 @@
     background-position: center;
     object-fit: cover;
     background-repeat: no-repeat;
+}
+.slick-comment{
+    display: flex !important;
+    height: 100% !important;
+}
+.slick-prev {
+    left: 15px !important;
+    z-index: 30 !important;
+}
+.slick-next {
+    right: 15px !important;
+}
+.slick-dots li button:before{
+    color: #fff !important;
+}
+.slick-dots {
+    bottom: 0px !important;
+}
+.slick-list{
+    height: 100% !important;
+}
+.slick-slide {
+    height: 100% !important;
+}
+.slick-slide>div{
+    height: 100% !important;
+}
+.slick-track{
+    height: 100% !important;
+}
+.fade-enter {
+    opacity: 0;
+  }
+  
+  .fade-enter-active {
+    opacity: 1;
+    transition: opacity 150ms ease-in;
+  }
+  
+  .fade-exit {
+    opacity: 1;
+  }
+  
+  .fade-exit-active {
+    opacity: 0;
+    transition: opacity 150ms ease-out;
+  }
+  .scroll-div {
+    overflow: scroll;
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+}
+.scroll-div::-webkit-scrollbar {
+    width: 4px; /* Độ rộng của thanh cuộn */
+    background-color: #f5f5f5; /* Màu nền của thanh cuộn */
+  }
+  
+  /* Thiết lập màu thanh cuộn */
+  .scroll-div::-webkit-scrollbar-thumb {
+    background-color: #888; /* Màu của thanh cuộn */
+    border-radius: 4px; /* Đường viền cong của thanh cuộn */
+  }
+  
+  /* Thiết lập màu khi hover lên thanh cuộn */
+  .scroll-div::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Màu của thanh cuộn khi hover */
+  }
+  
+  /* Thiết lập màu khi thanh cuộn được nhấp chuột vào */
+  .scroll-div::-webkit-scrollbar-thumb:active {
+    background-color: #333; /* Màu của thanh cuộn khi nhấp chuột */
+  }
+  .select-none{
+    user-select: none;
+  }
+
+  .upload_avatar{
+    transform: translateY(200%);
+  }
+
+  .fadeUp{
+    animation: fadeUp ease-in-out .3s;
+    transform: translateY(50%)
+  }
+  @keyframes fadeUp {
+    from {
+        transform: translateY(200%);
+    }
+    to {
+        transform: translateY(50%);
+    }
 }

@@ -1,59 +1,35 @@
 
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import moment from 'moment/moment';
 import React, { useEffect, useRef, useState } from 'react';
-import { getImages } from '~/API/postAPI';
+import { CSSTransition } from 'react-transition-group';
 import { makeRequest } from '~/axios';
-
-
-const dataBg = 
-{
-    1:"https://pety.vn/static/media/p1.562333b0.jpg",
-    2:"https://pety.vn/static/media/p2.e2fedf9e.jpg",
-    3:"https://pety.vn/static/media/p3.8ddba762.jpg",
-    4:"https://pety.vn/static/media/p4.d230127a.jpg",
-}
-
-
-const classConfig = {
-    1: 'col-span-4 min-h-[640px]',
-    2: 'col-span-4 min-h-[480px]',
-    3: {
-      0: 'col-span-12 h-[400px]',
-      1: 'col-span-6 h-48',
-      2: 'col-span-6 h-48',
-      'default': 'col-span-4 h-32',
-    },
-    4: {
-      0: 'col-span-6 h-64',
-      1: 'col-span-6 h-64',
-      2: 'col-span-6 h-64',
-      3: 'col-span-6 h-64',
-      'default': 'col-span-4 h-32',
-    },
-    'default': {
-        0: 'col-span-6 h-72',
-        1: 'col-span-6 h-72',
-        2: 'col-span-4 h-64',
-        3: 'col-span-4 h-64',
-        4: 'col-span-4 h-64',
-        'default': 'col-span-4 h-36',
-    },
-  };
+import {classConfigOnPost} from '~/Data/Data'
+import Comments from '~/components/Comments/Comments';
+import { dataBg } from '~/Data/Data';
+import { useSelector } from 'react-redux';
+import Loading from '~/components/Loading/Loading';
+import { Link } from 'react-router-dom';
+   
   const getConfig = (length, index) => {
-    const config = classConfig[length] || classConfig['default'];
+    const config = classConfigOnPost[length] || classConfigOnPost['default'];
     return typeof config === 'object' ? config[index] || config['default'] : config;
   };
 
   function Post(props) {
+    const { currentUser } = useSelector((state) => state.user);
     const [showMore, setShowMore] = useState(false);
     const [like, setLike] = useState(false);
+    const [selfLike, setSelfLike] = useState(false);
+    const [amountLike, setAmountLike]=useState(0);
     const [arrImage, setArrImage] = useState([]);
+    const [showComment, setShowComment] = useState(false);
+    const [amountComment, setAmountComment] = useState(0);
+    const queryClient = useQueryClient();
     const handleShowMore = () => {
       setShowMore(!showMore);
     };
     const { postItem } = props;
-  
     const imagesQuery = useQuery({
       queryKey: ["images", postItem.idposts],
       queryFn: async () => {
@@ -65,6 +41,8 @@ const classConfig = {
     useEffect(() => {
       imagesQuery.refetch();
     }, [postItem.idposts]);
+
+   
   
     useEffect(() => {
       if (imagesQuery.isFetched) {
@@ -73,7 +51,69 @@ const classConfig = {
         setArrImage(arrImage);
       }
     }, [postItem.idposts, imagesQuery.isFetched, imagesQuery.data]);
-  
+
+    const LikesFetch = useQuery({
+        queryKey: ["likes", postItem.idposts],
+        queryFn: async () => {
+          const res = await makeRequest.get(`/likes?postId=${postItem.idposts}`);
+          return res.data;
+        },
+      });
+      useEffect(() => {
+        if (LikesFetch.isFetched) {
+            setAmountLike(LikesFetch.data.length)
+            if(LikesFetch.data.length > 0)
+            {
+                var arr = [];
+                LikesFetch.data.map((item)=>{
+                    arr.push(item.iduser)
+                })
+                setSelfLike(arr.includes(currentUser.idUser))
+            }
+        }
+      }, [postItem.idposts, LikesFetch.isFetched, LikesFetch.data]);
+
+    const mutation = useMutation((liked)=>{
+        if(liked)//// if true
+        {
+            return makeRequest.delete("/likes/deleteLike?idPost="+ postItem.idposts)
+        }  
+        return makeRequest.post("/likes/addLike", {idPost : postItem.idposts})
+    },
+    {
+        onSuccess:()=>{
+            queryClient.invalidateQueries(["likes"]);
+        }
+    }
+    )
+
+    const handleLike = ()=>{
+        ///check mutate true or false
+                var arr = [];
+                LikesFetch.data.map((item)=>{
+                    arr.push(item.iduser)
+                })
+                mutation.mutate(arr.includes(currentUser.idUser))
+        if(arr.includes(currentUser.idUser))
+       setSelfLike(false);
+    }
+
+    const commentFetch = useQuery({
+        queryKey: ["comments", postItem.idposts],
+        queryFn: async () => {
+          const res = await makeRequest.get(`/comment?postId=${postItem.idposts}`);
+          return res.data;
+        },
+      });
+      const amountCommentFetch = useQuery({
+        queryKey: ["amountcomment", postItem.idposts],
+        queryFn: async () => {
+          const res = await makeRequest.get(`/comment/getAmount?idPost=${postItem.idposts}`);
+          return res.data[0].total_comments;
+        },
+      });   
+      
+
     return (
       <>
         <div
@@ -82,10 +122,14 @@ const classConfig = {
         >
           <div className='flex justify-between items-center border_bottom pb-2'>
                 <div className='flex items-center gap-4 '>
-                    <div className='flex items-center gap-2'>
-                        <div><img className='w-[40px] h-[40px] rounded-full' src={postItem.avatar} alt="" /></div>
-                        <p className='font-semibold text-[18px]'>{postItem.name}</p>
-                    </div>
+                    <Link 
+                    to={`/profile/${postItem.userid}`}
+                    >
+                        <div className='flex items-center gap-2'>
+                            <div><img className='w-[40px] h-[40px] rounded-full' src={postItem.avatar} alt="" /></div>
+                            <p className='font-semibold text-[18px]'>{postItem.name}</p>
+                        </div>
+                    </Link>
                     <div className='flex items-center gap-1'>
                         <i className=" text-[4px] fa-duotone fa-circle"></i>
                         <p className='text-[#999]'>{moment(postItem.date_create).fromNow()}</p>
@@ -109,7 +153,7 @@ const classConfig = {
           {imagesQuery.error
             ? "something went wrong!"
             : imagesQuery.isLoading
-            ? "loading..."
+            ? <Loading/>
             : imagesQuery.data.length === 0
             ? null
             : (
@@ -137,7 +181,7 @@ const classConfig = {
                             alt={`Preview ${index}`}
                         />
                         {arrImage.length > 5 && index === 4 && (
-                            <div className="absolute inset-0 w-full h-full  bg-[rgba(0,0,0,0.31)] flex justify-center items-center">
+                            <div className="absolute inset-0 w-full h-full  bg-[rgba(0,0,0,0.15)] flex justify-center items-center">
                             <div
                                 onClick={handleShowMore}
                                 className="text-white bg-gray-500 px-2 cursor-pointer py-1 rounded-md"
@@ -155,17 +199,49 @@ const classConfig = {
                   
                 </div>
               )}
-            <div className='flex justify-between gap-3 px-12 py-4'>
+            <div className='flex justify-between gap-3 px-12 pt-4'>
                         <div className='flex gap-5'>
-                            <i onClick={()=>setLike(!like)} className={` ${like ? 'text-[#f00] font-bold': ''} text-[24px] cursor-pointer fa-light fa-heart`}></i>
-                            <i className="text-[24px] cursor-pointer fa-light fa-comment fa-flip-horizontal"></i>
+                            <div className='flex flex-col justify-center items-center'>
+                                <i onClick={handleLike} className={` ${ like ? 'text-[#f00] font-bold': selfLike ? 'text-[#f00] font-bold': ''} text-[24px] cursor-pointer fa-light fa-heart`}></i>
+                                <div className='flex justify-center items-center gap-1'>
+                                    {amountLike} <p className='text-[14px]'>Like</p>
+                                </div>
+                            </div>
+                            <div className='flex flex-col justify-center items-center'  >
+                                <i onClick={()=>setShowComment(true)} className="text-[24px] cursor-pointer fa-light fa-comment fa-flip-horizontal"></i>
+                                <div className='flex justify-center items-center gap-1'>
+                                {amountCommentFetch.data ? amountCommentFetch.data : 0} <p className='text-[14px]'>Comment</p>
+                                </div>
+                            </div>
                             <i className="text-[24px] cursor-pointer fa-light fa-paper-plane"></i>
                         </div>
                         <div>
-                        <i className="text-[24px] cursor-pointer fa-light fa-bookmark"></i>
+                            <i className="text-[24px] cursor-pointer fa-light fa-bookmark"></i>
                         </div>
                     </div>
+                    <div className='px-12'>
+                      
+                       
+                    </div>
             </div>
+            <CSSTransition
+                in={showComment}
+                timeout={150}
+                classNames="fade"
+                unmountOnExit
+            >
+                <div onClick = {()=> setShowComment(false)} className='inset-0 bg-[rgba(0,0,0,0.31)] z-50 fixed flex items-center justify-center '>
+                    <div onClick = {()=> setShowComment(false)} className='absolute top-5 right-5 text-[#fff] p-3 cursor-pointer'><i className="fa-regular fa-x"></i></div>
+                    <div className='flex h-[92%] w-[70%] bg-[#fff] relative rounded-md'>
+                        {commentFetch.isLoading ?
+                            <Loading/> :
+                            <Comments  arrImage = {arrImage} postItem = {postItem}/>
+                        }
+                        
+                    </div>
+                </div>
+            </CSSTransition>
+            
       </>
     );
   }
