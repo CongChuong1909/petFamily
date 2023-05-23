@@ -57,7 +57,7 @@ export const login = (req, res) =>{
             return res.status(400).json('Gmail or password incorrect!')
        
             
-            const token = jwt.sign({id:data[0].idUser}, 'secretkey')
+            const token = jwt.sign({id:data[0].idUser}, 'secretkey',{expiresIn:'2 days'})
             const {password, ...orthers} = data[0];
         res.cookie("accessToken", token, {
             httpOnly: true,
@@ -73,4 +73,26 @@ export const logout = (req, res) =>{
         secure:true,
         sameSite:"none"
     }).status(200).json("User has been logged out!")
+}
+
+export const loginMethodSuccess = (req, res) =>{
+    console.log(req.user);
+    if (req.user) {
+        res.status(200).json({
+          success: true,
+          message: "successfull",
+          user: req.user,
+          //   cookies: req.cookies
+        });
+      }
+}
+export const loginMethodFail = (req, res) =>{
+    res.status(401).json({
+        success: false,
+        message: "failure",
+      });
+}
+export const logoutMethod = (req, res)=>{
+    req.logout();
+    res.redirect(CLIENT_URL);
 }

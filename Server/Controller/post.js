@@ -21,7 +21,8 @@ export const getPosts = (req, res) => {
         const query = `SELECT DISTINCT p.*, idUser, name, avatar FROM posts AS p
         JOIN users AS u ON (u.idUser = p.userid)
         LEFT JOIN friendlist AS fl ON (p.userid = fl.user_followed)
-        WHERE (fl.user_follower = ? OR (p.userId = ? AND p.post_method = 1 AND p.post_status = 1))
+        WHERE ((fl.user_follower = ? AND p.post_status = 1) 
+        OR (p.userId = ? AND p.post_method = 1 AND p.post_status = 1))
         ORDER BY p.date_create DESC `;
         db.query(query, [userInfo.id, userInfo.id], (err, data) => {
             if (err) return res.status(500).json(err);
@@ -48,10 +49,21 @@ export const addPosts = async (req, res) => {
         moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
         req.body.postBg,
       ];
-  
+      
+     
       try {
         await db.query(query, [values]);
-  
+            const listpets = req.body.idpets;
+        listpets.forEach(async(pet) => {
+            const queryInsertPet = "INSERT INTO pets_post (`idpost`, `idpets`, `name`, `avatar`) VALUES (?)";
+            const valuesPet = [
+                id,
+                pet.id_pet,
+                pet.name,
+                pet.avatar
+            ];
+        await db.query(queryInsertPet, [valuesPet]);
+        });
         if (req.body.images.length > 0) {
           const queryImage =
             "INSERT INTO images (`idimages`, `id_post`, `url`) VALUES (?)";
@@ -84,7 +96,7 @@ export const addPosts = async (req, res) => {
 
         const query = `SELECT DISTINCT p.*, idUser, name, avatar FROM posts AS p
         JOIN users AS u ON (u.idUser = p.userid)
-        WHERE p.userId = ?
+        WHERE p.userId = ? AND p.post_status = 1
         ORDER BY p.date_create DESC `;
         db.query(query, [req.query.idUser], (err, data) => {
             if (err) return res.status(500).json(err);
@@ -115,7 +127,7 @@ export const addPosts = async (req, res) => {
   
         if (req.body.images.length > 0) {
           const queryImage =
-            "INSERT INTO images (`idimages`, `id_post`, `url`) VALUES (?)";
+            "UPDATE posts set (`idposts`, `textcontent`, `post_status`, `userid`, `post_category`, `post_method`, `date_create`, `post_bg`) VALUES (?)";
           for (const image of req.body.images) {
             console.log(image);
             const idimage = nanoid(10);
@@ -134,10 +146,25 @@ export const addPosts = async (req, res) => {
           }
         }
   
-        return res.status(200).json("Create post success!");
+        return res.status(200).json("Update post success!");
       } catch (error) {
         return res.status(500).json(error);
       }
     });
   }
+
+  ////postStatus::: 0 hidden, 1 view
+  export const hiddenPost = (req, res) =>{
+        const token = req.cookies.accessToken;
+        if (!token) return res.status(401).json("not logged in!");
+        Jwt.verify(token, "secretkey", (err, userInfo) => {
+            if (err) return res.status(403).json("Token is not valid");
+            
+            const query = "UPDATE posts set post_status = ? WHERE idposts = ? AND userid = ?";         
+            db.query(query, [0, req.body.idPost, userInfo.id], (err, data) => {
+                if (err) return res.status(500).json(err);
+                return res.status(200).json("Hidden Post success");
+            });
+        });
+  };
   

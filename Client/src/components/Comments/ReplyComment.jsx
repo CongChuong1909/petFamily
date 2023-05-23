@@ -48,17 +48,17 @@ function ReplyComment(props) {
         setShowCommentOption(false);
     };
     return (
-        <div className="grid grid-cols-7 ml-7 py-1 border-l border-[#333] gap-1">
-            <div className="col-span-2 ml-3 h-full flex gap-2">
-                <div className="flex  h-full pt-1">
+        <div className="grid grid-cols-8 ml-7 py-1 border-l border-[#333] gap-1">
+            <div className="  grid grid-cols-6 col-span-3 ml-3 h-full ">
+                <div className="flex col-span-2 h-full pt-1">
                     <img
                         className="w-[36px] h-[36px] rounded-full"
                         src={dataUser.avatar}
                         alt=""
                     />
                 </div>
-                <div className=" flex flex-col ">
-                    <p className="font-semibold text-[16px]">{dataUser.name}</p>
+                <div className="col-span-4 flex flex-col ">
+                    <p className="font-semibold text-[13px]">{dataUser.name}</p>
                     <p className="text-[#aaa] text-[10px]">
                         {moment(comment.date_create).fromNow()}
                     </p>
@@ -67,7 +67,7 @@ function ReplyComment(props) {
             <div className="col-span-4 flex flex-col items-start">
                 <div className="cursor-pointer flex justify-start items-center">
                     {!showInputUpdate ? (
-                        <p className="text-[#555] ">{comment.content}</p>
+                        <p className="text-[#555] text-[13px] ">{comment.content}</p>
                     ) : (
                         <div>
 

@@ -12,6 +12,17 @@ export const getLikes = (req, res) =>{
         return res.status(200).json(data);
     });
 }
+export const getAllLikes = (req, res) =>{
+    const query = `SELECT COUNT(l.id_like_post) AS total_likes
+    FROM users AS u
+    JOIN posts AS p ON u.idUser = p.userid
+    LEFT JOIN likepost AS l ON p.idposts = l.idpost
+    WHERE u.idUser = ? AND p.post_status = 1;`;
+    db.query(query, [req.query.idUser], (err, data) => {
+        if (err) return res.status(500).json(err);
+        return res.status(200).json(data);
+    });
+}
 export const addLike = (req, res) => {
     const token = req.cookies.accessToken;
     const id = nanoid(10);
@@ -32,6 +43,9 @@ export const addLike = (req, res) => {
         });
     });
 };
+
+
+
 export const deleteLike = (req, res) => {
     const token = req.cookies.accessToken;
     const id = nanoid(10);

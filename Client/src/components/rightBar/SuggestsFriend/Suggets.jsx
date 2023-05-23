@@ -1,31 +1,35 @@
+
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { makeRequest } from '~/axios';
+import Loading from '~/components/Loading/Loading';
+import FollowRecommendations from './SuggesstFollow';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAll } from '~/redux/relationshipSlices';
+
 
 function Suggets(props) {
+    const { currentUser } = useSelector((state) => state.user);
+    const dispatch = useDispatch();
+    const relationShipFetch = useQuery({
+      queryKey: ["relationship", currentUser.idUser],
+      queryFn: async () => {
+        const res = await makeRequest.get(`/relationships/getAll`);
+        dispatch(getAll(res.data))
+        return res.data;
+      },
+    }); 
     return (
-        <div className='item mt-5'>
+        <div className='item mt-5 '>
             <h4 className='text-[#999] pb-2  border-b border-[#ccc]'>Suggestions For You</h4>
-           <div className='flex gap-3 justify-between pb-3 pt-3'>
-                <div className='flex gap-3 items-center'>
-                    <img className='w-[40px] h-[40px] rounded-full ' src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="" />
-                    <span>Jane Doe</span>   
-                </div>
-                <div className='flex gap-3 items-center'>
-                    <button className='border-none outline-none px-3 py-1 text-[12px] text-[#fff] bg-[#5271ff] rounded-md'>follow</button>
-                    <button className='border-none outline-none px-3 py-1 text-[12px] text-[#fff] bg-[#f0544f] rounded-md'>Dismiss</button>
-                </div>
-           </div>
-           <div className='flex gap-3 justify-between pb-3'>
-                <div className='flex gap-3 items-center'>
-                    <img className='w-[40px] h-[40px] rounded-full ' src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="" />
-                    <span>Jane Doe</span>   
-                </div>
-                <div className='flex gap-3 items-center'>
-                    <button className='border-none outline-none px-3 py-1 text-[#fff] text-[12px] bg-[#5271ff] rounded-md'>follow</button>
-                    <button className='border-none outline-none px-3 py-1 text-[#fff] text-[12px] bg-[#f0544f] rounded-md'>Dismiss</button>
-                </div>
-           </div>
+            {
+                relationShipFetch.isLoading ?
+                <Loading/>:
+                <FollowRecommendations data = {relationShipFetch.data} idUser = {currentUser.idUser}/>
+            }
         </div>
     );
 }
 
 export default Suggets;
+

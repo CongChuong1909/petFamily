@@ -13,7 +13,7 @@ export const uploadCloud = async function (req, res, next) {
       if (!Array.isArray(files)) {
         const file = files;
   
-        if (file.size > 1024 * 1024) {
+        if (file.size > 5120 * 5120) {
           removeTmp(file.tempFilePath);
           return res.status(400).json({ msg: "Size too large." });
         }

@@ -1,3 +1,13 @@
+.header{
+    position: fixed;
+    top: 0;
+    transition: top 0.3s;
+    z-index: 999;
+}
+.scroll-up {
+    top: -60px;
+  }
+
 .left-bar-item{
   transition: all 0.15s ease-in-out;  
 }
@@ -51,7 +61,10 @@
     width: 5px;
     height: 5px;
   }
-  
+  /* .container::-webkit-scrollbar {
+    display: none;
+  }
+   */
   .thin-scroll::-webkit-scrollbar-thumb {
     background-color: rgba(156, 163, 175, 0.8);
     border-radius: 999px;
@@ -104,7 +117,7 @@
 }
 
 .cover_image{
-    background-image:  url(https://res.cloudinary.com/dohmfb8tt/image/upload/v1683813533/img_pet_social/ycz6h2xuuwb2dovfpyqx.jpg);
+    background-image:  url(https://pety.vn/static/media/cover.98ab1b0a.webp);
     height: 220px;
     background-size: cover;
     background-position: center;
@@ -113,7 +126,7 @@
 }
 .slick-comment{
     display: flex !important;
-    height: 100% !important;
+    /* height: 100% !important; */
 }
 .slick-prev {
     left: 15px !important;
@@ -201,4 +214,8 @@
     to {
         transform: translateY(50%);
     }
+}
+.item-kind:hover{
+    background-color: #f1f1f1;
+    transition: all ease-in-out 0.3s;
 }

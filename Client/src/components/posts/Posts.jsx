@@ -18,7 +18,6 @@ function Posts(props) {
     },
     );
 
-
     return (
         <div>
             <PostCreate

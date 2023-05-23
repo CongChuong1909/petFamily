@@ -107,18 +107,20 @@ function Comment(props) {
 
     return (
       <div key={comment.idComment} className="pt-4 ">
-         <div className="grid grid-cols-7  gap-4 ">
-                 <div className="col-span-2  h-full flex gap-2">
-                     <div className="flex  h-full pt-1">
+         <div className="grid grid-cols-8  gap-4 ">
+                 <div className="col-span-3 grid grid-cols-6 h-full ">
+                     <div className="flex col-span-2 h-full relative pt-1">
                          <img
                              className="w-[36px] h-[36px] rounded-full"
                              src={comment.avatar}
                              alt=""
                          />
+                         {comment.iduser === 'kaiuIQFPw4' && <div className="absolute bottom-0 right-[5px]"><img className='w-[12px] h-[12px]' src="https://cdn-icons-png.flaticon.com/512/807/807262.png" alt="" /></div>}
                      </div>
-                     <div className=" flex flex-col ">
-                         <p className="font-semibold text-[16px]">
+                     <div className=" col-span-4 flex flex-col ">
+                         <p className="font-semibold flex items-center text-[13px]">
                              {comment.name}
+                             
                          </p>
                          <p className="text-[#aaa] text-[10px]">
                              {moment(comment.date_create).fromNow()}
@@ -128,27 +130,32 @@ function Comment(props) {
                  <div className="col-span-4 flex flex-col items-start justify-end">
                      <div className="cursor-pointer flex justify-start">
                          {!showInputUpdate ? (
-                             <p className="text-[#555] ">{comment.content}</p>
+                             <p className="text-[#555] text-[13px]">{comment.content}</p>
                          ) : (
-                             <div className="flex ">
-                                 <input
-                                     type="text"
-                                     value={
-                                        textUpdateComment[index] !== undefined
-                                          ? textUpdateComment[index]
-                                          : comment.content
-                                      }
-                                     onChange={(e) =>
-                                         handleCommentChange(
-                                             index,
-                                             e.target.value,
-                                         )
-                                     }
-                                     className="text-[#555] outline-none border border-[#ccc] rounded-tl-md rounded-bl-md px-3 py-1"
-                                 />
-                                 <button onClick = {handleUpdateComment} className="bg-[#1877f2] px-1 text-[#fff] rounded-tr-md rounded-br-md text-[12px]">
-                                     Apply
-                                 </button>
+                             <div>
+                                <div className="flex ">
+                                    <input
+                                        type="text"
+                                        value={
+                                            textUpdateComment[index] !== undefined
+                                            ? textUpdateComment[index]
+                                            : comment.content
+                                        }
+                                        onChange={(e) =>
+                                            handleCommentChange(
+                                                index,
+                                                e.target.value,
+                                            )
+                                        }
+                                        className="text-[#555] outline-none border border-[#ccc] rounded-tl-md rounded-bl-md px-3 py-1"
+                                    />
+                                    <button onClick = {handleUpdateComment} className="bg-[#1877f2] px-1 text-[#fff] rounded-tr-md rounded-br-md text-[12px]">
+                                        Apply
+                                    </button>
+                                </div>
+                                <div onClick={()=>{setShowInputUpdate(false);setShowButtonOption(true)}} className="ml-[70%] select-none text-[12px] cursor-pointer text-[#1877f2]">
+                                    <p>Exit</p>
+                                </div>
                              </div>
                          )}
                      </div>
@@ -200,7 +207,7 @@ function Comment(props) {
             <div>
                 <div className="grid grid-cols-7 mt-3 gap-4">
                     <div className="col-span-2  h-full flex gap-2"></div>
-                    <div onClick={()=>setShowReplyComment(!showReplyComment)} className="select-none cursor-pointer col-span-4 flex items-center gap-3"><i className="fa-thin fa-horizontal-rule fa-2xl"></i><p className="text-[12px] text-[#333]">{showReplyComment? 'Hide': 'Show'} {commentReplyFetch.data.length} reply commment</p></div>
+                    <div onClick={()=>setShowReplyComment(!showReplyComment)} className="select-none cursor-pointer col-span-4 flex items-center gap-3"><i className="fa-thin fa-horizontal-rule fa-2xl"></i><p className="text-[11px] text-[#333]">{showReplyComment? 'Hide': 'Show'} {commentReplyFetch.data.length} reply commment</p></div>
                 </div>
                 {showReplyComment && 
                     commentReplyFetch.data.map((comment, index)=>(
@@ -212,7 +219,13 @@ function Comment(props) {
         }
         </div>
         {
-            showInputReply && <InputReply onCloseAndOpenShowReply= {handleCloseAndOpenShowReply} comment = {comment} />
+            showInputReply && 
+            <>
+                <InputReply onCloseAndOpenShowReply= {handleCloseAndOpenShowReply} comment = {comment} />
+                <div onClick={()=>{setShowInputReply(false)}} className="ml-[70%] select-none text-[12px] cursor-pointer text-[#1877f2]">
+                    <p>Exit</p>
+                </div>
+            </>
         }
       </div>
     );

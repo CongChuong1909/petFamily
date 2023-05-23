@@ -10,7 +10,16 @@ import { dataBg } from '~/Data/Data';
 import { useSelector } from 'react-redux';
 import Loading from '~/components/Loading/Loading';
 import { Link } from 'react-router-dom';
-   
+const brightColors = [
+    "#7fbdff", 
+    "#8fe4cb",
+    "#28c76f",
+    "#f148e4",
+    "#b7a0e0",
+    "#93d3a2",
+    "#febe89",
+    "#b287f8",
+  ];
   const getConfig = (length, index) => {
     const config = classConfigOnPost[length] || classConfigOnPost['default'];
     return typeof config === 'object' ? config[index] || config['default'] : config;
@@ -24,7 +33,7 @@ import { Link } from 'react-router-dom';
     const [amountLike, setAmountLike]=useState(0);
     const [arrImage, setArrImage] = useState([]);
     const [showComment, setShowComment] = useState(false);
-    const [amountComment, setAmountComment] = useState(0);
+    const [showOption, setShowOption] = useState(false);
     const queryClient = useQueryClient();
     const handleShowMore = () => {
       setShowMore(!showMore);
@@ -112,6 +121,31 @@ import { Link } from 'react-router-dom';
           return res.data[0].total_comments;
         },
       });   
+
+        const mutationHidden = useMutation((idpost)=>{
+            console.log(idpost);
+            return makeRequest.put("/posts/hidden", idpost)
+        },
+        {
+            onSuccess:()=>{
+                queryClient.invalidateQueries(["posts"]);
+            }
+        })
+
+    const handleHiddenPost = () =>{
+        const value = {
+            idPost: postItem.idposts
+        }
+        mutationHidden.mutate(value)
+    } 
+
+    const petFetch = useQuery({
+        queryKey: ["getpets", postItem.idposts],
+        queryFn: async () => {
+          const res = await makeRequest.get(`/pet/post?idPost=${postItem.idposts}`);
+          return res.data
+        },
+      });  
       
 
     return (
@@ -119,8 +153,9 @@ import { Link } from 'react-router-dom';
         <div
           key={postItem.idposts}
           className="item px-3"
+          onClick={()=>setShowOption(false)}
         >
-          <div className='flex justify-between items-center border_bottom pb-2'>
+          <div className='relative flex justify-between items-center border_bottom pb-2'>
                 <div className='flex items-center gap-4 '>
                     <Link 
                     to={`/profile/${postItem.userid}`}
@@ -128,6 +163,7 @@ import { Link } from 'react-router-dom';
                         <div className='flex items-center gap-2'>
                             <div><img className='w-[40px] h-[40px] rounded-full' src={postItem.avatar} alt="" /></div>
                             <p className='font-semibold text-[18px]'>{postItem.name}</p>
+                            {postItem.userid === 'kaiuIQFPw4' && <div><img className='w-[20px] h-[20px]' src="https://cdn-icons-png.flaticon.com/512/807/807262.png" alt="" /></div>}
                         </div>
                     </Link>
                     <div className='flex items-center gap-1'>
@@ -135,9 +171,29 @@ import { Link } from 'react-router-dom';
                         <p className='text-[#999]'>{moment(postItem.date_create).fromNow()}</p>
                     </div>
                 </div>
-                <div>
-                <i className="fa-solid fa-ellipsis"></i>
-                </div>
+                    <div>
+                        <i onClick={(e)=>{ e.stopPropagation(); setShowOption(!showOption); }} className="cursor-pointer fa-solid fa-ellipsis"></i>
+                    </div>
+                {
+                    showOption &&
+                    <div className="absolute z-30 top-[40%] right-0 mt-2 w-36 bg-[#fff] rounded-md shadow-lg">
+                        {currentUser.idUser === postItem.userid ?
+                        <>
+                            <button className="block select-none w-full text-left px-4 py-2 hover:bg-gray-100" >
+                                Update
+                            </button>
+                            <button onClick={handleHiddenPost} className="block select-none w-full text-left px-4 py-2 hover:bg-gray-100" >
+                                Delete
+                            </button>
+                        </> 
+                        :   
+                        <button className="block select-none w-full text-left px-4 py-2 hover:bg-gray-100" >
+                                Report content
+                        </button>
+
+                    }
+                    </div>
+                }
             </div>
                  {
                      postItem.post_bg ? 
@@ -147,6 +203,30 @@ import { Link } from 'react-router-dom';
                  :
                      <div className='pt-4 px-12 pb-3'>
                          <p>{postItem.textcontent}</p>
+                         {
+                            petFetch.isSuccess&& petFetch.data.length > 0 ?
+                                <div className='flex items-center pt'>
+                                <span>With</span>
+                                <div className='flex'>
+                                    {
+                                        petFetch.isSuccess &&
+                                        petFetch.data.map((item, index) => (
+                                            <div
+                                            key={index}
+                                            className="flex items-center cursor-pointer rounded-xl px-2 py-1 mx-3 opacity-[1]"
+                                            style={{ backgroundColor: brightColors[index] }}
+                                            >
+                                            <img className="w-[20px] h-[20px] rounded-full" src={item.avatar} alt="" />
+                                            <span className="px-1 text-[#fff]">{item.name}</span>
+                                            </div>
+                                        ))
+                                    }
+                                    </div>
+                                </div>
+                            :
+                            <></>
+                         
+                         }
                      </div>
                  }
   
@@ -230,7 +310,7 @@ import { Link } from 'react-router-dom';
                 classNames="fade"
                 unmountOnExit
             >
-                <div onClick = {()=> setShowComment(false)} className='inset-0 bg-[rgba(0,0,0,0.31)] z-50 fixed flex items-center justify-center '>
+                <div onClick = {()=> setShowComment(false)} className='inset-0 bg-[rgba(0,0,0,0.31)] z-[9999] fixed flex items-center justify-center '>
                     <div onClick = {()=> setShowComment(false)} className='absolute top-5 right-5 text-[#fff] p-3 cursor-pointer'><i className="fa-regular fa-x"></i></div>
                     <div className='flex h-[92%] w-[70%] bg-[#fff] relative rounded-md'>
                         {commentFetch.isLoading ?

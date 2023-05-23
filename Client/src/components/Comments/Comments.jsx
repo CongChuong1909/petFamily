@@ -73,6 +73,8 @@
                     content : text
                 }
                 mutationAdd.mutate(data);
+                setText('');
+
             }
 
 
@@ -83,7 +85,6 @@
                         setShowEmoji(false);
                         e.stopPropagation();
                         handleCloseModal();
-                        handleSetShow();
                     }}
                     className="grid grid-cols-12"
                 >
@@ -92,15 +93,14 @@
                             props.arrImage.length > 0 ?
                             <Slider className="w-full flex" {...settings}>
                             {arr.map((image, index) => (
-                                <div
-                                    key={index}
-                                    className="w-full h-full px-4 flex justify-center items-center slick-comment"
-                                >
+                                <div key={index} className="w-full h-full px-4 flex justify-center items-center slick-comment">
+                                <div className="max-w-[90%] max-h-[90vh] flex items-center justify-center">
                                     <img
-                                        className=" rounded-sm w-[90%] h-auto"
-                                        src={image}
-                                        alt=""
+                                    className="max-h-full max-w-full rounded-sm object-contain"
+                                    src={image}
+                                    alt=""
                                     />
+                                </div>
                                 </div>
                             ))}
                             </Slider>
@@ -127,8 +127,9 @@
                                             />
                                         </div>
                                         <div className=" flex flex-col ">
-                                            <p className="font-semibold text-[18px]">
+                                            <p className=" flex gap-2 items-center font-semibold text-[18px]">
                                                 {postItem.name}
+                                                {postItem.userid === 'kaiuIQFPw4' && <div><img className='w-[18px] h-[18px]' src="https://cdn-icons-png.flaticon.com/512/807/807262.png" alt="" /></div>}
                                             </p>
                                             <p className="text-[#999] text-[12px]">
                                                 {moment(postItem.date_create).fromNow()}
