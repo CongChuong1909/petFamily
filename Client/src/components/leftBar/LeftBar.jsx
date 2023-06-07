@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 function Leftbar(props) {
     const { currentUser } = useSelector((state) => state.user);
     return (
-        <div className='h-[100vh] item grid grid-cols-1 bg-[rgb(255,255,255)]'>
+        <div className='h-[90vh] item grid grid-cols-1 bg-[rgb(255,255,255)]'>
            <div className='grid grid-cols-1 h-[50%]'>
                 <div className='flex items-center gap-3 pt-4'>
                     <Link to={`/profile/${currentUser.idUser}`}>
@@ -16,12 +16,14 @@ function Leftbar(props) {
                         </div>
                     </Link>
                 </div>
-                <div className='flex items-center gap-3 pt-4'>
-                    <div className='flex items-center gap-3 pl-2 pr-10 w-[200px] py-1 left-bar-item'>
-                        <img className='w-[40px] rounded-full opacity-[0.8] ' src="https://cdn.icon-icons.com/icons2/2770/PNG/512/chat_message_icon_176706.png" alt="" />
-                        <span className='text-[#333]'>Message</span>
+                <Link to={"/chat"}>
+                    <div className='flex items-center gap-3 pt-4'>
+                        <div className='flex items-center gap-3 pl-2 pr-10 w-[200px] py-1 left-bar-item'>
+                            <img className='w-[40px] rounded-full opacity-[0.8] ' src="https://cdn.icon-icons.com/icons2/2770/PNG/512/chat_message_icon_176706.png" alt="" />
+                            <span className='text-[#333]'>Message</span>
+                        </div>
                     </div>
-                </div>
+                </Link>
                 <div className='flex items-center gap-3 pt-4'>
                     <Link to = {`/friends/${currentUser.idUser}`}>
                         <div className='flex items-center gap-3 pl-2 pr-10 w-[200px] opacity-[0.8] py-1 left-bar-item'>
@@ -38,10 +40,12 @@ function Leftbar(props) {
                     </div>
                 </div>
                 <div className='flex items-center gap-3 pt-4'>
-                    <div className='flex items-center gap-3 pl-2 pr-10 w-[200px] opacity-[0.8] py-1 left-bar-item'>
-                        <img className='w-[40px] rounded-full ' src="https://icons.veryicon.com/png/o/miscellaneous/mlxc-public-icon-library/medical-and-health-work-1.png" alt="" />
-                        <span className='text-[#333]'>Clinic</span>
-                    </div>
+                    <Link to = {`/become-member`}>
+                        <div className='flex items-center gap-3 pl-2 pr-10 w-[200px] opacity-[0.8] py-1 left-bar-item'>
+                            <img className='w-[40px] rounded-full ' src="https://icons.veryicon.com/png/o/miscellaneous/mlxc-public-icon-library/medical-and-health-work-1.png" alt="" />
+                            <span className='text-[#333]'>Clinic</span>
+                        </div>
+                    </Link>
                 </div>
            </div>
 

@@ -58,8 +58,8 @@ function ReplyComment(props) {
                     />
                 </div>
                 <div className="col-span-4 flex flex-col ">
-                    <p className="font-semibold text-[13px]">{dataUser.name}</p>
-                    <p className="text-[#aaa] text-[10px]">
+                    <p className="font-semibold text-[14px]">{dataUser.name}</p>
+                    <p className="text-[#aaa] text-[12px]">
                         {moment(comment.date_create).fromNow()}
                     </p>
                 </div>
@@ -67,7 +67,7 @@ function ReplyComment(props) {
             <div className="col-span-4 flex flex-col items-start">
                 <div className="cursor-pointer flex justify-start items-center">
                     {!showInputUpdate ? (
-                        <p className="text-[#555] text-[13px] ">{comment.content}</p>
+                        <p className="text-[#555] text-[14px] ">{comment.content}</p>
                     ) : (
                         <div>
 

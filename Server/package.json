@@ -1,7 +1,6 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -30,6 +29,9 @@
     "nodemon": "^2.0.22",
     "passport": "^0.5.3",
     "passport-google-oauth20": "^2.0.0",
-    "random-js": "^2.1.0"
-  }
+    "random-js": "^2.1.0",
+    "socket.io": "^4.6.2"
+  },
+  "keywords": [],
+  "description": ""
 }

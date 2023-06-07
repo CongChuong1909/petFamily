@@ -8,7 +8,6 @@ function Rightbar(props) {
         <div>
             <Suggets/>
             <SuggestGroups/>
-            <OnlineFriend/>
         </div>
     );
 }

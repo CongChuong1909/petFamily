@@ -23,7 +23,7 @@ function Login(props) {
         e.preventDefault();
         dispatch(loginStart());
        try {
-            const res = await makeRequestAuth.post("login", login,{
+            const res = await makeRequestAuth.post("auth/login", login,{
                 withCredentials:true,
                 credentials: 'include'
             });
@@ -32,6 +32,8 @@ function Login(props) {
             navigate("/")
             dispatch(loginSuccess(res.data));
            }
+           console.log(res.data.role === 2)
+           
 
        } catch (error) {
         console.log(error.response.data);

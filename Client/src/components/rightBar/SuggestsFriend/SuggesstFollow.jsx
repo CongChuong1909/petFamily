@@ -37,7 +37,7 @@ function FollowRecommendations({data, idUser }) {
     
         return suggestedUsersMap;
       }, [idUser]); 
-  
+
 
     //*** suggestedUsers***
     // An:(3) ['Henry', 'Dan', 'Marry']

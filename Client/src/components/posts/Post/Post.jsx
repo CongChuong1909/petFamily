@@ -156,7 +156,7 @@ const brightColors = [
           onClick={()=>setShowOption(false)}
         >
           <div className='relative flex justify-between items-center border_bottom pb-2'>
-                <div className='flex items-center gap-4 '>
+                <div className='flex items-center 2 '>
                     <Link 
                     to={`/profile/${postItem.userid}`}
                     >
@@ -238,7 +238,7 @@ const brightColors = [
             ? null
             : (
                 <div
-                  className={`grid gap-4 ${
+                  className={`grid gap-2 ${
                     arrImage.length === 1
                       ? "grid-cols-4"
                       : arrImage.length === 2
@@ -280,20 +280,20 @@ const brightColors = [
                 </div>
               )}
             <div className='flex justify-between gap-3 px-12 pt-4'>
-                        <div className='flex gap-5'>
-                            <div className='flex flex-col justify-center items-center'>
-                                <i onClick={handleLike} className={` ${ like ? 'text-[#f00] font-bold': selfLike ? 'text-[#f00] font-bold': ''} text-[24px] cursor-pointer fa-light fa-heart`}></i>
-                                <div className='flex justify-center items-center gap-1'>
-                                    {amountLike} <p className='text-[14px]'>Like</p>
+                        <div className='flex gap-3'>
+                            <div className='flex flex-col justify-center items-center relative px-3'>
+                                <i onClick={handleLike} className={` ${ like ? 'text-[#f00] font-bold': selfLike ? 'text-[#f00] font-bold': ''} text-[24px] font-bold text-[#aaa] cursor-pointer fa-light fa-heart`}></i>
+                                <div className='absolute text-[#aaa] top-[-6px] text-[14px] right-0'>
+                                    {amountLike}
                                 </div>
                             </div>
-                            <div className='flex flex-col justify-center items-center'  >
-                                <i onClick={()=>setShowComment(true)} className="text-[24px] cursor-pointer fa-light fa-comment fa-flip-horizontal"></i>
-                                <div className='flex justify-center items-center gap-1'>
-                                {amountCommentFetch.data ? amountCommentFetch.data : 0} <p className='text-[14px]'>Comment</p>
+                            <div className='flex flex-col justify-center relative items-center px-3'  >
+                                <i onClick={()=>setShowComment(true)} className="text-[24px] font-bold text-[#aaa] cursor-pointer fa-light fa-comment fa-flip-horizontal"></i>
+                                <div className='absolute text-[#aaa] top-[-6px] text-[14px] right-0'>
+                                {amountCommentFetch.data ? amountCommentFetch.data : 0}
                                 </div>
                             </div>
-                            <i className="text-[24px] cursor-pointer fa-light fa-paper-plane"></i>
+                            <i className="text-[24px] font-bold text-[#aaa] cursor-pointer fa-light fa-paper-plane px-3"></i>
                         </div>
                         <div>
                             <i className="text-[24px] cursor-pointer fa-light fa-bookmark"></i>

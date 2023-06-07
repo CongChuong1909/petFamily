@@ -14,7 +14,6 @@ function FriendItem(props) {
     const deleteMutation = useDeleteFriend();
     const { list } = useSelector((state) => state.relationship);
     const {currentUser} = useSelector((state)=>(state.user));
-    const [arrFriendFollower, setArrFriendFollower] = useState([]);
     const friendId = useSelector((state) => state.friend.friendId);
     const [arrFriendNonFollow, setArrFriendNonFollow] = useState([]);
     const userFetch = useQuery({
@@ -41,7 +40,6 @@ function FriendItem(props) {
             const userFollowers = filteredFollowed.map(item => item.user_follower);
             const filteredFollower = list.filter(item => item.user_follower === currentUser.idUser);
             const userFolloweds = filteredFollower.map(item => item.user_followed);
-            setArrFriendFollower(userFollowers)
             const result = userFollowers.filter(item => !userFolloweds.includes(item));
             setArrFriendNonFollow(result);
         }

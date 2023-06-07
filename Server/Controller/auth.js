@@ -2,6 +2,8 @@ import { db } from "../connectbd.js";
 import bcrypt from "bcryptjs"
 import moment from "moment/moment.js";
 import { nanoid } from 'nanoid';
+import dotenv from "dotenv";
+dotenv.config();
 import jwt  from "jsonwebtoken";
 export const register = (req, res) =>{
     //check user exists
@@ -75,17 +77,21 @@ export const logout = (req, res) =>{
     }).status(200).json("User has been logged out!")
 }
 
-export const loginMethodSuccess = (req, res) =>{
-    console.log(req.user);
-    if (req.user) {
+export const loginMethodSuccess = (req, res) => {
+    try {
+      if (req.user) {
         res.status(200).json({
           success: true,
           message: "successfull",
           user: req.user,
-          //   cookies: req.cookies
         });
+      } else {
+        res.status(403).json({ error: true, message: "not authorized" });
       }
-}
+    } catch (error) {
+      res.status(500).json({ error: true, message: "Internal Server Error" });
+    }
+  };
 export const loginMethodFail = (req, res) =>{
     res.status(401).json({
         success: false,

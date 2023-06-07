@@ -21,7 +21,7 @@ function Header(props) {
         };
       }, [prevScrollPos]);
     return (
-        <div className={`header ${isScrolled ? 'scroll-up' : ''} bg-[#fff] flex justify-between w-full h-[70px] px-8 border-b border-[#ccc]`}>
+        <div className={`header ${isScrolled ? 'scroll-up' : ''} bg-[#34465d] text-[#f5f5f5] flex justify-between w-full h-[70px] px-8 border-b border-[#ccc]`}>
            <HeaderLeft/>
            <HeaderRight/>
         </div>

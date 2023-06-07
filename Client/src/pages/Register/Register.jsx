@@ -28,7 +28,7 @@ function Register(props) {
         }
         else{
             try {
-          const res = await  makeRequestAuth.post("register", inputs);
+          const res = await  makeRequestAuth.post("auth/register", inputs);
           console.log(res);
           if(res.status === 200)
             {

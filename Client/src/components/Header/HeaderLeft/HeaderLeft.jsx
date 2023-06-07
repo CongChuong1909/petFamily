@@ -15,9 +15,9 @@ function HeaderLeft(props) {
                 <i className="fa-solid fa-grid-2 cursor-pointer p-3 text-[18px]"></i>
             </div>
             <div>
-                <div className="search flex items-center gap-[10px] border border-[#ccc] rounded-lg p-[5px] ">
+                <div className="search flex items-center gap-[10px] border border-[#5c6d82] rounded-lg p-[5px] ">
                     <i className="fa-regular fa-magnifying-glass"></i>
-                    <input className='border-none outline-none w-[500px] text-[#333]' type="text" placeholder="Search..." />
+                    <input className='border-none outline-none w-[500px] bg-[#49596e] text-[#fff]' type="text" placeholder="Search..." />
                 </div>
             </div>
         </div>

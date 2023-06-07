@@ -1,3 +1,6 @@
+body{
+    background: #f6f3f3;
+}
 .header{
     position: fixed;
     top: 0;
@@ -171,7 +174,7 @@
     transition: opacity 150ms ease-out;
   }
   .scroll-div {
-    overflow: scroll;
+    overflow: auto;
     overflow: -moz-scrollbars-none;
     -ms-overflow-style: none;
 }

@@ -3,6 +3,7 @@ import  userSlices  from "./userSlices";
 import modalSlices from "./modalSlices";
 import relationshipSlices from "./relationshipSlices";
 import friendSlices from "./friendSlice";
+import chatSlices from "./chatSlices";
 
 
 export const store = configureStore({
@@ -10,6 +11,7 @@ export const store = configureStore({
         user: userSlices,
         modal: modalSlices,
         relationship: relationshipSlices,
-        friend: friendSlices
+        friend: friendSlices,
+        chat: chatSlices
     }
 })

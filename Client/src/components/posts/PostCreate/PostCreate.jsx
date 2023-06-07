@@ -93,7 +93,7 @@ function PostCreate(props) {
   
 
   return (
-    <div onClick={props.handleClosePostCreate}  className={`${props.show ? ' opacity-1 block' : 'opacity-0 hidden'}  modal overflow-hidden fixed top-0 left-0 w-full h-full bg-rgba_background-button_header z-50 flex justify-center items-center`}>
+    <div onClick={props.handleClosePostCreate}  className={`${props.show ? ' opacity-1 block' : 'opacity-0 hidden'}  modal overflow-hidden fixed top-0 left-0 w-full h-full bg-rgba_background-button_header z-[999] flex justify-center items-center`}>
       <div
         onClick={(e)=> {setShowEmoji(false); e.stopPropagation();}}
         className={` ${props.show ? ' fadeDown translate-x-[0]' : ' translate-x-[-100%]'} modal-content bg-[#fff] p-5 rounded-md shadow-2xl max-w-[540px] max-h-[92%] thin-scroll overflow-y-auto overflow-x-visible z-10 w-full relative`}
@@ -153,10 +153,6 @@ function PostCreate(props) {
                         <span className="opacity-0 block  bg-[#333] text-blue-900 text-[9px] leading-4 rounded-md py-1 px-2 absolute top-0 mt-8 transition-all duration-300 transform translate-x-1/2 left-[-20%] z-[-1] before:block before:absolute before:bg-[#333] before:w-2 before:h-2 before:rotate-45 before:top-[4px] before:left-1/4 before:-mt-2 pointer-events-none before:content:''">Add emoji</span>
                     </i>
             </div>
-
-            
-            
-
             <div className='flex gap-4 mt-4'>
             <div onClick={()=>{setBackground('')}} className='w-[84px] rounded-md flex justify-center items-center text-[#fff] shadow-lg h-[60px] bg-center bg-cover ' ></div>
                 {dataBg.map((item, index)=>(

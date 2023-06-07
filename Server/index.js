@@ -1,5 +1,6 @@
 import  express  from "express";
 const app = express();
+
 import dotenv from "dotenv"; 
 import userRoutes from "./Routes/users.js"
 import postRoutes from "./Routes/posts.js"
@@ -9,13 +10,17 @@ import petRouters from  "./Routes/Pets.js"
 import commentRoutes from "./Routes/comments.js"
 import authRoutes from "./Routes/auth.js"
 import uploadRoutes from "./Routes/upload.js"
+import messagesRoutes from "./Routes/messages.js"
 import relationShipRoutes from "./Routes/Relationships.js"
+import conversationRoutes from "./Routes/conversation.js"
 import cors from "cors"
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 import "./middlewares/passport.js";
 import passport from "passport";
 import cookieSession from "cookie-session";
+import bodyParser from "body-parser";
+app.use( bodyParser.urlencoded({ extended: true }) )
 
 dotenv.config();
 /// allow access cookie 
@@ -33,7 +38,9 @@ app.use(express.urlencoded({extended: true , limit: '50mb'}))
 app.use(express.json());
 /// only use api
 app.use(cors({
-    origin:"http://127.0.0.1:5173"
+    origin:"http://127.0.0.1:5173",
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    credentials: true
 }));
 
 app.use(
@@ -50,6 +57,9 @@ app.use(
   app.use(passport.initialize());
   app.use(passport.session());
 
+
+    ////
+
 app.use(cookieParser());
 app.use("/", authRoutes);
 app.use("/api/user", userRoutes);
@@ -60,7 +70,10 @@ app.use("/api/likes", likeRoutes);
 app.use("/api/pet", petRouters);
 app.use("/api/relationships", relationShipRoutes);
 app.use("/api", uploadRoutes);
+app.use("/api/messages", messagesRoutes)
+app.use("/api/conversations", conversationRoutes);
 
 app.listen(4000, ()=>{
     console.log("Api is running on port 4000!");
 })
+

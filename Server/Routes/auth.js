@@ -5,14 +5,14 @@ import dotenv from "dotenv";
 dotenv.config();
 const router = Express.Router();
 console.log(process.env.CLIENT_URL);
-router.post("/login", login);
-router.post("/logout", logout);
-router.post("/register", register);
-router.get("/loginMethod/success", loginMethodSuccess);
-router.get("/loginMethod/failed", loginMethodFail);
-router.get("/logoutMethod", logoutMethod);
+router.post("/auth/login", login);
+router.post("/auth/logout", logout);
+router.post("/auth/register", register);
+router.get("/auth/loginMethod/success", loginMethodSuccess);
+router.get("/auth/loginMethod/failed", loginMethodFail);
+router.get("/auth/logoutMethod", logoutMethod);
 router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
-router.get("/auth/google/callback",
+router.get("/auth/auth/google/callback",
     passport.authenticate("google", {
       successRedirect: process.env.CLIENT_URL,
       failureRedirect: "/loginMethod/failed",

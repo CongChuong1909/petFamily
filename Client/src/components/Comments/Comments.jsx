@@ -88,7 +88,7 @@
                     }}
                     className="grid grid-cols-12"
                 >
-                    <div className="col-span-7 bg-[#5d5d6c] w-[1900px] max-w-full h-full flex justify-center z-30 relative">
+                    <div className="col-span-7 bg-[#34465d] w-[1900px] max-w-full h-full flex justify-center z-30 relative">
                         {
                             props.arrImage.length > 0 ?
                             <Slider className="w-full flex" {...settings}>

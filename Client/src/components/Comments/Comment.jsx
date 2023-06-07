@@ -118,11 +118,11 @@ function Comment(props) {
                          {comment.iduser === 'kaiuIQFPw4' && <div className="absolute bottom-0 right-[5px]"><img className='w-[12px] h-[12px]' src="https://cdn-icons-png.flaticon.com/512/807/807262.png" alt="" /></div>}
                      </div>
                      <div className=" col-span-4 flex flex-col ">
-                         <p className="font-semibold flex items-center text-[13px]">
+                         <p className="font-semibold flex items-center text-[14px]">
                              {comment.name}
                              
                          </p>
-                         <p className="text-[#aaa] text-[10px]">
+                         <p className="text-[#aaa] text-[12px]">
                              {moment(comment.date_create).fromNow()}
                          </p>
                      </div>
@@ -130,7 +130,7 @@ function Comment(props) {
                  <div className="col-span-4 flex flex-col items-start justify-end">
                      <div className="cursor-pointer flex justify-start">
                          {!showInputUpdate ? (
-                             <p className="text-[#555] text-[13px]">{comment.content}</p>
+                             <p className="text-[#555] text-[14px]">{comment.content}</p>
                          ) : (
                              <div>
                                 <div className="flex ">
