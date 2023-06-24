@@ -12,7 +12,7 @@ import authRoutes from "./Routes/auth.js"
 import uploadRoutes from "./Routes/upload.js"
 import messagesRoutes from "./Routes/messages.js"
 import relationShipRoutes from "./Routes/Relationships.js"
-import ratingRoutes from "./Routes/Rating.js"
+import ratingRoutes from "./Routes/rating.js"
 import conversationRoutes from "./Routes/conversation.js"
 import reportRoutes from "./Routes/reportcontents.js"
 import veterinarianRoutes from './Routes/verterinarian.js'
