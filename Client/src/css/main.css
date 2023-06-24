@@ -222,3 +222,29 @@ body{
     background-color: #f1f1f1;
     transition: all ease-in-out 0.3s;
 }
+
+.title{
+    padding: 0.8rem 1rem;
+    z-index: 99;
+    border-bottom: 1px solid transparent;
+    border-image: linear-gradient(0.25turn, rgba(72, 234, 48, 0.4), rgb(15, 77, 17, 0.6), rgba(72, 234, 48, 0));
+    border-image-slice: 1;
+    width:100%;
+}
+.title::before{
+    content: "";
+    position: absolute;
+    left: -6px;
+    top: 17px;
+    width: 30px;
+    height: 30px;
+    
+    background: -moz-linear-gradient( -45deg, rgba(22, 74, 15, 0.6) 0%, rgba(120, 204, 109, 0.01) 100% );
+    background: -webkit-linear-gradient( -45deg, rgba(22, 74, 15, 0.6) 0%, rgba(120, 204, 109, 0.01) 100% );
+    background: linear-gradient( 135deg, rgba(22, 74, 15, 0.6) 0%, rgba(120, 204, 109, 0.01) 100% );
+    z-index: 51;
+    border-radius: 30px;
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -khtml-border-radius: 30px;
+}

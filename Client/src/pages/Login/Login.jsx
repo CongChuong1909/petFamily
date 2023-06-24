@@ -29,8 +29,14 @@ function Login(props) {
             });
            if(res.status === 200)
            {
-            navigate("/")
-            dispatch(loginSuccess(res.data));
+            if(res.data.status === 0)
+            {
+                alert("tài khoản của bạn đã bị khóa")
+            }
+            else{
+                navigate("/")
+                dispatch(loginSuccess(res.data))
+            };
            }
            console.log(res.data.role === 2)
            

@@ -20,7 +20,7 @@ function Leftbar(props) {
                     <div className='flex items-center gap-3 pt-4'>
                         <div className='flex items-center gap-3 pl-2 pr-10 w-[200px] py-1 left-bar-item'>
                             <img className='w-[40px] rounded-full opacity-[0.8] ' src="https://cdn.icon-icons.com/icons2/2770/PNG/512/chat_message_icon_176706.png" alt="" />
-                            <span className='text-[#333]'>Message</span>
+                            <span className='text-[#333]'>Tin nhắn</span>
                         </div>
                     </div>
                 </Link>
@@ -28,7 +28,7 @@ function Leftbar(props) {
                     <Link to = {`/friends/${currentUser.idUser}`}>
                         <div className='flex items-center gap-3 pl-2 pr-10 w-[200px] opacity-[0.8] py-1 left-bar-item'>
                             <img className='w-[40px] rounded-full' src="https://static.thenounproject.com/png/1140959-200.png" alt="" />
-                            <span className='text-[#333]'> Friends </span>
+                            <span className='text-[#333]'> Bạn bè </span>
                         </div>
                     </Link>
                 </div>
@@ -36,14 +36,14 @@ function Leftbar(props) {
                 <div className='flex items-center gap-3 pt-4'>
                     <div className='flex items-center gap-3 pl-2 pr-10 w-[200px] opacity-[0.8] py-1 left-bar-item'>
                         <img className='w-[40px] rounded-full ' src="https://cdn-icons-png.flaticon.com/512/921/921296.png" alt="" />
-                        <span className='text-[#333]'>Groups</span>
+                        <span className='text-[#333]'>Nhóm</span>
                     </div>
                 </div>
                 <div className='flex items-center gap-3 pt-4'>
                     <Link to = {`/become-member`}>
                         <div className='flex items-center gap-3 pl-2 pr-10 w-[200px] opacity-[0.8] py-1 left-bar-item'>
                             <img className='w-[40px] rounded-full ' src="https://icons.veryicon.com/png/o/miscellaneous/mlxc-public-icon-library/medical-and-health-work-1.png" alt="" />
-                            <span className='text-[#333]'>Clinic</span>
+                            <span className='text-[#333]'>Bác sĩ, phòng khám</span>
                         </div>
                     </Link>
                 </div>

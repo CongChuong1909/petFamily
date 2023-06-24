@@ -10,6 +10,7 @@ import { dataBg } from '~/Data/Data';
 import { useSelector } from 'react-redux';
 import Loading from '~/components/Loading/Loading';
 import { Link } from 'react-router-dom';
+import ReportModal from '~/components/Report/ReportModal';
 const brightColors = [
     "#7fbdff", 
     "#8fe4cb",
@@ -34,6 +35,7 @@ const brightColors = [
     const [arrImage, setArrImage] = useState([]);
     const [showComment, setShowComment] = useState(false);
     const [showOption, setShowOption] = useState(false);
+    const [showReport, setShowReport] = useState(false);
     const queryClient = useQueryClient();
     const handleShowMore = () => {
       setShowMore(!showMore);
@@ -140,14 +142,12 @@ const brightColors = [
     } 
 
     const petFetch = useQuery({
-        queryKey: ["getpets", postItem.idposts],
+        queryKey: ["0", postItem.idposts],
         queryFn: async () => {
           const res = await makeRequest.get(`/pet/post?idPost=${postItem.idposts}`);
           return res.data
         },
       });  
-      
-
     return (
       <>
         <div
@@ -169,6 +169,13 @@ const brightColors = [
                     <div className='flex items-center gap-1'>
                         <i className=" text-[4px] fa-duotone fa-circle"></i>
                         <p className='text-[#999]'>{moment(postItem.date_create).fromNow()}</p>
+                        {
+                            postItem.role === 2 &&
+                            <div className='flex items-center justify-center px-2 py-1 gap-1 border text-[#fff] text-[14px]  bg-[#5271ff] rounded-md'>
+                                <i class="fa-duotone fa-kit-medical"></i>
+                                <p>Chuyên gia</p>
+                            </div>
+                        }
                     </div>
                 </div>
                     <div>
@@ -187,13 +194,16 @@ const brightColors = [
                             </button>
                         </> 
                         :   
-                        <button className="block select-none w-full text-left px-4 py-2 hover:bg-gray-100" >
+                        <button onClick={()=>setShowReport(true)} className="block select-none w-full text-left px-4 py-2 hover:bg-gray-100" >
                                 Report content
                         </button>
 
                     }
                     </div>
                 }
+
+
+            {showReport && <ReportModal idpost = {postItem.idposts} setShowReport = {setShowReport} showReport = {showReport}/>}
             </div>
                  {
                      postItem.post_bg ? 

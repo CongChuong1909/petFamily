@@ -9,12 +9,9 @@ function OnlineItem({item}) {
     queryKey: ["users", item.userId],
     queryFn: async () => {
         const res = await makeRequest.get(`/user/find?idUser=${item.userId}`);
-        console.log(res.data);
         return res.data;
     },
 });
-userFetch.isSuccess &&
-console.log(userFetch.data.userId);
 
     return ( 
         <>

@@ -99,7 +99,7 @@ function PostCreate(props) {
         className={` ${props.show ? ' fadeDown translate-x-[0]' : ' translate-x-[-100%]'} modal-content bg-[#fff] p-5 rounded-md shadow-2xl max-w-[540px] max-h-[92%] thin-scroll overflow-y-auto overflow-x-visible z-10 w-full relative`}
       >
         <div className="flex justify-between items-center border-b border-[#ccc]">
-          <h1 className="text-[22px] font-bold">Create Posts</h1>
+          <h1 className="text-[22px] font-bold">Tạo bài đăng mới</h1>
           <i  onClick={props.handleClosePostCreate} className=" method-share_close fa-solid fa-xmark p-3 rounded-lg cursor-pointer"></i>
         </div>
         <div className="grid grid-cols-9 mt-5">
@@ -118,13 +118,13 @@ function PostCreate(props) {
                      value={text}
                      onChange={(e) => setText(e.target.value)}
                          className={`w-full h-[100px] bg-[rgba(0,0,0,0)] p-[10px] thin-scroll outline-none rounded-md mb-3 text-[24px] ${background.url === '' || background.url === undefined ? '' : 'text-center drop-shadow-md font-bold text-[#fff] drop-shadow-sha shadow-black'}`}
-                         placeholder="What's on your mind?"
+                         placeholder="Hãy cho tôi biết suy nghĩ của bạn?"
                      />
             </div>
         ):
             (
                 <div className=" h-96">
-                    <textarea value={text} onChange={(e)=>setText(e.target.value)} className='outline-none thin-scroll p-2 w-full' placeholder="What's on your mind?" type="text"/>
+                    <textarea value={text} onChange={(e)=>setText(e.target.value)} className='outline-none thin-scroll p-2 w-full' placeholder="Hãy cho tôi biết suy nghĩ của bạn?" type="text"/>
                     {uploadFilesMutation.isLoading? 
                     <Loading/>
                     :
@@ -143,14 +143,14 @@ function PostCreate(props) {
           
              <div className='flex justify-end gap-4 mt-3 items-center pr-8'>
                     <i className="item_postcreate relative text-[#999] font-bold cursor-pointer text-[22px] fa-light fa-grid">
-                        <span className="opacity-0 block  bg-[#333] text-blue-900 text-[9px] leading-4 rounded-md py-1 px-2 absolute top-0 mt-8 transition-all duration-300 transform translate-x-1/2 left-[-20%] z-[-1] before:block before:absolute before:bg-[#333] before:w-2 before:h-2 before:rotate-45 before:top-[4px] before:left-1/4 before:-mt-2 pointer-events-none before:content:''"><p>Option background</p></span>
+                        <span className="opacity-0 block  bg-[#333] text-blue-900 text-[9px] leading-4 rounded-md py-1 px-2 absolute top-0 mt-8 transition-all duration-300 transform translate-x-1/2 left-[-20%] z-[-1] before:block before:absolute before:bg-[#333] before:w-2 before:h-2 before:rotate-45 before:top-[4px] before:left-1/4 before:-mt-2 pointer-events-none before:content:''"><p>Lựa chọn ảnh nền</p></span>
                     </i>
                     <input className='hidden' type="file" ref={fileInputRef} multiple onChange={handleFileChange} />
                     <i onClick={handleClickChooseImages} className="item_postcreate relative text-[#999] font-bold cursor-pointer text-[22px] fa-light fa-images">
-                        <span className="opacity-0 block  bg-[#333] text-blue-900 text-[9px] leading-4 rounded-md py-1 px-2 absolute top-0 mt-8 transition-all duration-300 transform translate-x-1/2 left-[-20%] z-[-1] before:block before:absolute before:bg-[#333] before:w-2 before:h-2 before:rotate-45 before:top-[4px] before:left-1/4 before:-mt-2 pointer-events-none before:content:''">Add image</span>
+                        <span className="opacity-0 block  bg-[#333] text-blue-900 text-[9px] leading-4 rounded-md py-1 px-2 absolute top-0 mt-8 transition-all duration-300 transform translate-x-1/2 left-[-20%] z-[-1] before:block before:absolute before:bg-[#333] before:w-2 before:h-2 before:rotate-45 before:top-[4px] before:left-1/4 before:-mt-2 pointer-events-none before:content:''">Thêm hình ảnh</span>
                     </i>
                     <i onClick={(e)=> {e.stopPropagation(); setShowEmoji(!showEmoji)}} className="item_postcreate relative text-[#999] font-bold cursor-pointer text-[22px] fa-regular fa-face-smile">
-                        <span className="opacity-0 block  bg-[#333] text-blue-900 text-[9px] leading-4 rounded-md py-1 px-2 absolute top-0 mt-8 transition-all duration-300 transform translate-x-1/2 left-[-20%] z-[-1] before:block before:absolute before:bg-[#333] before:w-2 before:h-2 before:rotate-45 before:top-[4px] before:left-1/4 before:-mt-2 pointer-events-none before:content:''">Add emoji</span>
+                        <span className="opacity-0 block  bg-[#333] text-blue-900 text-[9px] leading-4 rounded-md py-1 px-2 absolute top-0 mt-8 transition-all duration-300 transform translate-x-1/2 left-[-20%] z-[-1] before:block before:absolute before:bg-[#333] before:w-2 before:h-2 before:rotate-45 before:top-[4px] before:left-1/4 before:-mt-2 pointer-events-none before:content:''">Thêm emoji</span>
                     </i>
             </div>
             <div className='flex gap-4 mt-4'>
@@ -161,7 +161,7 @@ function PostCreate(props) {
             </div>
             <PostTag onGetListPet = {getListPet}/>
           </div>    
-          <button onClick={handleAddPost}  className='outline-none post_button flex w-full items-center justify-center bg-[#ffa000] mt-3 p-2 rounded-xl text-[#fff] text-[20px]' >Post</button>
+          <button onClick={handleAddPost}  className='outline-none post_button flex w-full items-center justify-center bg-[#ffa000] mt-3 p-2 rounded-xl text-[#fff] text-[20px]' >Đăng bài</button>
         </div>
         {showEmoji && (
               <div onClick={(e)=>{e.stopPropagation();}} previewposition = "none" className="absolute top-[20%] bottom-[-80%] z-50 right-[8%]">

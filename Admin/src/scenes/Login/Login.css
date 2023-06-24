@@ -1,0 +1,214 @@
+.container {
+    min-height: 100vh;
+    background-color: #f2f3f5;
+    color: #111827;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .content-container {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: center;
+    flex: 1;
+  }
+  
+  .form-container {
+    width: 50%;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .heading {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 1rem;
+  }
+  
+  .button-google {
+    width: 100%;
+    max-width: 12.5rem;
+    font-weight: bold;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+    border-radius: 0.25rem;
+    padding: 0.75rem;
+    background-color: #e0e7ff;
+    color: #454f69;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease-in-out;
+    outline: none;
+    cursor: pointer;
+  }
+  
+  .button-google:hover,
+  .button-google:focus {
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.2);
+  }
+  
+  .button-google-icon {
+    background-color: #fff;
+    padding: 0.125rem;
+    border-radius: 50%;
+  }
+  
+  .button-google-icon svg {
+    width: 1rem;
+  }
+  
+  .button-google-text {
+    margin-left: 0.5rem;
+  }
+  
+  .button-github {
+    width: 100%;
+    max-width: 12.5rem;
+    font-weight: bold;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+    border-radius: 0.25rem;
+    padding: 0.75rem;
+    background-color: #e0e7ff;
+    color: #454f69;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease-in-out;
+    outline: none;
+    cursor: pointer;
+    margin-top: 1rem;
+  }
+  
+  .button-github:hover,
+  .button-github:focus {
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.2);
+  }
+  
+  .button-github-icon {
+    background-color: #fff;
+    padding: 0.0625rem;
+    border-radius: 50%;
+  }
+  
+  .button-github-icon svg {
+    width: 1.5rem;
+  }
+  
+  .button-github-text {
+    margin-left: 0.5rem;
+  }
+  
+  .divider {
+    margin-top: 1.5rem;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+  }
+  
+  .divider-text {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0.125rem 0.25rem;
+    font-size: 0.75rem;
+    color: #666;
+    background-color: #fff;
+    display: inline-block;
+  }
+  
+  .form {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    max-width: 20rem;
+    display: block;
+  }
+  
+  .form input {
+    width: 100%;
+    padding: 1rem 2rem;
+    border-radius: 0.25rem;
+    font-weight: medium;
+    background-color: #f3f4f6;
+    border: 1px solid #ddd;
+    color: #7d7e80;
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  }
+  
+  .form input::placeholder {
+    color: #b8b8b8;
+  }
+  
+  .form input:focus {
+    border-color: #aaa;
+    background-color: #fff;
+  }
+  
+  .form input[type="email"] {
+    margin-bottom: 1rem;
+  }
+  
+  .form button {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    font-weight: bold;
+    background-color: #6366f1;
+    color: #eee;
+    width: 100%;
+    padding: 1rem;
+    border-radius: 0.25rem;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    cursor: pointer;
+  }
+  
+  .form button:hover,
+  .form button:focus {
+    background-color: #4338ca;
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.2);
+  }
+  
+  .form button svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.5rem;
+  }
+  
+  .error-message {
+    color: #f00;
+    font-size: 0.875rem;
+    padding-top: 1rem;
+  }
+  
+  .additional-info {
+    margin-top: 1.5rem;
+    font-size: 0.75rem;
+    color: #777;
+    text-align: center;
+  }
+  
+  .additional-info a {
+    border-color: #777;
+    border-style: dotted;
+    padding: 0.125rem 0.25rem;
+  }
+  
+  .additional-info .signup-link {
+    display: block;
+    margin-top: 0.5rem;
+  }
+  
+  .additional-info .signup-link strong {
+    cursor: pointer;
+  }
+  

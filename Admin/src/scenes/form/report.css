@@ -1,0 +1,29 @@
+.report-container {
+    display: flex;
+    align-items: center;
+  }
+  .title_report{
+    width: 50px;
+  }
+  .report-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .report-avatar {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .report-text {
+    grid-column: span 3;
+  }
+  .report-item_postcontent{
+    display: flex;
+    flex-direction: column;
+  }
+  .relative{
+    position: relative;
+  }
+  

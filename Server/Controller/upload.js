@@ -15,7 +15,6 @@ export const uploadImages = {
     upload: (req, res) => {
       try {
         const files = req.files.image;
-        console.log(typeof files , "---------------------------------------");
   
         // Kiểm tra nếu files là một mảng
         if (Array.isArray(files)) {
@@ -38,7 +37,6 @@ export const uploadImages = {
   
           Promise.all(uploadPromises)
             .then((urls) => {
-              console.log("Uploaded image URLs:", urls);
               return res.status(200).json({ urls });
             })
             .catch((error) => {
@@ -46,7 +44,6 @@ export const uploadImages = {
             });
         } else {
           // Xử lý khi chỉ có một ảnh
-          console.log("1 anh=======================================");
           cloudinary.v2.uploader.upload(
             files.tempFilePath,
             {
@@ -59,7 +56,6 @@ export const uploadImages = {
                 return res.status(400).json({ error: error.message });
               }
               removeTmp(files.tempFilePath);
-              console.log("Uploaded image URL:", result.secure_url);
               return res.status(200).json({ urls: [result.secure_url] });
             }
           );

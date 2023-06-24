@@ -28,13 +28,11 @@ function OnlineFriend(props) {
     socket.current.emit("addUser", currentUser.idUser);
 
     socket.current.on("getUsers", (users) => {
-        console.log(users);
       dispatch(addList(users))
       setListOnlineFriend(users);
     });
   }, [currentUser]);
 
-  console.log(listOnline);
     return (
         <div className='item w-16 h-[100vh] fixed top-0 right-0 flex items-center justify-between flex-col' style={{padding:"0px"}}>
             <div className='pt-4 flex items-center justify-between flex-col'>

@@ -12,7 +12,10 @@ import authRoutes from "./Routes/auth.js"
 import uploadRoutes from "./Routes/upload.js"
 import messagesRoutes from "./Routes/messages.js"
 import relationShipRoutes from "./Routes/Relationships.js"
+import ratingRoutes from "./Routes/Rating.js"
 import conversationRoutes from "./Routes/conversation.js"
+import reportRoutes from "./Routes/reportcontents.js"
+import veterinarianRoutes from './Routes/verterinarian.js'
 import cors from "cors"
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
@@ -38,7 +41,7 @@ app.use(express.urlencoded({extended: true , limit: '50mb'}))
 app.use(express.json());
 /// only use api
 app.use(cors({
-    origin:"http://127.0.0.1:5173",
+    origin: ["http://127.0.0.1:5173", "http://127.0.0.1:5174"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true
 }));
@@ -72,6 +75,10 @@ app.use("/api/relationships", relationShipRoutes);
 app.use("/api", uploadRoutes);
 app.use("/api/messages", messagesRoutes)
 app.use("/api/conversations", conversationRoutes);
+app.use("/api/veterinarian", veterinarianRoutes);
+app.use("/api/rating", ratingRoutes);
+app.use("/api/report", reportRoutes);
+
 
 app.listen(4000, ()=>{
     console.log("Api is running on port 4000!");

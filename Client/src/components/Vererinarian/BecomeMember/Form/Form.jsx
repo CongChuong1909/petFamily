@@ -15,6 +15,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import InfoVerterinarian from "./InfoVerterinarian";
 import Certificate from "./Certificate";
 import Services from "./Services";
+import { useMutation } from "@tanstack/react-query";
+import { makeRequest } from "~/axios";
 
 const steps = ["Thông tin bác sĩ/ phòng khám", "Chứng chỉ thú y"];
 
@@ -34,6 +36,11 @@ export default function Form() {
     })
     const [address1, setAddress1] = useState('');
     const [address2, setAddress2] = useState('');
+    const mutation = useMutation(
+        (newFormRegiter)=>{
+        return makeRequest.post("veterinarian/register", newFormRegiter)
+        })
+    
     const handleNext = () => {
         console.log(activeStep);
         if(activeStep === 0 )
@@ -51,14 +58,14 @@ export default function Form() {
             else{
                 const values = {
                     name: info.firstName+ info.lastName,
-                    phoneNumber1: info.phoneNumber1,
-                    phoneNumber2: info.phoneNumber2,
-                    address1: address1,
+                    phone: info.phoneNumber1,
+                    phone2: info.phoneNumber2,
+                    address: address1,
                     address2: address2,
-                    certificate: image,
+                    certificateImage: image,
                     office: office
                  }
-                 console.log(values);
+                mutation.mutate(values);
                 setActiveStep(activeStep + 1);
             }
         }

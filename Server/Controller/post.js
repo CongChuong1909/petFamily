@@ -18,13 +18,31 @@ export const getPosts = (req, res) => {
     if (!token) return res.status(401).json("not logged in!");
     Jwt.verify(token, "secretkey", (err, userInfo) => {
         if (err) return res.status(403).json("Token is not valid");
-        const query = `SELECT DISTINCT p.*, idUser, name, avatar FROM posts AS p
+        const query = `SELECT DISTINCT p.*, idUser, name, avatar, role FROM posts AS p
         JOIN users AS u ON (u.idUser = p.userid)
         LEFT JOIN friendlist AS fl ON (p.userid = fl.user_followed)
         WHERE ((fl.user_follower = ? AND p.post_status = 1) 
         OR (p.userId = ? AND p.post_method = 1 AND p.post_status = 1))
         ORDER BY p.date_create DESC `;
         db.query(query, [userInfo.id, userInfo.id], (err, data) => {
+            if (err) return res.status(500).json(err);
+            return res.status(200).json(data);
+        });
+    });
+};
+
+export const getAll = (req, res) => {
+    const token = req.cookies.accessToken;
+    if (!token) return res.status(401).json("not logged in!");
+    Jwt.verify(token, "secretkey", (err, userInfo) => {
+        if (err) return res.status(403).json("Token is not valid");
+        const query = `SELECT p.*, u.name, u.avatar, u.idUser, COUNT(l.idpost) AS like_count, COUNT(c.idpost) AS comment_count
+        FROM posts AS p
+        JOIN users AS u ON p.userid = u.idUser
+        LEFT JOIN likepost AS l ON p.idposts = l.idpost
+        LEFT JOIN comment AS c ON p.idposts = c.idpost
+        GROUP BY p.idposts`;
+        db.query(query, (err, data) => {
             if (err) return res.status(500).json(err);
             return res.status(200).json(data);
         });

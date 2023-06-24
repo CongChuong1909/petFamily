@@ -46,7 +46,7 @@ function PostTag(props) {
 
   return (
     <div className="flex pt-4">
-      <span>With</span>
+      <span>Cùng với</span>
       {petFetch.isSuccess &&
         listTag.map((item, index) => (
           <div
