@@ -9,7 +9,7 @@ import Comments from '~/components/Comments/Comments';
 import { dataBg } from '~/Data/Data';
 import { useSelector } from 'react-redux';
 import Loading from '~/components/Loading/Loading';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import ReportModal from '~/components/Report/ReportModal';
 const brightColors = [
     "#7fbdff", 
@@ -25,8 +25,26 @@ const brightColors = [
     const config = classConfigOnPost[length] || classConfigOnPost['default'];
     return typeof config === 'object' ? config[index] || config['default'] : config;
   };
+  function PostInfo(props){
+        const postId = useLocation().pathname.split("/")[2];
+        console.log(postId);
+        const postFetch = useQuery({
+            queryKey: ["postItem", postId],
+            queryFn: async () => {
+              const res = await makeRequest.get(`/posts/getByID?idPost=${postId}`);
+              return res.data;
+            },
+          });
+        return (
+            <div>
+                {
+                    postFetch.isSuccess && <PostInfoItem postItem = {postFetch.data[0]}/>
+                }
+            </div>
+        )
+  }
 
-  function Post(props) {
+  function PostInfoItem(props) {
     const { currentUser } = useSelector((state) => state.user);
     const [showMore, setShowMore] = useState(false);
     const [like, setLike] = useState(false);
@@ -41,6 +59,7 @@ const brightColors = [
       setShowMore(!showMore);
     };
     const { postItem } = props;
+    console.log(postItem);
     const imagesQuery = useQuery({
       queryKey: ["images", postItem.idposts],
       queryFn: async () => {
@@ -335,5 +354,5 @@ const brightColors = [
     );
   }
   
-export default Post;
+export default PostInfo;
   

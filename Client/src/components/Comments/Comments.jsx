@@ -65,12 +65,12 @@
                 }
             )
 
-
             const handleAddComment =(e)=>{
                 e.preventDefault();
                 const data= {
                     idPost : postItem.idposts,
-                    content : text
+                    content : text,
+                    idUserPost: postItem.userid
                 }
                 mutationAdd.mutate(data);
                 setText('');

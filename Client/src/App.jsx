@@ -1,6 +1,6 @@
 
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -9,8 +9,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
-import { makeRequest } from "./axios";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "./components/Header/Header";
 import Leftbar from "./components/Leftbar/Leftbar";
 import Rightbar from "./components/Rightbar/Rightbar";
@@ -22,27 +21,45 @@ import Profile from "./Pages/Profiles/Profile";
 import Addpet from "./Pages/AddPet/AddPet";
 import Friends from "./Pages/Friends/Friends";
 import Chat from "./Pages/Chat/Chat";
-import ProfileVeterinarian from "./components/Profile/ProfileVeterinarian";
 import BecomeMember from "./components/Vererinarian/BecomeMember/BecomeMember";
+import { io } from 'socket.io-client';
+import { addList } from '~/redux/chatSlices';
+import Group from "./Pages/Group/Group";
+import PostInfo from "./Pages/Post/PostInfo";
 
 function App() {
   const queryClient = new QueryClient();
   const { currentUser } = useSelector((state) => state.user);
   const [role, setRole] = useState(null);
-  const [userData, setUserData] = useState(null);
-  const [fetchDataCalled, setFetchDataCalled] = useState(false);
+  const dispatch = useDispatch();
 
-  const currentPath = location.pathname;
-  const isFriendPath = /^\/friends\/[^/]+$/.test(currentPath);
+  const socket = useRef(null);
 
-  const handleUserDataChange = (newUserData) => {
-    setUserData(newUserData);
+useEffect(() => {
+  socket.current = io("http://localhost:4000");
+  socket.current.on("connect_error", (error) => {
+    console.log(error);
+  });
+
+  return () => {
+    socket.current.disconnect();
   };
+}, []);
 
-  const Layout = ({ onUserDataChange }) => {
+useEffect(() => {
+  socket.current.emit("addUser", currentUser.idUser);
+
+  socket.current.on("getUsers", (users) => {
+    dispatch(addList(users))
+  });
+}, [currentUser]);
+
+
+  const Layout = () => {
     const location = useLocation();
     const currentPath = location.pathname;
     const isFriendPath = /^\/friends\/[^/]+$/.test(currentPath);
+    const ispostPath = /^\/post\/[^/]+$/.test(currentPath);
     const userId = useLocation().pathname.split("/")[2];
 
     
@@ -50,7 +67,7 @@ function App() {
     return (
       <QueryClientProvider client={queryClient}>
         <Header />
-        <div className="grid grid-cols-11 gap-5 pt-[70px] bg-[#f6f3f3] w-[1240px] mx-auto">
+        <div className="thin-scroll grid grid-cols-10 gap-5 pt-[70px] bg-[#f6f3f3] w-[1320px] mx-auto">
           {currentPath !== "/chat" ? (
             <>
               <div className="col-span-2">
@@ -58,14 +75,14 @@ function App() {
               </div>
               <div
                 className={`${
-                  currentPath === "/" || isFriendPath ? "col-span-6" : "col-span-9"
+                  currentPath === "/" || isFriendPath || ispostPath ? "col-span-5" : "col-span-8"
                 }`}
               >
                 <Outlet />
               </div>
               <div
                 className={`${
-                  currentPath === "/" || isFriendPath ? "col-span-3" : "hidden"
+                  currentPath === "/" || isFriendPath || ispostPath ? "col-span-3" : "hidden"
                 }`}
               >
                 <Rightbar />
@@ -94,7 +111,7 @@ function App() {
       path: "/",
       element: (
         <ProtectRoute>
-          <Layout onUserDataChange={handleUserDataChange} />
+          <Layout />
         </ProtectRoute>
       ),
       children: [
@@ -111,12 +128,20 @@ function App() {
           element: <Addpet />,
         },
         {
+            path: "/post/:id",
+            element: <PostInfo />,
+          },
+        {
           path: "/friends/:id",
           element: <Friends />,
         },
         {
+          path: "/group",
+          element: <Group />,
+        },
+        {
           path: "/chat",
-          element: <Chat />,
+          element: <Chat socket = {socket}/>,
         },
         {
           path: "/become-member",

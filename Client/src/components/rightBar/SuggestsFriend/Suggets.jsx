@@ -19,13 +19,23 @@ function Suggets(props) {
         return res.data;
       },
     }); 
+    relationShipFetch.isSuccess && console.log(relationShipFetch.data);
+
+    const userData = useQuery({
+        queryKey: ["users"],
+        queryFn: () =>
+        makeRequest.get("/user/getAll").then((res) => {
+            return res.data;
+          }),
+      },
+      );
     return (
         <div className='item mt-5 '>
             <h4 className='text-[#999] pb-2  border-b border-[#ccc]'>Suggestions For You</h4>
             {
                 relationShipFetch.isLoading ?
                 <Loading/>:
-                <FollowRecommendations data = {relationShipFetch.data} idUser = {currentUser.idUser}/>
+                userData.isSuccess && <FollowRecommendations userData = {userData.data} data = {relationShipFetch.data} idUser = {currentUser.idUser}/>
             }
         </div>
     );

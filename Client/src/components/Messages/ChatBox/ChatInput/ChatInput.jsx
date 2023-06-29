@@ -6,14 +6,14 @@ import { io } from "socket.io-client";
 import { makeRequest } from "~/axios";
 
 function ChatInput(props) {
-    const {choiseConversation, showEmoji, setShowEmoji} = props
+    const {choiseConversation, showEmoji, setShowEmoji, socket} = props
     const [textChat, setTextChat] = useState('')
     const { currentUser } = useSelector((state) => state.user);
     const queryClient = useQueryClient();
      const { listOnline } = useSelector((state) => state.chat);
     
     const inputRef = useRef();
-    const socket= useRef(io("ws://localhost:8900")); 
+    // const socket= useRef(io("http://localhost:4000")); 
     const addEmoji = (e) => {
         let sym = e.unified.split("-");
         let codesArray = [];

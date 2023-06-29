@@ -26,6 +26,7 @@ export const getAllLikes = (req, res) =>{
 export const addLike = (req, res) => {
     const token = req.cookies.accessToken;
     const id = nanoid(10);
+    const idnoti = nanoid(10);
     if (!token) return res.status(401).json("not logged in!");
     Jwt.verify(token, "secretkey", (err, userInfo) => {
         if (err) return res.status(403).json("Token is not valid");
@@ -36,10 +37,35 @@ export const addLike = (req, res) => {
             userInfo.id,
             req.body.idPost,
             moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")
-          ];
+        ];
         db.query(query, [values], (err, data) => {
-            if (err) return res.status(500).json(err);
-            return res.status(200).json("post has been liked");
+            if (err) {
+                return res.status(500).json(err);
+            } else {
+                if (userInfo.id !== req.body.idUser) {
+                    console.log(userInfo);
+                    const queryNoti = "INSERT INTO notification (`idnotification`, `idsender`, `iduser`, `content`, `description`, `type`,`status`, `created_at`) VALUES (?)";
+                    const valuesNoti = [
+                        idnoti,
+                        userInfo.id,
+                        req.body.idUser,
+                        `đã bày tỏ ❤️ bài viết của bạn`,
+                        req.body.idPost,
+                        'post',
+                        1,
+                        moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")
+                    ];
+                    db.query(queryNoti, [valuesNoti], (err, data) => {
+                        if (err) {
+                            return res.status(500).json(err);
+                        } else {
+                            return res.status(200).json("post has been liked and notification has been created");
+                        }
+                    });
+                } else {
+                    return res.status(200).json("post has been liked");
+                }
+            }
         });
     });
 };

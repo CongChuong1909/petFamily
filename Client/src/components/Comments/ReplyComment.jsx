@@ -25,7 +25,6 @@ function ReplyComment(props) {
           },
       });
 
-
       const handleCommentChange = (index, value) => {
         setTextUpdateComment((prevState) => ({
             ...prevState,

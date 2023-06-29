@@ -31,6 +31,9 @@ export const getPosts = (req, res) => {
     });
 };
 
+
+
+
 export const getAll = (req, res) => {
     const token = req.cookies.accessToken;
     if (!token) return res.status(401).json("not logged in!");
@@ -55,6 +58,7 @@ export const addPosts = async (req, res) => {
     Jwt.verify(token, "secretkey", async (err, userInfo) => {
       if (err) return res.status(403).json("Token is not valid");
       const id = nanoid(10);
+      const idnoti = nanoid(10)
       const query =
         "INSERT INTO posts (`idposts`, `textcontent`, `post_status`, `userid`, `post_category`, `post_method`, `date_create`, `post_bg`) VALUES (?)";
       const values = [
@@ -102,6 +106,26 @@ export const addPosts = async (req, res) => {
             await db.query(queryVideo, [valuesVideos]);
           }
         }
+        if(req.body.listFriend.length>0)
+        {
+            
+            const queryNoti = "INSERT INTO notification (`idnotification`, `idsender`, `iduser`, `content`, `description`, `type`,`status`, `created_at`) VALUES (?)";
+                req.body.listFriend.map(async(item)=>{
+                    const valuesNoti = [
+                        idnoti,
+                        userInfo.id,
+                        item.user_follower,
+                        `đã đăng một bài viết mới`,
+                        id,
+                        'post',
+                        1,
+                        moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")
+                    ];
+                    console.log('ook');
+                    await db.query(queryNoti, [valuesNoti]);
+                })    
+                
+        }
   
         return res.status(200).json("Create post success!");
       } catch (error) {
@@ -121,6 +145,14 @@ export const addPosts = async (req, res) => {
             return res.status(200).json(data);
         });
   }
+  export const getPostByIdPost = (req, res) =>{
+
+    const query = `SELECT *, u.avatar, u.name FROM posts AS p JOIN users AS u ON p.userid = u.idUser WHERE idposts = ? `;
+    db.query(query, [req.query.idPost], (err, data) => {
+        if (err) return res.status(500).json(err);
+        return res.status(200).json(data);
+    });
+}
   export const updatePost = (req, res) =>{
     const token = req.cookies.accessToken;
     if (!token) return res.status(401).json("not logged in!");
@@ -170,6 +202,7 @@ export const addPosts = async (req, res) => {
       }
     });
   }
+  
 
   ////postStatus::: 0 hidden, 1 view
   export const hiddenPost = (req, res) =>{

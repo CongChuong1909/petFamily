@@ -2,7 +2,7 @@
 import React from 'react';
 import SuggesstFollowItem from './SuggesstFollowItem';
 
-function FollowRecommendations({data, idUser }) {
+function FollowRecommendations({data, idUser , userData}) {
 
   const suggestedUsers = React.useMemo(() => { /// Dùng reactMemo tránh lặp lại khi không cần thiết khi dependence không thay đổi 
         const userFollowedByCurrent = data.filter((item) => item.user_follower === idUser);
@@ -34,11 +34,37 @@ function FollowRecommendations({data, idUser }) {
             suggestedUsersMap[follower] = [];
           }
         });
+
+        const suggestedUsersList = Object.keys(suggestedUsersMap);
+
+        const additionalUsers = userData.filter((user) => {
+            return !suggestedUsersList.includes(user.idUser) && user.idUser !== idUser;
+        });
+
+        const filteredAdditionalUsers = additionalUsers.filter((user) => {
+            return !data.some((item) => item.user_followed === user.idUser && item.user_follower === idUser);
+        });
+
+        filteredAdditionalUsers.forEach((user) => {
+            suggestedUsersMap[user.idUser] = [];
+        });
     
         return suggestedUsersMap;
       }, [idUser]); 
 
+    //   một website mạng xã hội đã có bảng user lưu trữ thông tin người dùng bảng post lưu trữ thông tin bài viết của người dùng bảng friendlist để lưu mối quan hệ giữa 2 user với nhau và bảng comment,like, share thiết kế bảng thông báo như thế nào để khi một người dùng follow người dùng khác và khi họ đăng bài thì người 
 
+      const followersNotFollowed = data
+      .filter((item) => item.user_followed === idUser)
+      .filter(
+        (follower) =>
+          !data.some(
+            (item) =>
+              item.user_followed === follower.user_follower &&
+              item.user_follower === idUser
+          )
+      )
+      .map((follower) => follower.user_follower);
     //*** suggestedUsers***
     // An:(3) ['Henry', 'Dan', 'Marry']
     // Andrew:(2) ['Marry', 'Henry']
@@ -49,24 +75,9 @@ function FollowRecommendations({data, idUser }) {
   return (
     <div className='h-[220px] overflow-x-auto thin-scroll'>
       {Object.keys(suggestedUsers).map((suggestedUser) => ( ///// thay vì dùng map 2 lần bị lặp thì dùng objectkey
-        <SuggesstFollowItem key={suggestedUser} suggestedUsers = {suggestedUsers} suggestedUser = {suggestedUser}/>
+        <SuggesstFollowItem followersNotFollowed = {followersNotFollowed} key={suggestedUser} suggestedUsers = {suggestedUsers} suggestedUser = {suggestedUser}/>
       ))}
     </div>
   );
 }
 export default FollowRecommendations;
-
-// từ thuật toán trước đó của bạn hãy làm theo yêu cầu của tôi
-// input:
-// data:[
-//     {id_friend_list: '1', user_followed: 'kaiuIQFPw4', user_follower: 'SGKChRP72l'}
-//     {id_friend_list: '2', user_followed: 'kaiuIQFPw4', user_follower: 'VDIQ-VuUf8'}
-//     {id_friend_list: '3', user_followed: 'SGKChRP72l', user_follower: 'kaiuIQFPw4'}
-//     {id_friend_list: '4', user_followed: 'SGKChRP72l', user_follower: 'KEWZ9g7TNA'}
-//     {id_friend_list: '5', user_followed: 'VDIQ-VuUf8', user_follower: 'KEWZ9g7TNA'}
-// ]
-// output:
-//     user: kaiuIQFPw4 đề xuất VDIQ-VuUf8 (vì chưa follow lại) , KEWZ9g7TNA ( vì có SGKChRP72l follow )
-//     user: SGKChRP72l đề xuất KEWZ9g7TNA (vì chưa follow lại)
-//     user: VDIQ-VuUf8 đề xuất KEWZ9g7TNA (vì chưa follow lại)
-//     user: KEWZ9g7TN đề xuất kaiuIQFPw4 (vì có SGKChRP72l và KEWZ9g7TNA cùng follow)

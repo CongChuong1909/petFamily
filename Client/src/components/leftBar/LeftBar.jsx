@@ -1,10 +1,12 @@
 import React from 'react';
 import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
+import Weather from './Weather';
 function Leftbar(props) {
     const { currentUser } = useSelector((state) => state.user);
     return (
-        <div className='h-[90vh] item grid grid-cols-1 bg-[rgb(255,255,255)]'>
+        <div className='h-[90vh] item grid grid-cols-1 bg-[rgb(255,255,255)]' style={{padding: 0}}>
+            <Weather/>
            <div className='grid grid-cols-1 h-[50%]'>
                 <div className='flex items-center gap-3 pt-4'>
                     <Link to={`/profile/${currentUser.idUser}`}>
@@ -34,10 +36,12 @@ function Leftbar(props) {
                 </div>
                 
                 <div className='flex items-center gap-3 pt-4'>
-                    <div className='flex items-center gap-3 pl-2 pr-10 w-[200px] opacity-[0.8] py-1 left-bar-item'>
-                        <img className='w-[40px] rounded-full ' src="https://cdn-icons-png.flaticon.com/512/921/921296.png" alt="" />
-                        <span className='text-[#333]'>Nhóm</span>
-                    </div>
+                    <Link to = {`/group`}>
+                        <div className='flex items-center gap-3 pl-2 pr-10 w-[200px] opacity-[0.8] py-1 left-bar-item'>
+                            <img className='w-[40px] rounded-full ' src="https://cdn-icons-png.flaticon.com/512/921/921296.png" alt="" />
+                            <span className='text-[#333]'>Nhóm</span>
+                        </div>
+                    </Link>
                 </div>
                 <div className='flex items-center gap-3 pt-4'>
                     <Link to = {`/become-member`}>

@@ -1,30 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { makeRequest } from "~/axios";
-import { io } from "socket.io-client";
-import { addList } from "~/redux/chatSlices";
-import OnlineFriend from "~/components/Rightbar/OnlineFriends/OnlineFriend";
 
 function ChatBox(props) {
    
-  const { choiseConversation,  user } = props;
-  const { currentUser } = useSelector((state) => state.user);
+  const { choiseConversation, socket, user } = props;
   const scrollRef = useRef();
   const [messages, setMessages] = useState([]);
-  const socket = useRef(null);
-  const { listOnline } = useSelector((state) => state.chat);
-
-  useEffect(() => {
-    socket.current = io("ws://localhost:8900");
-    return () => {
-      socket.current.disconnect();
-    };
-  }, []);
-
-  console.log(listOnline);
-
   const messagesFetch = useQuery({
     queryKey: ["messages", choiseConversation],
     queryFn: async () => {
@@ -37,7 +20,7 @@ function ChatBox(props) {
   });
 
   useEffect(() => {
-    socket.current.on("getMessage", (data) => {
+    socket.current.on("getMessages", (data,z,a) => {
       setMessages((prevMessages) => {
         return [...prevMessages, data];
       });
@@ -54,14 +37,6 @@ function ChatBox(props) {
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messagesFetch.data, messages]);
-
-//   const userFetch = useQuery({
-//     queryKey: ["users", choiseConversation[0].user_id],
-//     queryFn: async () => {
-//         const res = await makeRequest.get(`/user/find?idUser=${item[0].user_id}`);
-//         return res.data;
-//     },
-// });
 
   return (
     <div className="flex flex-col scroll-div h-[550px]">

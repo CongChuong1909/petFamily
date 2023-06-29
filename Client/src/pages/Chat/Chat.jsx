@@ -10,7 +10,7 @@ import ListFriendAddGroup from '~/components/Messages/ListFriendAddGroup/ListFri
 import OnlineFriend from '~/components/Rightbar/OnlineFriends/OnlineFriend';
 
 function Chat(props) {
-    
+    const {socket} =props
     const { currentUser } = useSelector((state) => state.user);
     const [listConversation, setListConversation] = useState([]);
     const [showEmoji, setShowEmoji] = useState(false);
@@ -86,8 +86,8 @@ function Chat(props) {
                         showAddGroup ? <ListFriendAddGroup setShowAddGroup = {setShowAddGroup} nameConversation = {nameConversation}/>
                         :
                         <div onClick={()=> setShowEmoji(false)} className='flex h-full justify-between flex-col'>
-                            <ChatBox choiseConversation = {choiseConversation} user = {currentUser}/>
-                            {choiseConversation !== null && <ChatInput choiseConversation = {choiseConversation} showEmoji = {showEmoji} setShowEmoji = {setShowEmoji}/>} 
+                            <ChatBox socket = {socket} choiseConversation = {choiseConversation} user = {currentUser}/>
+                            {choiseConversation !== null && <ChatInput socket = {socket} choiseConversation = {choiseConversation} showEmoji = {showEmoji} setShowEmoji = {setShowEmoji}/>} 
                         </div>
                     }
                 </div>  

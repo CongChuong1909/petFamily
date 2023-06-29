@@ -7,7 +7,9 @@ import { makeRequest } from "~/axios";
 function Conversations(props) {
     const {item} = props
     const [online, setOnline] = useState(true);
-    const [infoUser, setInfoUser] = useState({});
+
+    const { listOnline } = useSelector((state) => state.chat);
+    const isUserOnline = listOnline.some((onlineUser) => onlineUser.userId === item[0].user_id);
     const view = () =>{
         const handleClickConversation = () =>{
             props.choiseConversation(item[0].idconversation)
@@ -21,15 +23,14 @@ function Conversations(props) {
                     return res.data;
                 },
             });
-    
             return (
                 <>
                     {
                         userFetch.isSuccess && 
                         <div onClick={handleClickConversation} className="follower conversation bg-[#fff] hover:bg-[#f1f2f3] transition-all duration-300 cursor-pointer">
-                        <div className="gap-4 grid grid-cols-6 items-center px-6 py-3">
+                        <div className="gap-4  grid grid-cols-6 items-center px-6 py-3">
                             <div className="col-span-2">
-                                {online && <div className="bg-[#51e200] z-[10] rounded-full absolute w-4 h-4"></div>}
+                                {isUserOnline ? <div className="bg-[#51e200] z-[10] rounded-full absolute w-4 h-4"></div>: <div className="bg-[#999] z-[10] rounded-full absolute w-4 h-4"></div>}
                                 <img
                                     src={userFetch.data.avatar}
                                     alt="Profile"
@@ -40,8 +41,8 @@ function Conversations(props) {
                                 <span className="font-semibold">
                                     {userFetch.data.name}
                                 </span>
-                                <span style={{ color: online ? "#51e200" : "" }}>
-                                    {online ? "Online" : "Offline"}
+                                <span style={{ color: isUserOnline ? "#51e200" : "" }}>
+                                    {isUserOnline ? "Online" : "Offline"}
                                 </span>
                             </div>
                         </div>

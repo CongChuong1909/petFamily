@@ -5,7 +5,7 @@ import ListCommentFriend from './ListCommentFriend';
 import ViewListFriend from '~/components/ViewListFriend/ViewListFriend';
 import { useSelector } from 'react-redux';
 
-function SuggesstFollowItem({suggestedUser, suggestedUsers}) {
+function SuggesstFollowItem({suggestedUser, suggestedUsers, followersNotFollowed}) {
     const [showList, setShowList] = useState(false);
     const { currentUser } = useSelector((state) => state.user);
     const [showFollowing, setShowFollowing] = useState(false);
@@ -21,21 +21,24 @@ function SuggesstFollowItem({suggestedUser, suggestedUsers}) {
       const handleShowDetailCommonFriend = ()=>{
         setShowList(true);
       }
-      const { isLoading: rIsLoading, data: relationshipData } = useQuery(
-        ["relationship"],
-        () =>
-          makeRequest.get("/relationships?followedUserId=" + suggestedUser).then((res) => {
-            return res.data;
-          })
-      );
-        
-
+      const followerExistsInSuggested = followersNotFollowed.map((item) => suggestedUser === item);
 
       const mutation = useMutation(
         (following) => {
             if (following)
               return makeRequest.delete("/relationships/deleteRelationship?idUser=" + suggestedUser);
-            return makeRequest.post("/relationships/addRelationship", { idUser : suggestedUser });
+            else{
+                const followerExistsInSuggested = followersNotFollowed.map((item) => suggestedUser === item)[0];
+                if(followerExistsInSuggested)
+                {
+                    console.log('Last');
+                    return makeRequest.post("/relationships/addRelationshipLast", { idUser : suggestedUser });
+                }
+                else {
+                    console.log('first');
+                    return makeRequest.post("/relationships/addRelationshipFirst", { idUser : suggestedUser });  
+                }
+            } 
           },
         {
           onSuccess: () => {

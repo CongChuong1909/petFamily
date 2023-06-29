@@ -1,9 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PostTag from './PostTag/PostTag';
 import PostMethodShare from './PostMethodShare/PostMethodShare';
 import  Picker  from '@emoji-mart/react';
 import PreviewImages from './PreviewImages/PreviewImage';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { makeRequest} from '~/axios';
 import axios from 'axios';
 import uploadImages from '~/API/uploadAPI';
@@ -27,6 +27,7 @@ function PostCreate(props) {
   const queryClient = useQueryClient();
   const fileInputRef = useRef(null);
   const { currentUser } = useSelector((state) => state.user);
+  const { list } = useSelector((state) => state.relationship);
 
   const handleClickChooseImages = () => {
     fileInputRef.current.click();
@@ -70,6 +71,7 @@ function PostCreate(props) {
   })
 
 
+
   const handleAddPost  = () =>{
     const values = {
         textContent: text,
@@ -78,6 +80,7 @@ function PostCreate(props) {
         methodPost: 1,
         images: listImageURL,
         videos: [],
+        listFriend: list.filter((user) => user.user_followed === currentUser.idUser),
         postBg:background.index !== null ? background.index + 1 : null,
         idpets: listPet
     }
