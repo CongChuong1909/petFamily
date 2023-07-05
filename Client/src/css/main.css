@@ -591,3 +591,40 @@ body{
     white-space: 'nowrap';
       text-overflow: 'ellipsis';
 }
+.popup_image{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 1600px;
+    height: 100vh;
+    max-height: 800px;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    /* overflow: hidden; */
+    transition: all 0.5s ease-in-out;
+    opacity: 1;
+    /* visibility: hidden; */
+}
+.layout_image{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 1600px;
+    height: 100vh;
+    max-height: 800px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 80;
+
+}

@@ -17,6 +17,7 @@ function Posts(props) {
             }),
     },
     );
+    postData.isSuccess && console.log(postData.data);
     return (
         <div>
             <PostCreate

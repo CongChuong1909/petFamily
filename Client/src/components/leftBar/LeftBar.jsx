@@ -5,7 +5,8 @@ import Weather from './Weather';
 function Leftbar(props) {
     const { currentUser } = useSelector((state) => state.user);
     return (
-        <div className='h-[90vh] item grid grid-cols-1 bg-[rgb(255,255,255)]' style={{padding: 0}}>
+        <>
+        <div className=' item grid grid-cols-1 bg-[rgb(255,255,255)]' style={{padding: 0}}>
             <Weather/>
            <div className='grid grid-cols-1 h-[50%]'>
                 <div className='flex items-center gap-3 pt-4'>
@@ -43,18 +44,17 @@ function Leftbar(props) {
                         </div>
                     </Link>
                 </div>
-                <div className='flex items-center gap-3 pt-4'>
-                    <Link to = {`/become-member`}>
-                        <div className='flex items-center gap-3 pl-2 pr-10 w-[200px] opacity-[0.8] py-1 left-bar-item'>
-                            <img className='w-[40px] rounded-full ' src="https://icons.veryicon.com/png/o/miscellaneous/mlxc-public-icon-library/medical-and-health-work-1.png" alt="" />
-                            <span className='text-[#333]'>Bác sĩ, phòng khám</span>
-                        </div>
-                    </Link>
-                </div>
            </div>
-
         </div>
+            <Link to = {`/become-member`}>
+                <div className='w-full item'>
+                    <img className='w-[full]' src="https://res.cloudinary.com/dohmfb8tt/image/upload/v1688058805/img_pet_social/leafv5lpysvbwathqhai.jpg" alt="" />
+                </div>
+            </Link>
+        </>
     );
 }
 
 export default Leftbar;
+
+    

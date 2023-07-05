@@ -27,7 +27,8 @@ function InputReply(props) {
         const value = {
             idComment : comment.idComment,
             content : textReply,
-            idUserReply: comment.iduser 
+            idUserReply: comment.iduser,
+            idPost:  comment.idpost
         }
         mutationAdd.mutate(value);
         props.onCloseAndOpenShowReply();

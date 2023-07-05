@@ -18,6 +18,7 @@ import conversationRoutes from "./Routes/conversation.js"
 import reportRoutes from "./Routes/reportcontents.js"
 import veterinarianRoutes from './Routes/verterinarian.js'
 import notificationRoutes from './Routes/notification.js'
+import categoryRoutes from './Routes/categories.js'
 import cors from "cors"
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
@@ -113,6 +114,7 @@ app.use("/api/veterinarian", veterinarianRoutes);
 app.use("/api/rating", ratingRoutes);
 app.use("/api/report", reportRoutes);
 app.use("/api/notification", notificationRoutes);
+app.use("/api/category", categoryRoutes);
 
 
 

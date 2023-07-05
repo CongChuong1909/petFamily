@@ -9,6 +9,13 @@ export const getPets = (req, res) =>{
         return res.status(200).json(data);
     });
 }
+export const getPetByID = (req, res) =>{
+    const query = `SELECT * FROM pets WHERE id_pet = ?`;
+    db.query(query, [req.query.idPet], (err, data) => {
+        if (err) return res.status(500).json(err);
+        return res.status(200).json(data);
+    });
+}
 export const getAll = (req, res) =>{
     const query = `SELECT * FROM pets`;
     db.query(query, (err, data) => {

@@ -26,6 +26,8 @@ import { io } from 'socket.io-client';
 import { addList } from '~/redux/chatSlices';
 import Group from "./Pages/Group/Group";
 import PostInfo from "./Pages/Post/PostInfo";
+import FilterPostcategory from "./Pages/FilterPostCategory/FilterPostcategory";
+import ProfilePet from "./components/Profile/ProfilePet";
 
 function App() {
   const queryClient = new QueryClient();
@@ -60,6 +62,7 @@ useEffect(() => {
     const currentPath = location.pathname;
     const isFriendPath = /^\/friends\/[^/]+$/.test(currentPath);
     const ispostPath = /^\/post\/[^/]+$/.test(currentPath);
+    const isCategoryPath = /^\/find-by-category\/[^/]+$/.test(currentPath);
     const userId = useLocation().pathname.split("/")[2];
 
     
@@ -75,14 +78,14 @@ useEffect(() => {
               </div>
               <div
                 className={`${
-                  currentPath === "/" || isFriendPath || ispostPath ? "col-span-5" : "col-span-8"
+                  currentPath === "/" || isFriendPath || ispostPath || isCategoryPath ? "col-span-5" : "col-span-8"
                 }`}
               >
                 <Outlet />
               </div>
               <div
                 className={`${
-                  currentPath === "/" || isFriendPath || ispostPath ? "col-span-3" : "hidden"
+                  currentPath === "/" || isFriendPath || ispostPath || isCategoryPath ? "col-span-3" : "hidden"
                 }`}
               >
                 <Rightbar />
@@ -124,8 +127,16 @@ useEffect(() => {
           element: <Profile/>
         },
         {
+            path: "/find-by-category/:id",
+            element: <FilterPostcategory/>
+        },
+        {
           path: "/:id/addpet",
           element: <Addpet />,
+        },
+        {
+          path: "/pet/:id",
+          element: <ProfilePet />,
         },
         {
             path: "/post/:id",

@@ -97,6 +97,7 @@ const brightColors = [
     }
     )
 
+
     const handleLike = ()=>{
         ///check mutate true or false
                 var arr = [];
@@ -139,6 +140,7 @@ const brightColors = [
         }
         mutationHidden.mutate(value)
     } 
+    
 
     const petFetch = useQuery({
         queryKey: ["0", postItem.idposts],
@@ -147,6 +149,15 @@ const brightColors = [
           return res.data
         },
       });  
+
+    const categoryFetch = useQuery({
+    queryKey: ["category", postItem.idposts],
+    queryFn: async () => {
+        const res = await makeRequest.get(`/category/getById?idPost=${postItem.idposts}`);
+        return res.data
+    },
+    });
+
     return (
       <>
         <div
@@ -165,7 +176,7 @@ const brightColors = [
                             {postItem.userid === 'kaiuIQFPw4' && <div><img className='w-[20px] h-[20px]' src="https://cdn-icons-png.flaticon.com/512/807/807262.png" alt="" /></div>}
                         </div>
                     </Link>
-                    <div className='flex items-center gap-1'>
+                    <div className='flex items-center gap-4 pl-2'>
                         <i className=" text-[4px] fa-duotone fa-circle"></i>
                         <p className='text-[#999]'>{moment(postItem.date_create).fromNow()}</p>
                         {
@@ -212,6 +223,13 @@ const brightColors = [
                  :
                      <div className='pt-4 px-12 pb-3'>
                          <p>{postItem.textcontent}</p>
+                         <div>
+                            {categoryFetch.isSuccess && categoryFetch.data.map((item, index)=>(
+                                <Link key = {index} to={`find-by-category/${item.slug}`}>
+                                    <span className='text-[#253fe3] font-semibold cursor-pointer' key={item.idcategory}>#{item.slug} &nbsp;</span>
+                                </Link>
+                            ))}
+                         </div>
                          {
                             petFetch.isSuccess&& petFetch.data.length > 0 ?
                                 <div className='flex items-center pt'>

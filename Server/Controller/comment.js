@@ -144,7 +144,7 @@ export const addReplyComment = (req, res) => {
                         userInfo.id,
                         req.body.idUserReply,
                         `đã đáp lại bình luận của bạn: ${req.body.content}`,
-                        req.body.idUserReply,
+                        req.body.idPost,
                         'post',
                         1,
                         moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")

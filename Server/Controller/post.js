@@ -18,12 +18,15 @@ export const getPosts = (req, res) => {
     if (!token) return res.status(401).json("not logged in!");
     Jwt.verify(token, "secretkey", (err, userInfo) => {
         if (err) return res.status(403).json("Token is not valid");
-        const query = `SELECT DISTINCT p.*, idUser, name, avatar, role FROM posts AS p
+        const query = `SELECT DISTINCT p.*, idUser, name, avatar, role, GROUP_CONCAT(c.slug) AS categories
+        FROM posts AS p
         JOIN users AS u ON (u.idUser = p.userid)
         LEFT JOIN friendlist AS fl ON (p.userid = fl.user_followed)
-        WHERE ((fl.user_follower = ? AND p.post_status = 1) 
-        OR (p.userId = ? AND p.post_method = 1 AND p.post_status = 1))
-        ORDER BY p.date_create DESC `;
+        LEFT JOIN categorypost AS pc ON (p.idposts = pc.idpost)
+        LEFT JOIN category AS c ON (pc.idcategory = c.idcategory)
+        WHERE ((fl.user_follower = ? AND p.post_status = 1) OR (p.userId = ? AND p.post_method = 1 AND p.post_status = 1))
+        GROUP BY p.idposts
+        ORDER BY p.date_create DESC`;
         db.query(query, [userInfo.id, userInfo.id], (err, data) => {
             if (err) return res.status(500).json(err);
             return res.status(200).json(data);
@@ -51,7 +54,35 @@ export const getAll = (req, res) => {
         });
     });
 };
+export const getByCategory = (req, res) => {
+    const token = req.cookies.accessToken;
+    if (!token) return res.status(401).json("not logged in!");
+    Jwt.verify(token, "secretkey", (err, userInfo) => {
+        if (err) return res.status(403).json("Token is not valid");
+        const query = `SELECT *, u.avatar, u.name FROM posts AS p 
+        JOIN users AS u ON p.userid = u.idUser 
+        LEFT JOIN categorypost AS pc ON (p.idposts = pc.idpost)
+        LEFT JOIN category AS c ON (pc.idcategory = c.idcategory)
+        WHERE c.slug = ?`;
+        db.query(query, [req.query.slug], (err, data) => {
+            if (err) return res.status(500).json(err);
+            return res.status(200).json(data);
+        });
+    });
+};
 
+export const getPostByPet = (req, res) => {
+    const token = req.cookies.accessToken;
+    if (!token) return res.status(401).json("not logged in!");
+    Jwt.verify(token, "secretkey", (err, userInfo) => {
+        if (err) return res.status(403).json("Token is not valid");
+        const query = `SELECT * FROM posts as p JOIN pets_post as pp ON p.idposts = pp.idpost WHERE pp.idpets = ?`;
+        db.query(query, [req.query.idpet], (err, data) => {
+            if (err) return res.status(500).json(err);
+            return res.status(200).json(data);
+        });
+    });
+};
 export const addPosts = async (req, res) => {
     const token = req.cookies.accessToken;
     if (!token) return res.status(401).json("not logged in!");
@@ -60,13 +91,12 @@ export const addPosts = async (req, res) => {
       const id = nanoid(10);
       const idnoti = nanoid(10)
       const query =
-        "INSERT INTO posts (`idposts`, `textcontent`, `post_status`, `userid`, `post_category`, `post_method`, `date_create`, `post_bg`) VALUES (?)";
+        "INSERT INTO posts (`idposts`, `textcontent`, `post_status`, `userid`, `post_method`, `date_create`, `post_bg`) VALUES (?)";
       const values = [
         id,
         req.body.textContent,
         req.body.postStatus,
         userInfo.id,
-        req.body.postCategory,
         req.body.methodPost,
         moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
         req.body.postBg,
@@ -97,13 +127,13 @@ export const addPosts = async (req, res) => {
           }
         }
   
-        if (req.body.videos.length > 0) {
-          const queryVideo =
-            "INSERT INTO videos (`idVideo`, `idPost`, `url`) VALUES (?)";
-          for (const video of req.body.videos) {
-            const idVideo = nanoid(10);
-            const valuesVideos = [idVideo, id, video];
-            await db.query(queryVideo, [valuesVideos]);
+        if (req.body.listCategory.length > 0) {
+
+          const queryCate =
+            "INSERT INTO categorypost (`idcategory`, `idpost`) VALUES (?)";
+          for (const category of req.body.listCategory) {
+            const valuesCate = [ category.id, id];
+            await db.query(queryCate, [valuesCate]);
           }
         }
         if(req.body.listFriend.length>0)

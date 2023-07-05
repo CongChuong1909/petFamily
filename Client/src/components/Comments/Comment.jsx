@@ -38,7 +38,6 @@ function Comment(props) {
     const [showInputReply, setShowInputReply] = useState(false);
     const [showCommentOption, setShowCommentOption] = useState(false);
     const showModalOpitonComment = useSelector((state) => state.modal.showModalOpitonComment);
-
     const dispatch = useDispatch();
     // 
 

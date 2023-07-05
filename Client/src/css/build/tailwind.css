@@ -701,6 +701,14 @@ video {
   top: 60%;
 }
 
+.right-10 {
+  right: 2.5rem;
+}
+
+.top-10 {
+  top: 2.5rem;
+}
+
 .z-0 {
   z-index: 0;
 }
@@ -749,6 +757,18 @@ video {
   z-index: 999;
 }
 
+.z-\[1000\] {
+  z-index: 1000;
+}
+
+.z-\[10000\] {
+  z-index: 10000;
+}
+
+.z-\[100\] {
+  z-index: 100;
+}
+
 .col-span-1 {
   grid-column: span 1 / span 1;
 }
@@ -787,10 +807,6 @@ video {
 
 .col-span-8 {
   grid-column: span 8 / span 8;
-}
-
-.col-span-9 {
-  grid-column: span 9 / span 9;
 }
 
 .row-span-1 {
@@ -1176,10 +1192,6 @@ video {
   height: 100vh;
 }
 
-.h-\[80px\] {
-  height: 80px;
-}
-
 .max-h-\[90vh\] {
   max-height: 90vh;
 }
@@ -1300,6 +1312,10 @@ video {
   width: 1900px;
 }
 
+.w-\[20\%\] {
+  width: 20%;
+}
+
 .w-\[200px\] {
   width: 200px;
 }
@@ -1308,12 +1324,20 @@ video {
   width: 20px;
 }
 
-.w-\[220px\] {
-  width: 220px;
+.w-\[250px\] {
+  width: 250px;
+}
+
+.w-\[270px\] {
+  width: 270px;
 }
 
 .w-\[30\%\] {
   width: 30%;
+}
+
+.w-\[300px\] {
+  width: 300px;
 }
 
 .w-\[36px\] {
@@ -1368,36 +1392,16 @@ video {
   width: 90%;
 }
 
+.w-\[full\] {
+  width: full;
+}
+
 .w-full {
   width: 100%;
 }
 
 .w-screen {
   width: 100vw;
-}
-
-.w-\[350px\] {
-  width: 350px;
-}
-
-.w-\[250px\] {
-  width: 250px;
-}
-
-.w-\[150px\] {
-  width: 150px;
-}
-
-.w-\[80px\] {
-  width: 80px;
-}
-
-.w-\[300px\] {
-  width: 300px;
-}
-
-.w-\[270px\] {
-  width: 270px;
 }
 
 .max-w-\[540px\] {
@@ -1426,6 +1430,10 @@ video {
 
 .shrink-0 {
   flex-shrink: 0;
+}
+
+.flex-grow {
+  flex-grow: 1;
 }
 
 .origin-top-right {
@@ -1501,6 +1509,10 @@ video {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .grid-cols-4 {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
@@ -1531,6 +1543,10 @@ video {
 
 .flex-col {
   flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
 }
 
 .content-center {
@@ -1864,16 +1880,6 @@ video {
   border-color: rgb(255 255 255 / var(--tw-border-opacity));
 }
 
-.border-\[\#aaa\] {
-  --tw-border-opacity: 1;
-  border-color: rgb(170 170 170 / var(--tw-border-opacity));
-}
-
-.bg-\[\#000\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
-}
-
 .bg-\[\#006fa5\] {
   --tw-bg-opacity: 1;
   background-color: rgb(0 111 165 / var(--tw-bg-opacity));
@@ -1959,6 +1965,11 @@ video {
   background-color: rgb(209 212 213 / var(--tw-bg-opacity));
 }
 
+.bg-\[\#d5d5d5\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(213 213 213 / var(--tw-bg-opacity));
+}
+
 .bg-\[\#ddd\] {
   --tw-bg-opacity: 1;
   background-color: rgb(221 221 221 / var(--tw-bg-opacity));
@@ -1982,6 +1993,11 @@ video {
 .bg-\[\#e5e7eb\] {
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+}
+
+.bg-\[\#f1f1f1\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(241 241 241 / var(--tw-bg-opacity));
 }
 
 .bg-\[\#f2f2f2\] {
@@ -2391,10 +2407,6 @@ video {
   line-height: 1rem;
 }
 
-.text-\[6px\] {
-  font-size: 6px;
-}
-
 .font-bold {
   font-weight: 700;
 }
@@ -2450,6 +2462,11 @@ video {
 .text-\[\#222\] {
   --tw-text-opacity: 1;
   color: rgb(34 34 34 / var(--tw-text-opacity));
+}
+
+.text-\[\#253fe3\] {
+  --tw-text-opacity: 1;
+  color: rgb(37 63 227 / var(--tw-text-opacity));
 }
 
 .text-\[\#333\] {
@@ -2540,6 +2557,11 @@ video {
 .text-\[rgb\(243\2c 41\2c 41\)\] {
   --tw-text-opacity: 1;
   color: rgb(243 41 41 / var(--tw-text-opacity));
+}
+
+.text-\[\#000\] {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
 }
 
 .placeholder-\[\#6b7280\]::-moz-placeholder {
@@ -2813,6 +2835,14 @@ video {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
+  .md\:grid-cols-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .md\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
   .md\:p-4 {
     padding: 1rem;
   }
@@ -2825,6 +2855,14 @@ video {
 
   .lg\:w-1\/2 {
     width: 50%;
+  }
+
+  .lg\:grid-cols-7 {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+
+  .lg\:grid-cols-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 
   .lg\:px-16 {

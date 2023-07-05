@@ -9,6 +9,7 @@ import axios from 'axios';
 import uploadImages from '~/API/uploadAPI';
 import Loading from '~/components/Loading/Loading';
 import { useSelector } from 'react-redux';
+import PostCategory from './PostCategory/PostCategory';
 const dataBg = [  {    
     imgBg: "https://pety.vn/static/media/p1.562333b0.jpg",    title: "Phá"  },
     {imgBg: "https://pety.vn/static/media/p2.e2fedf9e.jpg",    title: "Đói"  }, 
@@ -28,6 +29,7 @@ function PostCreate(props) {
   const fileInputRef = useRef(null);
   const { currentUser } = useSelector((state) => state.user);
   const { list } = useSelector((state) => state.relationship);
+  const [listCategory, setListCategory] = useState([]);
 
   const handleClickChooseImages = () => {
     fileInputRef.current.click();
@@ -81,6 +83,7 @@ function PostCreate(props) {
         images: listImageURL,
         videos: [],
         listFriend: list.filter((user) => user.user_followed === currentUser.idUser),
+        listCategory: listCategory,
         postBg:background.index !== null ? background.index + 1 : null,
         idpets: listPet
     }
@@ -93,7 +96,6 @@ function PostCreate(props) {
   const getListPet = (item)=>{
     setListPet(item);
   }
-  
 
   return (
     <div onClick={props.handleClosePostCreate}  className={`${props.show ? ' opacity-1 block' : 'opacity-0 hidden'}  modal overflow-hidden fixed top-0 left-0 w-full h-full bg-rgba_background-button_header z-[999] flex justify-center items-center`}>
@@ -113,6 +115,7 @@ function PostCreate(props) {
           <PostMethodShare />
         </div>
         <div className="mt-5">
+            
         {images.length <= 0 ? (
             <div
                 className="bg-cover bg-right-bottom"
@@ -144,7 +147,10 @@ function PostCreate(props) {
             )
         }
           
-             <div className='flex justify-end gap-4 mt-3 items-center pr-8'>
+             <div className='flex justify-between gap-4 mt-3 items-center pr-8'>
+                <div>
+                    Chọn chủ đề bài viết: <PostCategory setListCategory = {setListCategory}/>
+                </div>
                     <i className="item_postcreate relative text-[#999] font-bold cursor-pointer text-[22px] fa-light fa-grid">
                         <span className="opacity-0 block  bg-[#333] text-blue-900 text-[9px] leading-4 rounded-md py-1 px-2 absolute top-0 mt-8 transition-all duration-300 transform translate-x-1/2 left-[-20%] z-[-1] before:block before:absolute before:bg-[#333] before:w-2 before:h-2 before:rotate-45 before:top-[4px] before:left-1/4 before:-mt-2 pointer-events-none before:content:''"><p>Lựa chọn ảnh nền</p></span>
                     </i>
