@@ -5,12 +5,13 @@ import Slider from "react-slick";
 import { Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 function ViewImage(props) {
-    const {setShowImage, arrImage} = props;
+    const {setShowImage, arrImage, initialSlice} = props;
     var settings = {
         dots: true,
         infinite: true,
         speed: 500,
         slidesToShow: 1,
+        initialSlide: initialSlice || 0,
         slidesToScroll: 1,
     };
     console.log(arrImage);

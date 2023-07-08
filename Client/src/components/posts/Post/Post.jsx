@@ -9,8 +9,12 @@ import Comments from '~/components/Comments/Comments';
 import { dataBg } from '~/Data/Data';
 import { useSelector } from 'react-redux';
 import Loading from '~/components/Loading/Loading';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ReportModal from '~/components/Report/ReportModal';
+import ViewImage from '~/components/ViewImage/ViewImage';
+import CreateShare from '~/components/Share/CreateShare';
+import PostShare from './PostShare';
+import LoadingPost from '~/components/Loading/LoadingPost';
 const brightColors = [
     "#7fbdff", 
     "#8fe4cb",
@@ -28,6 +32,7 @@ const brightColors = [
 
   function Post(props) {
     const { currentUser } = useSelector((state) => state.user);
+    const [isShare, setIsShare] = useState(props.isShare || false)
     const [showMore, setShowMore] = useState(false);
     const [like, setLike] = useState(false);
     const [selfLike, setSelfLike] = useState(false);
@@ -37,10 +42,14 @@ const brightColors = [
     const [showOption, setShowOption] = useState(false);
     const [showReport, setShowReport] = useState(false);
     const queryClient = useQueryClient();
+    const [viewImage, setViewImage] = useState(false)
+    const [showShare, setShowShare] = useState(false);
+    const navigate = useNavigate();
     const handleShowMore = () => {
       setShowMore(!showMore);
     };
     const { postItem } = props;
+
     const imagesQuery = useQuery({
       queryKey: ["images", postItem.idposts],
       queryFn: async () => {
@@ -48,7 +57,13 @@ const brightColors = [
         return res.data;
       },
     });
-  
+    const shareFecth = useQuery({
+        queryKey: ["shares", postItem.idposts],
+        queryFn: async () => {
+          const res = await makeRequest.get(`/share?idpost=${postItem.idposts}`);
+          return res.data;
+        },
+      });
     useEffect(() => {
       imagesQuery.refetch();
     }, [postItem.idposts]);
@@ -69,20 +84,23 @@ const brightColors = [
           const res = await makeRequest.get(`/likes?postId=${postItem.idposts}`);
           return res.data;
         },
-      });
-      useEffect(() => {
-        if (LikesFetch.isFetched) {
-            setAmountLike(LikesFetch.data.length)
-            if(LikesFetch.data.length > 0)
-            {
-                var arr = [];
-                LikesFetch.data.map((item)=>{
-                    arr.push(item.iduser)
-                })
-                setSelfLike(arr.includes(currentUser.idUser))
-            }
+    });
+
+    
+    useEffect(() => {
+    if (LikesFetch.isFetched) {
+        setAmountLike(LikesFetch.data.length)
+        if(LikesFetch.data.length > 0)
+        {
+            var arr = [];
+            LikesFetch.data.map((item)=>{
+                arr.push(item.iduser)
+            })
+            setSelfLike(arr.includes(currentUser.idUser))
         }
-      }, [postItem.idposts, LikesFetch.isFetched, LikesFetch.data]);
+    }
+    }, [postItem.idposts, LikesFetch.isFetched, LikesFetch.data]);
+
     const mutation = useMutation((liked)=>{
         if(liked)//// if true
         {
@@ -115,24 +133,25 @@ const brightColors = [
           const res = await makeRequest.get(`/comment?postId=${postItem.idposts}`);
           return res.data;
         },
-      });
-      const amountCommentFetch = useQuery({
-        queryKey: ["amountcomment", postItem.idposts],
-        queryFn: async () => {
-          const res = await makeRequest.get(`/comment/getAmount?idPost=${postItem.idposts}`);
-          return res.data[0].total_comments;
-        },
-      });   
+    });
 
-        const mutationHidden = useMutation((idpost)=>{
-            console.log(idpost);
-            return makeRequest.put("/posts/hidden", idpost)
-        },
-        {
-            onSuccess:()=>{
-                queryClient.invalidateQueries(["posts"]);
-            }
-        })
+    const amountCommentFetch = useQuery({
+    queryKey: ["amountcomment", postItem.idposts],
+    queryFn: async () => {
+        const res = await makeRequest.get(`/comment/getAmount?idPost=${postItem.idposts}`);
+        return res.data[0].total_comments;
+    },
+    });   
+
+    const mutationHidden = useMutation((idpost)=>{
+        console.log(idpost);
+        return makeRequest.put("/posts/hidden", idpost)
+    },
+    {
+        onSuccess:()=>{
+            queryClient.invalidateQueries(["posts"]);
+        }
+    })
 
     const handleHiddenPost = () =>{
         const value = {
@@ -140,15 +159,14 @@ const brightColors = [
         }
         mutationHidden.mutate(value)
     } 
-    
-
+   
     const petFetch = useQuery({
         queryKey: ["0", postItem.idposts],
         queryFn: async () => {
           const res = await makeRequest.get(`/pet/post?idPost=${postItem.idposts}`);
           return res.data
         },
-      });  
+    });  
 
     const categoryFetch = useQuery({
     queryKey: ["category", postItem.idposts],
@@ -158,6 +176,15 @@ const brightColors = [
     },
     });
 
+    // useEffect(()=>{
+    //     if(shareFecth.isSuccess)
+    //     {
+    //         const values = {
+
+    //         } 
+    //     }
+            
+    // }, [shareFecth.isSuccess])
     return (
       <>
         <div
@@ -182,30 +209,32 @@ const brightColors = [
                         {
                             postItem.role === 2 &&
                             <div className='flex items-center justify-center px-2 py-1 gap-1 border text-[#fff] text-[14px]  bg-[#5271ff] rounded-md'>
-                                <i class="fa-duotone fa-kit-medical"></i>
+                                <i className="fa-duotone fa-kit-medical"></i>
                                 <p>Chuyên gia</p>
                             </div>
                         }
                     </div>
                 </div>
-                    <div>
-                        <i onClick={(e)=>{ e.stopPropagation(); setShowOption(!showOption); }} className="cursor-pointer fa-solid fa-ellipsis"></i>
-                    </div>
+                    {
+                                !isShare && <div>
+                                        <i onClick={(e)=>{ e.stopPropagation(); setShowOption(!showOption); }} className="cursor-pointer fa-solid fa-ellipsis"></i>
+                                    </div>
+                    }
                 {
-                    showOption &&
+                    showOption && 
                     <div className="absolute z-30 top-[40%] right-0 mt-2 w-36 bg-[#fff] rounded-md shadow-lg">
                         {currentUser.idUser === postItem.userid ?
                         <>
                             <button className="block select-none w-full text-left px-4 py-2 hover:bg-gray-100" >
-                                Update
+                                Chỉnh sửa
                             </button>
                             <button onClick={handleHiddenPost} className="block select-none w-full text-left px-4 py-2 hover:bg-gray-100" >
-                                Delete
+                                Xóa
                             </button>
                         </> 
                         :   
                         <button onClick={()=>setShowReport(true)} className="block select-none w-full text-left px-4 py-2 hover:bg-gray-100" >
-                                Report content
+                                Báo cáo nội dung
                         </button>
 
                     }
@@ -225,7 +254,7 @@ const brightColors = [
                          <p>{postItem.textcontent}</p>
                          <div>
                             {categoryFetch.isSuccess && categoryFetch.data.map((item, index)=>(
-                                <Link key = {index} to={`find-by-category/${item.slug}`}>
+                                <Link key = {index} to={`/find-by-category/${item.slug}`}>
                                     <span className='text-[#253fe3] font-semibold cursor-pointer' key={item.idcategory}>#{item.slug} &nbsp;</span>
                                 </Link>
                             ))}
@@ -240,6 +269,7 @@ const brightColors = [
                                         petFetch.data.map((item, index) => (
                                             <div
                                             key={index}
+                                            onClick={()=> {navigate(`/pet/${item.idpets}`)}}
                                             className="flex items-center cursor-pointer rounded-xl px-2 py-1 mx-3 opacity-[1]"
                                             style={{ backgroundColor: brightColors[index] }}
                                             >
@@ -256,11 +286,18 @@ const brightColors = [
                          }
                      </div>
                  }
+                 {
+                    shareFecth.isLoading
+                    ? <div></div>
+                    : shareFecth.data.length === 0
+                    ? null:
+                    <PostShare postItem = {shareFecth.data[0]} isShare = {true}/>
+                 }
   
           {imagesQuery.error
             ? "something went wrong!"
             : imagesQuery.isLoading
-            ? <Loading/>
+            ? <LoadingPost/>
             : imagesQuery.data.length === 0
             ? null
             : (
@@ -281,10 +318,12 @@ const brightColors = [
                         arrImage.length,
                         index
                       )} relative flex items-center justify-center w-full overflow-hidden`}
+                      onClick={()=> setViewImage(true)}
                     >
                         <img
                             src={image}
                             className="absolute top-0 left-0 h-full w-full object-cover"
+                            
                             alt={`Preview ${index}`}
                         />
                         {arrImage.length > 5 && index === 4 && (
@@ -306,7 +345,9 @@ const brightColors = [
                   
                 </div>
               )}
-            <div className='flex justify-between gap-3 px-12 pt-4'>
+                    {
+                        !isShare 
+                        && <div className='flex justify-between gap-3 px-12 pt-4'>
                         <div className='flex gap-3'>
                             <div className='flex flex-col justify-center items-center relative px-3'>
                                 <i onClick={handleLike} className={` ${ like ? 'text-[#f00] font-bold': selfLike ? 'text-[#f00] font-bold': ''} text-[24px] font-bold text-[#aaa] cursor-pointer fa-light fa-heart`}></i>
@@ -320,12 +361,17 @@ const brightColors = [
                                 {amountCommentFetch.data ? amountCommentFetch.data : 0}
                                 </div>
                             </div>
-                            <i className="text-[24px] font-bold text-[#aaa] cursor-pointer fa-light fa-paper-plane px-3"></i>
+                            {
+                               shareFecth.isSuccess && shareFecth.data.length === 0 && <div>
+                                    <i onClick={()=> setShowShare(true)} className="text-[24px] font-bold text-[#aaa] cursor-pointer fa-light fa-paper-plane px-3"></i>
+                                </div>
+                            }
                         </div>
                         <div>
                             <i className="text-[24px] cursor-pointer fa-light fa-bookmark"></i>
                         </div>
                     </div>
+                    }
                     <div className='px-12'>
                       
                        
@@ -348,7 +394,8 @@ const brightColors = [
                     </div>
                 </div>
             </CSSTransition>
-            
+        {viewImage && imagesQuery.isSuccess && <ViewImage setShowImage = {setViewImage} arrImage = {imagesQuery.data} />}
+        {showShare && <CreateShare postItem = {postItem} setShowShare = {setShowShare} isShare = {true}/>}
       </>
     );
   }

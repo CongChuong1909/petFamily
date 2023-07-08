@@ -1,5 +1,5 @@
 export const classConfigOnPost = {
-    1: 'col-span-4 min-h-[640px]',
+    1: 'col-span-4 min-h-[520px]',
     2: 'col-span-4 min-h-[480px]',
     3: {
       0: 'col-span-12 h-[400px]',

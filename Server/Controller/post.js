@@ -33,6 +33,34 @@ export const getPosts = (req, res) => {
         });
     });
 };
+export const getPostsPagination = (req, res) => {
+    const token = req.cookies.accessToken;
+    if (!token) return res.status(401).json("not logged in!");
+    Jwt.verify(token, "secretkey", (err, userInfo) => {
+      if (err) return res.status(403).json("Token is not valid");
+  
+      const page = parseInt(req.query.page) || 1; // Trang hiện tại, mặc định là trang 1
+      const limit = 10; // Số lượng bài viết trên mỗi trang
+      const offset = (page - 1) * limit; // Vị trí bắt đầu lấy dữ liệu
+  
+      const query = `SELECT DISTINCT p.*, idUser, name, avatar, role, GROUP_CONCAT(c.slug) AS categories
+        FROM posts AS p
+        JOIN users AS u ON (u.idUser = p.userid)
+        LEFT JOIN friendlist AS fl ON (p.userid = fl.user_followed)
+        LEFT JOIN categorypost AS pc ON (p.idposts = pc.idpost)
+        LEFT JOIN category AS c ON (pc.idcategory = c.idcategory)
+        WHERE ((fl.user_follower = ? AND p.post_status = 1) OR (p.userId = ? AND p.post_method = 1 AND p.post_status = 1))
+        GROUP BY p.idposts
+        ORDER BY p.date_create DESC
+        LIMIT ?, ?`;
+  
+      db.query(query, [userInfo.id, userInfo.id, offset, limit], (err, data) => {
+        if (err) return res.status(500).json(err);
+        return res.status(200).json(data);
+      });
+    });
+  };
+  
 
 
 
@@ -168,9 +196,11 @@ export const addPosts = async (req, res) => {
 
         const query = `SELECT DISTINCT p.*, idUser, name, avatar FROM posts AS p
         JOIN users AS u ON (u.idUser = p.userid)
-        WHERE p.userId = ? AND p.post_status = 1
+        LEFT JOIN sharepost AS s ON s.idpost = p.idposts
+        WHERE p.userid = ? AND p.post_status = 1 and s.id_user = ?
+        
         ORDER BY p.date_create DESC `;
-        db.query(query, [req.query.idUser], (err, data) => {
+        db.query(query, [req.query.idUser, req.query.idUser], (err, data) => {
             if (err) return res.status(500).json(err);
             return res.status(200).json(data);
         });

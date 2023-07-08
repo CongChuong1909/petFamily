@@ -1,3 +1,4 @@
+import { Box, Tab, Tabs } from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
@@ -13,6 +14,7 @@ import ListPet from "~/components/Pets/ListPet";
 import MedicalBook from "~/components/Pets/MedicalBook";
 import Post from "~/components/Posts/Post/Post";
 import { loginSuccess } from "~/redux/userSlices";
+import ViewImage from "../ViewImage/ViewImage";
 
 function ProfileUser(props) {
     const userId = useLocation().pathname.split("/")[2];
@@ -27,9 +29,16 @@ function ProfileUser(props) {
     const [arrFriendFollower, setArrFriendFollower] = useState([]);
     const [arrFriendFollowed, setArrFriendFollowed] = useState([]);
     const [isFollow, setIsFollow] = useState(false);
+    const [initialSlice, setInitialSlice] = useState(0);
+    const [showImage, setShowImage] = useState(false);
     const fileInputRef = useRef(null);
     const { list } = useSelector((state) => state.relationship);
     const dispatch = useDispatch();
+    const [value, setValue] = useState('post');
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
     const userFetch = useQuery({
         queryKey: ["users", userId],
         queryFn: async () => {
@@ -148,7 +157,14 @@ function ProfileUser(props) {
     const handleFollow = ()=>{
 
     }
-
+    const imageUser = useQuery({
+        queryKey: ["imagesUser", userId],
+        queryFn: async () => {
+            const res = await makeRequest.get(`/images/getImageUser?idUser=${userId}`);
+            return res.data;
+        },
+    });
+    // imageUser.isSuccess && console.log(imageUser.data);
 
     return (
         <>
@@ -224,20 +240,24 @@ function ProfileUser(props) {
                                 </div>
                             </div>
                             <div className="space-x-8 items-end flex h-14 justify-between w-[70%] pb-3 border-b border-[#ccc] mt-32 md:mt-0">
-                                <div className="flex items-center justify-center gap-4">
-                                    <div className="cursor-pointer border-b-[3px] px-3 border-[#1652cd]">
-                                        <h1 className="font-bold">Posts</h1>
-                                    </div>
-                                    <div className="cursor-pointer px-3">
-                                        Photos
-                                    </div>
-                                </div>
+                            <Box >
+                                <Tabs
+                                    value={value}
+                                    onChange={handleChange}
+                                    aria-label="wrapped label tabs example"
+                                >
+                                    <Tab
+                                    value="post" label="Bài viết"
+                                    />
+                                    <Tab value="image" label="Hình ảnh" />
+                                </Tabs>
+                            </Box>
                                 <div className="flex items-center justify-center gap-4">
                                     <Link to={`/${currentUser.idUser}/addpet`}>
                                         <div className="flex justify-center items-center px-7 h-10 cursor-pointer bg-[#ffa000] rounded">
-                                            <p className="text-[#fff] text-[14px] font-semibold">
+                                            <div className="text-[#fff] flex text-[14px] font-semibold">
                                                 Add profile pet
-                                            </p>
+                                            </div>
                                         </div>
                                     </Link>
                                     {currentUser.idUser !==
@@ -392,7 +412,7 @@ function ProfileUser(props) {
                                                 } `}
                                             >
                                                 <div className=" flex flex-col w-full  p-2">
-                                                    {postFetch.error
+                                                    {value === 'post' ? postFetch.error
                                                         ? "something went wrong!"
                                                         : postFetch.isLoading
                                                         ? "loading..."
@@ -409,7 +429,20 @@ function ProfileUser(props) {
                                                                       />
                                                                   );
                                                               },
-                                                          )}
+                                                    ):
+                                                    <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+                                                        {
+                                                            imageUser.isLoading? 
+                                                            <Loading/>:
+                                                            imageUser.data.map((item, index)=>{
+                                                                return <div onClick={()=>{setShowImage(true);setInitialSlice(index)}} key={item.idimages}>
+                                                                            <img src={item.url} alt="" />
+                                                                        </div>
+                                                                })
+                                                        }
+                                                        {showImage && imageUser.isSuccess && <ViewImage setShowImage = {setShowImage} initialSlice = {initialSlice} arrImage = {imageUser.data} />}
+                                                    </div>
+                                                    }
                                                 </div>
                                             </div>
                                         </div>

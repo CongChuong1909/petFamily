@@ -16,6 +16,7 @@ function ProfilePet(props) {
     const petId = useLocation().pathname.split("/")[2];
     const { currentUser } = useSelector((state) => state.user);
     const [isHoveredAvatar, setIsHoveredAvatar] = useState(false);
+    const [initialSlice, setInitialSlice] = useState(0);
     const [showImage, setShowImage] = useState(false);
     const fileInputRef = useRef(null);
     const [value, setValue] = useState('post');
@@ -162,15 +163,16 @@ function ProfilePet(props) {
                             {
                                 imagePet.isLoading? 
                                 <Loading/>:
-                                imagePet.data.map((item)=>(
-                                    <div onClick={()=>setShowImage(true)} key={item.idimages}>
-                                        <img src={item.url} alt="" />
-                                    </div>
-                                ))
+                                imagePet.data.map((item, index)=>{
+                                    return <div onClick={()=>{setShowImage(true);setInitialSlice(index)}} key={item.idimages}>
+                                                <img src={item.url} alt="" />
+                                            </div>
+                                    })
                             }
+                            {showImage && imagePet.isSuccess && <ViewImage setShowImage = {setShowImage} initialSlice = {initialSlice} arrImage = {imagePet.data} />}
                         </div>
                     }
-                    {showImage && imagePet.isSuccess && <ViewImage setShowImage = {setShowImage} arrImage = {imagePet.data} />}
+                    
                 </div>
             )}
         </>

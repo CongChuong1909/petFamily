@@ -55,6 +55,7 @@ function SuggesstFollowItem({suggestedUser, suggestedUsers, followersNotFollowed
         mutation.mutate(true);
         setShowFollowing(false);
       }
+
     return (
         <>
             {
@@ -94,7 +95,7 @@ function SuggesstFollowItem({suggestedUser, suggestedUsers, followersNotFollowed
                         </div>
                     </div>
             }
-            <ViewListFriend show = {showList}/>
+            {showList && <ViewListFriend setShowList = {setShowList} listUser = {suggestedUsers[suggestedUser]}/>}
         </>
     );
 }

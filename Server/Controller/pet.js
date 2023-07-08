@@ -30,11 +30,12 @@ export const getPetFromPost = (req, res)=>{
         return res.status(200).json(data);
     });
 }
-export const addPet = (req, res) => {
+export const addPet = async(req, res) => {
     const token = req.cookies.accessToken;
     const id = nanoid(10);
+    const idPetWeight = nanoid(10);
     if (!token) return res.status(401).json("not logged in!");
-    Jwt.verify(token, "secretkey", (err, userInfo) => {
+    Jwt.verify(token, "secretkey", async(err, userInfo) => {
         if (err) return res.status(403).json("Token is not valid");
         
         const query = "INSERT INTO pets (`id_pet`, `iduser`, `name`, `age`, `avatar`, `date_create`, `gender`, `weight`, `description`, `crossbred`, `breed`) VALUES (?)";
@@ -51,10 +52,34 @@ export const addPet = (req, res) => {
             req.body.crossbred,
             req.body.breed,  
           ];
-        db.query(query, [values], (err, data) => {
-            if (err) return res.status(500).json(err);
-            return res.status(200).json("pets has been add");
-        });
+
+        try {
+            await db.query(query, [values]);
+            const queryInsertWeight = "INSERT INTO petweight (`idpetweight`, `idpet`, `weight`, `description`, `date`) VALUES (?)";
+            const valuesPetWeight = [
+                idPetWeight,
+                id,
+                req.body.weight,
+                null,
+                moment().format('DD/MM/YYYY'),
+            ];
+            await db.query(queryInsertWeight, [valuesPetWeight]);
+            const queryInsertFood = "INSERT INTO petfood (`idpetfood`, `idpet`, `isdried`, `iswet`, `issemiwet`, `ishomeCooked`, `isfresh`, `isvegetable`) VALUES (?)";
+            const valuesPetFood = [
+                idPetWeight,
+                id,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+            ];
+            await db.query(queryInsertFood, [valuesPetFood]);
+            return res.status(200).json("Create pet success!");
+          } catch (error) {
+            return res.status(500).json(error);
+          }
     });
 };
 

@@ -5,7 +5,7 @@ function HeaderLeft(props) {
     return (
         <div className='header-left flex justify-between gap-5 items-center'>
             <div className="logo">
-                <h2 className='text-[18px] font-bold'>CONGCHUONG</h2>
+                <h2 className='text-[18px] font-bold flex gap-1 items-center'><img width={50}  src="https://res.cloudinary.com/dohmfb8tt/image/upload/v1685933682/img_pet_social/f8jpd6lm1kkialof5lgx.png" alt="" />PETFAMILY</h2>
             </div>
             <div className='flex justify-between gap-5'>
                 <Link to ='/'>
