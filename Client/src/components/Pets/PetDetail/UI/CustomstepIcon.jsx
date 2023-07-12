@@ -11,7 +11,7 @@
           width: '12px',
           height: '12px',
           borderRadius: '50%',
-          backgroundColor: active ? '#fd2e21' : '#3fae00',
+          backgroundColor: active ? '#df4300' : '#df4300',
         }}
       >
         {/* {completed ? (

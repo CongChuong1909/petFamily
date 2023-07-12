@@ -6,7 +6,7 @@ import { makeRequest } from '~/axios';
 import moment from 'moment';
 
 function PetWeight(props) {
-    const {petId} = props
+    const {petId, isView} = props
     const [isAddingNew, setIsAddingNew] = useState(false);
     const [weight, setWeight] = useState('');
     const [description, setDescription] = useState('');
@@ -79,17 +79,22 @@ function PetWeight(props) {
                         </div>
                     </div>
                     { petFetch.data.length > 0 ? 
-                    <div className='flex flex-col items-center'>
-                        <div>
-                            <span className='text-[26px] font-bold'>{petFetch.data[petFetch.data.length-1].weight}.00</span><span> kg</span>
+                    <>
+                        <div className={`flex flex-col items-center`}>
+                            <div>
+                                <span className='text-[26px] font-bold'>{petFetch.data[petFetch.data.length-1].weight}.00</span><span> kg</span>
+                            </div>
+                            <div className='text-[#666] text-[14px]'>
+                                {petFetch.data[0].date}
+                            </div>
+                            {!isDetail && !isAddingNew && !isView && <button onClick={()=> setIsAddingNew(true)} className='text-[#00a60b] rounded-lg border border-[#00a60b] px-2 mt-2'>Cập nhật</button>}
                         </div>
-                        <div className='text-[#666] text-[14px]'>
-                            {petFetch.data[0].date}
-                        </div>
-                        {!isDetail && !isAddingNew &&  <button onClick={()=> setIsAddingNew(true)} className='text-[#00a60b] rounded-lg border border-[#00a60b] px-2 mt-2'>Cập nhật</button>}
-                    </div>:
-                    <div className='flex flex-col items-center'>
-                        <button onClick={()=> setIsAddingNew(true)} className='text-[#00a60b] rounded-lg border border-[#00a60b] px-2 mt-2'>Thêm</button>
+                        
+                    </>
+                    :
+                    <div className='flex flex-col  items-center'>
+                        <button onClick={()=> setIsAddingNew(true)} className={`text-[#00a60b] ${isView === true ? 'hidden': ''} rounded-lg border border-[#00a60b] px-2 mt-2`}>Thêm</button>
+                        {isView && <div>Không có dữ liệu được hiển thị</div>}
                     </div>
                     }
                     <Collapse in={isAddingNew} timeout="auto" unmountOnExit>

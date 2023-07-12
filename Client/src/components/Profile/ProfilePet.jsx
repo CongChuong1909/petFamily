@@ -10,6 +10,7 @@ import { makeRequest } from "~/axios";
 import Loading from "~/components/Loading/Loading";
 import Post from "../Posts/Post/Post";
 import ViewImage from "../ViewImage/ViewImage";
+import MedicalBook from "../Pets/MedicalBook";
 
 function ProfilePet(props) {
     const queryClient = useQueryClient();
@@ -140,6 +141,7 @@ function ProfilePet(props) {
                                     value="post" label="Bài viết"
                                     />
                                     <Tab value="image" label="Hình ảnh" />
+                                    <Tab value="medicalbook" label="Thông tin thú cưng" />
                                 </Tabs>
                                 </Box>
                         </div>
@@ -158,7 +160,7 @@ function ProfilePet(props) {
                                         );
                                     },
                                 )}
-                        </div>:
+                        </div> : value === 'image' ?
                         <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
                             {
                                 imagePet.isLoading? 
@@ -170,6 +172,14 @@ function ProfilePet(props) {
                                     })
                             }
                             {showImage && imagePet.isSuccess && <ViewImage setShowImage = {setShowImage} initialSlice = {initialSlice} arrImage = {imagePet.data} />}
+                        </div>:
+                        <div>
+                            {
+                                petFetch.isLoading ?
+                                <Loading/>:
+                                 <MedicalBook pet = {petFetch.data} isView = {true}/>
+                            }
+                           
                         </div>
                     }
                     

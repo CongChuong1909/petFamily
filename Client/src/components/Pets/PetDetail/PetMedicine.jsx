@@ -7,7 +7,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { makeRequest } from '~/axios';
 import moment from 'moment';
 function PetMedicine(props) {
-    const {petId} = props
+    const {petId, isView} = props
     const [isAddingNew, setIsAddingNew] = useState(false);
     const [description, setDescription] = useState('');
     const [currentDate, setCurrentDate] = useState(new Date().toISOString().slice(0, 10));
@@ -88,19 +88,21 @@ function PetMedicine(props) {
                         </Box>
                     }
                     
-                    {!isDetail && !isAddingNew &&  <div className='w-full flex justify-center'><button onClick={()=>setIsAddingNew(true)} className='text-[#00a60b] rounded-lg border border-[#00a60b] px-2 mt-2'>Cập nhật</button></div>}
+                    {!isDetail && !isAddingNew && !isView && <div className='w-full flex justify-center'><button onClick={()=>setIsAddingNew(true)} className='text-[#00a60b] rounded-lg border border-[#00a60b] px-2 mt-2'>Cập nhật</button></div>}
                 </div>
 
             ) : (
                 !isDetail && !isAddingNew &&
                 <div className="flex flex-col items-center justify-center gap-2">
                     <p className="text-[#666] text-[14px]">Hiện tại chưa có dữ liệu</p>
-                    <button
+                   {!isView ? <button
                         className="text-[#c6c602] rounded-lg border border-[#c6c602] px-2"
                         onClick={()=>setIsAddingNew(!isAddingNew)}
                     >
                         Thêm
-                    </button>
+                    </button>:
+                    <div>Không có dữ liệu được hiển thị</div>
+                    } 
                 </div>
             )}
             {/* Add new */}

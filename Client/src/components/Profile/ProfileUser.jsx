@@ -269,9 +269,11 @@ function ProfileUser(props) {
                                             {isFollow ? 'Following' : 'Follow'}
                                         </button>
                                     )}
-                                    <button className="text-white px-4 bg-[#42cfc3] h-10 text-[#fff] text-[14px] rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
-                                        Message
-                                    </button>
+                                    <Link to={'/chat'}>
+                                        <button className="text-white px-4 bg-[#42cfc3] h-10 text-[#fff] text-[14px] rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
+                                            Message
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
@@ -398,7 +400,7 @@ function ProfileUser(props) {
                             <div className="grid col-span-6 p-2">
                                 {!showMedicalBook ? (
                                     <div>
-                                        <MedicalBook pet={chooisePet} />
+                                        <MedicalBook pet={chooisePet} isView = {false} />
                                     </div>
                                 ) : (
                                     <div>

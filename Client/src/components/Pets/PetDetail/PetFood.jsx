@@ -4,7 +4,7 @@ import React from 'react';
 import { makeRequest } from '~/axios';
 
 function PetFood(props) {
-    const { petId } = props;
+    const { petId , isView} = props;
     const queryClient = useQueryClient();
 
     const fetchPetFood = async () => {
@@ -25,15 +25,14 @@ function PetFood(props) {
         })
 
     const handleCheckboxChange = (event) => {
-        if(petFetch.isSuccess)
+        if(petFetch.isSuccess && !isView)
         {
             const { name, checked } = event.target;
             const requestBody = {
                 ...petFetch.data[0],
                 [name]: checked ? 1 : 0,
-                idpet: petFetch.data[0].idpet,
+                idpet: petId,
             };
-            console.log(requestBody);
             mutationUpdate.mutate(requestBody)
         }
      
@@ -59,7 +58,7 @@ function PetFood(props) {
                        <div className="lg:w-1/3 flex justify-center md:w-1/2 sm:w-full">
                        <FormControlLabel value="top"
                         control={ <Checkbox
-                            checked={petFetch.data[0].isdried === 1}
+                            checked={petFetch?.data[0]?.isdried === 1}
                             onChange={handleCheckboxChange}
                             name="isdried"
                             sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}
@@ -71,7 +70,7 @@ function PetFood(props) {
                         <div className="lg:w-1/3 flex justify-center md:w-1/2 sm:w-full">
                         <FormControlLabel value="top"
                         control={ <Checkbox
-                            checked={petFetch.data[0].iswet === 1}
+                            checked={petFetch.data[0]?.iswet === 1}
                             onChange={handleCheckboxChange}
                             name="iswet"
                             sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}
@@ -83,7 +82,7 @@ function PetFood(props) {
                         <div className="lg:w-1/3 flex justify-center md:w-1/2 sm:w-full">
                         <FormControlLabel value="top"
                         control={ <Checkbox
-                            checked={petFetch.data[0].issemiwet === 1}
+                            checked={petFetch.data[0]?.issemiwet === 1}
                             onChange={handleCheckboxChange}
                             name="issemiwet"
                             sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}
@@ -96,7 +95,7 @@ function PetFood(props) {
                         <FormControlLabel
                             value="bottom"
                             control={ <Checkbox
-                                checked={petFetch.data[0].ishomeCooked === 1}
+                                checked={petFetch.data[0]?.ishomeCooked === 1}
                                 onChange={handleCheckboxChange}
                                 name="ishomeCooked"
                                 sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}
@@ -109,7 +108,7 @@ function PetFood(props) {
                         <FormControlLabel
                             value="end"
                             control={ <Checkbox
-                                checked={petFetch.data[0].isfresh === 1}
+                                checked={petFetch.data[0]?.isfresh === 1}
                                 onChange={handleCheckboxChange}
                                 name="isfresh"
                                 sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}
@@ -122,7 +121,7 @@ function PetFood(props) {
                         <FormControlLabel
                             value="end"
                             control={ <Checkbox
-                                checked={petFetch.data[0].isvegetable === 1}
+                                checked={petFetch.data[0]?.isvegetable === 1}
                                 onChange={handleCheckboxChange}
                                 name="isvegetable"
                                 sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }}

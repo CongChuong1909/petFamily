@@ -204,6 +204,7 @@ export const deleteById = (req, res) => {
 
 export const getFoodByID = (req, res) => {
     const token = req.cookies.accessToken;
+    // console.log(req.query);
     if (!token) return res.status(401).json("not logged in!");
     Jwt.verify(token, "secretkey", (err, userInfo) => {
         if (err) return res.status(403).json("Token is not valid");
@@ -214,6 +215,45 @@ export const getFoodByID = (req, res) => {
         });
     });
 };
+
+
+export const getCharacterByID = (req, res) => {
+    const token = req.cookies.accessToken;
+    // console.log(req.query);
+    if (!token) return res.status(401).json("not logged in!");
+    Jwt.verify(token, "secretkey", (err, userInfo) => {
+        if (err) return res.status(403).json("Token is not valid");
+        const query = `SELECT * FROM petcharacter WHERE idpet = ?`;
+        db.query(query, [req.query.id], (err, data) => {
+            if (err) return res.status(500).json(err);
+            return res.status(200).json(data);
+        });
+    });
+};
+
+export const updateCharacter = (req, res)=>{
+    const token = req.cookies.accessToken;
+    if (!token) return res.status(401).json("not logged in!");
+    Jwt.verify(token, "secretkey", (err, userInfo) => {
+        if (err) return res.status(403).json("Token is not valid");
+        const query = "UPDATE petcharacter set `isFriendlyWithDog` = ?, `isFriendlyWithCat` = ?, `isFriendlyWithChild` = ?, `isToiletRightPlace` = ?, `isActive` = ?, `isShy` = ? WHERE idpet = ? ";
+        const values = [
+                req.body.isFriendlyWithDog,
+                req.body.isFriendlyWithCat,
+                req.body.isFriendlyWithChild,
+                req.body.isToiletRightPlace,
+                req.body.isActive,
+                req.body.isShy,
+                req.body.idpet];
+                console.log(values);
+        db.query(query, values, (err, data) => {
+            if (err) return res.status(500).json(err);
+            return res.status(200).json("pet character has been update!");
+        });
+    });
+}
+
+
 
 export const getByID = (req, res) => {
     const { id, collection } = req.params;

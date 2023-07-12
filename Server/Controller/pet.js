@@ -34,6 +34,7 @@ export const addPet = async(req, res) => {
     const token = req.cookies.accessToken;
     const id = nanoid(10);
     const idPetWeight = nanoid(10);
+    const idPetCharacter = nanoid(10);
     if (!token) return res.status(401).json("not logged in!");
     Jwt.verify(token, "secretkey", async(err, userInfo) => {
         if (err) return res.status(403).json("Token is not valid");
@@ -76,6 +77,22 @@ export const addPet = async(req, res) => {
                 0,
             ];
             await db.query(queryInsertFood, [valuesPetFood]);
+            const queryInsertCharacter = "INSERT INTO petcharacter (`id`,`idpet`,`isFriendlyWithDog`, `isFriendlyWithCat`, `isFriendlyWithChild`, `isToiletRightPlace`, `isActive`, `isShy`) VALUES (?)";
+            const valuesPetCharacter = [
+                idPetCharacter,
+                id,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+            ];
+            // 0: empty
+            // 1: yes
+            // 2: normal
+            // 3: no
+            await db.query(queryInsertCharacter, [valuesPetCharacter]);
             return res.status(200).json("Create pet success!");
           } catch (error) {
             return res.status(500).json(error);

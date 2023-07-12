@@ -13,7 +13,7 @@ import PetCharacter from './PetDetail/PetCharacter';
 // Component tùy chỉnh cho biểu tượng của bước
 
 function MedicalBook(props) {
-    const {pet} = props;
+    const {pet, isView} = props;
     const steps = [
         {
           label: 'Lần gần nhất',
@@ -28,12 +28,15 @@ function MedicalBook(props) {
       
     return (
         <div className='border grid border-[#f5f5f5] rounded-md'>
-             <div className=' flex justify-center items-center pb-3 border-b border-[#ccc]'>
-                <div className="flex justify-center items-center w-[60px] h-[60px] rounded-xl overflow-hidden">
-                    <img className="object-cover w-full h-full" src={pet.avatar} alt="" />
-                </div>
-                <h1>{pet.name}</h1>
-            </div> 
+            {
+                !isView &&
+                    <div className=' flex justify-center items-center pb-3 border-b border-[#ccc]'>
+                    <div className="flex justify-center items-center w-[60px] h-[60px] rounded-xl overflow-hidden">
+                        <img className="object-cover w-full h-full" src={pet.avatar} alt="" />
+                    </div>
+                    <h1>{pet.name}</h1>
+                </div> 
+            }
             <div className=''>
                 <div className='flex gap-5 justify-center'>
                     <div className='flex flex-col justify-center items-center item'>
@@ -53,17 +56,17 @@ function MedicalBook(props) {
                     <div className='grid grid-cols-2 gap-6'>
                         {/* weight */}
                         <div className='col-span-1'>
-                            <PetWeight petId = {pet.id_pet} steps = {steps}/>
-                            <PetVaccination petId = {pet.id_pet} steps = {steps}/>
-                            <PetHealth petId = {pet.id_pet} steps = {steps}/>
+                            <PetWeight isView = {isView} petId = {pet.id_pet} steps = {steps}/>
+                            <PetVaccination isView = {isView} petId = {pet.id_pet} steps = {steps}/>
+                            <PetHealth isView = {isView} petId = {pet.id_pet} steps = {steps}/>
                         </div>
                         {/* Sổ giun */}
                         <div className='col-span-1 '>
-                            <PetMedicine petId = {pet.id_pet} steps = {steps}/>
-                            <PetFood petId = {pet.id_pet}/>
-                            <PetAllergy petId = {pet.id_pet} steps = {steps}/>
+                            <PetMedicine isView = {isView} petId = {pet.id_pet} steps = {steps}/>
+                            <PetFood isView = {isView} petId = {pet.id_pet}/>
+                            <PetAllergy isView = {isView} petId = {pet.id_pet} steps = {steps}/>
                         </div>
-                        <PetCharacter/>
+                        <PetCharacter isView = {isView} petId = {pet.id_pet}/>
                     </div>
                 </div>
             </div>
