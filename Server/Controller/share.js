@@ -22,6 +22,8 @@ export const getList = (req, res) => {
         });
     });
 };
+
+
 // export const addShare = (req, res) => {
 //     const token = req.cookies.accessToken;
 //     if (!token) return res.status(401).json("not logged in!");

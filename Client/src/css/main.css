@@ -103,6 +103,16 @@ body{
     width: 5px;
     height: 5px;
   }
+  .css-g3hgs1-MuiBackdrop-root-MuiModal-backdrop{
+    top: 70px !important;
+  }
+  .css-dwe93k-MuiModal-root-MuiPopover-root{
+    top: 70px !important;
+  }
+  .css-1i0e6f3-MuiModal-root-MuiPopover-root{
+    top: 70px !important;
+    z-index: 900 !important;
+  }
   .bg-loading {
     background-color: #d1d4d5;
     border-radius: 0.25rem;

@@ -21,6 +21,7 @@ import notificationRoutes from './Routes/notification.js'
 import categoryRoutes from './Routes/categories.js'
 import petDetailRoutes from './Routes/petDetails.js'
 import shareRoutes from './Routes/shares.js'
+import searchRoutes from './Routes/search.js'
 import cors from "cors"
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
@@ -118,6 +119,7 @@ app.use("/api/report", reportRoutes);
 app.use("/api/notification", notificationRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/share", shareRoutes);
+app.use("/api/search", searchRoutes);
 app.use("/api/petdetail", petDetailRoutes);
 
 

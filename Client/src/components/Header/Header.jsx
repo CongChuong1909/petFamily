@@ -8,6 +8,7 @@ const MemoizedHeaderRight = React.memo(HeaderRight);
 function Header(props) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [viewSearch, setViewSearch] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -33,9 +34,9 @@ function Header(props) {
 
   return (
     <div
-      className={`header ${isScrolled ? 'scroll-up' : ''} bg-[#34465d] text-[#f5f5f5] flex justify-between w-full h-[70px] px-8 border-b border-[#ccc]`}
+      className={`header ${isScrolled && !viewSearch ? 'scroll-up' : ''} bg-[#34465d] text-[#f5f5f5] flex justify-between w-full h-[70px] px-8 border-b border-[#ccc]`}
     >
-      <MemoizedHeaderLeft />
+      <MemoizedHeaderLeft viewSearch = {viewSearch} setViewSearch = {setViewSearch}/>
       <MemoizedHeaderRight />
     </div>
   );
