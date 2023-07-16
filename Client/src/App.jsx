@@ -28,6 +28,7 @@ import Group from "./Pages/Group/Group";
 import PostInfo from "./Pages/Post/PostInfo";
 import FilterPostcategory from "./Pages/FilterPostCategory/FilterPostcategory";
 import ProfilePet from "./components/Profile/ProfilePet";
+import SearchPost from "./Pages/SearchPost/SearchPost";
 
 function App() {
   const queryClient = new QueryClient();
@@ -49,11 +50,14 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-  socket.current.emit("addUser", currentUser.idUser);
-
-  socket.current.on("getUsers", (users) => {
-    dispatch(addList(users))
-  });
+    if(currentUser)
+    { 
+        socket.current.emit("addUser", currentUser.idUser);
+        socket.current.on("getUsers", (users) => {
+            dispatch(addList(users))
+        });
+    }
+ 
 }, [currentUser]);
 
 
@@ -63,6 +67,7 @@ useEffect(() => {
     const isFriendPath = /^\/friends\/[^/]+$/.test(currentPath);
     const ispostPath = /^\/post\/[^/]+$/.test(currentPath);
     const isCategoryPath = /^\/find-by-category\/[^/]+$/.test(currentPath);
+    const isPostSearchPath = /^\/search\/[^/]+$/.test(currentPath);
     const userId = useLocation().pathname.split("/")[2];
 
     
@@ -78,14 +83,14 @@ useEffect(() => {
               </div>
               <div
                 className={`${
-                  currentPath === "/" || isFriendPath || ispostPath || isCategoryPath ? "col-span-5" : "col-span-8"
+                  currentPath === "/" || isFriendPath || ispostPath || isCategoryPath || isPostSearchPath? "col-span-5" : "col-span-8"
                 }`}
               >
                 <Outlet />
               </div>
               <div
                 className={`${
-                  currentPath === "/" || isFriendPath || ispostPath || isCategoryPath ? "col-span-3" : "hidden"
+                  currentPath === "/" || isFriendPath || ispostPath || isCategoryPath || isPostSearchPath ?"col-span-3" : "hidden"
                 }`}
               >
                 <Rightbar />
@@ -129,6 +134,10 @@ useEffect(() => {
         {
             path: "/find-by-category/:id",
             element: <FilterPostcategory/>
+        },
+        {
+            path: "/search/:term",
+            element: <SearchPost/>
         },
         {
           path: "/:id/addpet",

@@ -61,7 +61,7 @@ export const login = (req, res) =>{
             
             const token = jwt.sign({id:data[0].idUser}, 'secretkey',{expiresIn:'2 days'})
             const {password, ...orthers} = data[0];
-        res.cookie("accessToken", token, {
+            res.cookie("accessToken", token, {
             httpOnly: true,
             sameSite: 'none',
             secure: true

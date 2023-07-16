@@ -18,28 +18,22 @@ export const getHistory = (req, res) =>{
     });
 }
 export const findUser = (req, res) =>{
-    // const token = req.cookies.accessToken;
-    // if (!token) return res.status(401).json("not logged in!");
     const searchTerm = req.query.searchTerm;
-    // Jwt.verify(token, "secretkey", (err, userInfo) => {
         const query = `SELECT * FROM users WHERE LOWER(name) LIKE '%${searchTerm.toLowerCase()}%'`;
         db.query(query, (err, data) => {
             if (err) return res.status(500).json(err);
             return res.status(200).json(data);
         });
-    // });
 }
 export const findPost = (req, res) =>{
-    // const token = req.cookies.accessToken;
-    // if (!token) return res.status(401).json("not logged in!");
     const searchTerm = req.query.searchTerm;
-    // Jwt.verify(token, "secretkey", (err, userInfo) => {
-        const query = `SELECT * FROM posts WHERE LOWER(textcontent) LIKE '%${searchTerm.stoLowerCase()}%'`;
+    const keywords = searchTerm.toLowerCase().split(' ');
+    const searchConditions = keywords.map(keyword => `LOWER(p.textcontent) LIKE '%${keyword.replace(/%/g, '!%').replace(/_/g, '!_')}%'`);
+    const query = `SELECT p.*, u.idUser, u.name, u.avatar FROM posts AS p JOIN users AS u ON (u.idUser = p.userid) WHERE ${searchConditions.join(' AND ')}`;
         db.query(query, (err, data) => {
             if (err) return res.status(500).json(err);
             return res.status(200).json(data);
         });
-    // });
 }
 export const addHistory = (req, res) => {
     const token = req.cookies.accessToken;

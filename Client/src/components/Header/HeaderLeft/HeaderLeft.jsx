@@ -1,12 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { makeRequest } from '~/axios';
 import Search from '~/components/Search/Search';
 
 function HeaderLeft(props) {
     // const [anchorEl, setAnchorEl] = useState(null);
     const {viewSearch, setViewSearch} = props
+    const navigate = useNavigate();
     const queryClient = useQueryClient();
     
     const [searchTerm, setSearchTerm] = useState('');
@@ -28,6 +29,9 @@ function HeaderLeft(props) {
     const handleSearh = (event)=>{
         if (event.key === "Enter") {
             mutationAdd.mutate({history: searchTerm});
+            const encodeSearch = encodeURIComponent(searchTerm)
+            navigate(`/search/${encodeSearch}`)
+            setViewSearch(false)
         }
     }
     return (
