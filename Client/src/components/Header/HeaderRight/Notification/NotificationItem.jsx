@@ -1,5 +1,5 @@
 import { Avatar, Box, CardHeader, IconButton, MenuItem, Skeleton, Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { makeRequest } from '~/axios';
@@ -25,7 +25,7 @@ function NotificationItem({notification}) {
           yy: '%dY'
         }
       }) 
-      console.log(notification);
+      const typographyRef = useRef(null);
     const queryClient = useQueryClient();
     const userFetch = useQuery({
         queryKey: ["users", notification.idsender],
@@ -75,6 +75,17 @@ function NotificationItem({notification}) {
         mutationNoti.mutate(notification.idnotification);
 
     }   
+    const renderHTML = (htmlString) => {
+        return { __html: htmlString };
+      };
+
+      function convertHtmlToPlainText(htmlString) {
+        const wrapper = document.createElement('div');
+        wrapper.innerHTML = htmlString;
+        const plainText = wrapper.innerText;
+        return plainText.trim();
+      }
+      
     return (
             <MenuItem onClick={handleReadNoti} className={`w-[400px]`} style={{display:"grid", gridTemplateColumns: "repeat(10, 1fr)", border: '1px solid rgba(0, 0, 0, 0.05)', backgroundColor: notification.status === 1 ? '#f1f1f1' : '' }}>
                 {
@@ -95,8 +106,10 @@ function NotificationItem({notification}) {
                                     <span className=' text-nowrap' style={{ fontSize: '13px', width:'250px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}><span className='font-bold' >{userFetch.data.name}</span> {notification.content}</span>
                                     <div className='flex gap-3 items-center'>
                                         {imageFetch.isSuccess && imageFetch.data !==undefined ? <img width={40} src={imageFetch.data.url} alt="" />:<></>}
-                                        <Typography className='w-[270px]' level="body5" style={{ fontSize: '13px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
-                                            {postFetch.isSuccess && postFetch.data.textcontent}
+                                        <Typography ref={typographyRef} style={{ fontSize: '13px', overflow: 'hidden' }}  className='w-[250px]' level="body5">
+                                        {postFetch.isSuccess && (
+                                            <div  style={{ fontSize: '13px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{convertHtmlToPlainText(postFetch.data.textcontent)}</div>
+                                            )}
                                         </Typography>
                                     </div>
                                 </div>

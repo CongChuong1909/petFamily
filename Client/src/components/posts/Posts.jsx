@@ -1,46 +1,3 @@
-// import React, { useState } from "react";
-// import PostTool from "./PostCreate/PostsTool/PostTool";
-// import PostCreate from "./PostCreate/PostCreate";
-// import Post from "./Post/Post";
-// import { useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
-// import { makeRequest, makeRequestAuth } from "~/axios";
-// import { getPosts } from "~/API/postAPI";
-
-// function Posts(props) {
-//     const [showCreatePost, setShowCreatePost] = useState(false);
-//     const queryClient = useQueryClient();
-//     const postData = useQuery({
-//         queryKey: ["posts"],
-//         queryFn: () =>
-//             makeRequest.get(`/posts/getAllPublicPagination?page=${1}`).then((res) => {
-//                 return res.data;
-//             }),
-//     },
-//     );
-//     return (
-//         <div>
-//             <PostCreate
-//                 handleClosePostCreate={() => setShowCreatePost(false)}
-//                 show={showCreatePost}
-//             />
-//             <PostTool onOpenCreatePost={() => setShowCreatePost(true)} />
-//             {postData.error
-//                 ? "something went wrong!"
-//                 : postData.isLoading
-//                 ? "loading..."
-//                 : postData.data.map(
-//                       (post, index) => {
-//                           return (
-//                             <Post  key= {post.idposts} postItem = {post} />
-                           
-//                           );
-//                       },
-//                   )}
-//         </div>
-//     );
-// }
-
-// export default Posts;
 import React, { useState, useEffect } from "react";
 import PostTool from "./PostCreate/PostsTool/PostTool";
 import PostCreate from "./PostCreate/PostCreate";
@@ -49,44 +6,56 @@ import { useQuery } from "@tanstack/react-query";
 import { makeRequest } from "~/axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import LoadingPost from "../Loading/LoadingPost";
+import { useInfiniteQuery } from "@tanstack/react-query"
 
 function Posts(props) {
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [page, setPage] = useState(1);
   const [posts, setPosts] = useState([]);
 
-  const { data: postData, isLoading: isPostLoading } = useQuery(
-    ["posts", page],
-    () => makeRequest.get(`/posts/getAllPublicPagination?page=${page}`).then((res) => res.data)
-  );
+  const fetchPosts = async (page) => {
+    const response = await makeRequest.get(`/posts/getAllPublicPagination?page=${page}`)
+    return response.data;
+  }
+  const { data, isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
+    ['posts'], 
+    ({pageParam = 1}) => fetchPosts(pageParam),
+    {
+      getNextPageParam: (lastPage, allPages) => {
+        const nextPage = allPages.length + 1
+        return nextPage 
+      }
+    }
+  )
 
   useEffect(() => {
-    if (postData) {
-      setPosts((prevPosts) => [...prevPosts, ...postData]);
+    let fetching = false;
+    const handleScroll = async (e) => {
+      const {scrollHeight, scrollTop, clientHeight} = e.target.scrollingElement;
+      if(!fetching && scrollHeight - scrollTop <= clientHeight * 1.2) {
+        fetching = true
+        if(hasNextPage) await fetchNextPage()
+        fetching = false
+      }
     }
-  }, [postData]);
-
-  const handleLoadMore = () => {
-    setPage((prevPage) => prevPage + 1);
-  };
-
+    document.addEventListener('scroll', handleScroll)
+    return () => {
+      document.removeEventListener('scroll', handleScroll)
+    }
+  }, [fetchNextPage, hasNextPage])
   return (
     <div>
       <PostCreate handleClosePostCreate={() => setShowCreatePost(false)} show={showCreatePost} />
       <PostTool onOpenCreatePost={() => setShowCreatePost(true)} />
-
-      <InfiniteScroll
-        dataLength={posts.length}
-        next={handleLoadMore}
-        hasMore={!isPostLoading && postData && postData.length > 0}
-        loader={<LoadingPost/>}
-        endMessage={<p>Bạn đã lướt hết tin.</p>}
-      >
-        {posts.map((post, index) => {
-          return <Post key={post.idposts} postItem={post} />;
-        })}
-      </InfiniteScroll>
+    {   
+        isSuccess && data.pages.map((page, index) => 
+            page.map((post) => (
+                <Post  key= {post.idposts} postItem = {post} />
+            ))
+          )
+    }
     </div>
+
   );
 }
 

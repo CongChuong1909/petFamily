@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import { makeRequest } from "~/axios";
-
+import parse from 'html-react-parser';
 function ChatBox(props) {
    
   const { choiseConversation, socket, user } = props;
@@ -19,6 +19,8 @@ function ChatBox(props) {
     },
   });
 
+
+ 
   useEffect(() => {
     socket.current.on("getMessages", (data,z,a) => {
       setMessages((prevMessages) => {
@@ -64,6 +66,16 @@ function ChatBox(props) {
 }
 
 const MessageComponent = ({ message, currentUser }) => {
+    // => {
+    //     idconversation:"h4s8TPQWz2"
+    //     idmessage:"Jn36Rl8MqR"
+    //     idsender:"_J1HgHZMty"
+    //     textcontent:'aaa b c <a href="https://123.com">https://123.com</a> aaa'
+    // }
+    const parsedContent = parse(message.textcontent);
+    const isArray = Array.isArray(parsedContent)
+    // => ['aaa b c ', {…}, ' aaa']
+    // 
     if (message.idsender === currentUser.idUser) {
         return (
             <div
@@ -71,7 +83,16 @@ const MessageComponent = ({ message, currentUser }) => {
                 className="flex justify-end p-2 text-[#fff]"
             >
                 <div className="flex py-2 px-4 flex-col rounded-tr-2xl rounded-tl-2xl rounded-bl-2xl bg-[#1467ec]">
-                    <p>{message.textcontent}</p>
+                    <div className="boxchatself">
+                        {Array.isArray(parsedContent) ? (
+                            parsedContent.map((content, index) => {
+                                console.log(content);
+                                return <React.Fragment key={index}>{content}</React.Fragment>
+                        })
+                        ) : (
+                            <p>{parsedContent}</p>
+                        )}
+                    </div>
                     <p className="text-[12px] text-[#ccc] ">{moment(message.created_at).fromNow()}</p>
                 </div>
             </div>
@@ -83,12 +104,21 @@ const MessageComponent = ({ message, currentUser }) => {
                 className="flex justify-start p-2 text-[#fff] "
             >
                 <div className="flex flex-col py-2 px-4 rounded-tr-2xl rounded-tl-2xl rounded-br-2xl bg-[#e2641b]">
-                    <p>{message.textcontent}</p>
+                    <div className="boxchat">
+                        {Array.isArray(parsedContent) ? (
+                            parsedContent.map((content, index) => {
+                                console.log(content);
+                                return <React.Fragment key={index}>{content}</React.Fragment>
+                        })
+                        ) : (
+                            <p>{parsedContent}</p>
+                        )}
+                    </div>
                     <p className="text-[12px] text-[#ccc] ">{moment(message.created_at).fromNow()}</p>
                 </div>
                 
             </div>
         );
-    }''
+    }
 };
 export default ChatBox;

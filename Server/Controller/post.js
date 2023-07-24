@@ -24,7 +24,8 @@ export const getPosts = (req, res) => {
         LEFT JOIN friendlist AS fl ON (p.userid = fl.user_followed)
         LEFT JOIN categorypost AS pc ON (p.idposts = pc.idpost)
         LEFT JOIN category AS c ON (pc.idcategory = c.idcategory)
-        WHERE ((fl.user_follower = ? AND p.post_status = 1) OR (p.userId = ? AND p.post_method = 1 AND p.post_status = 1))
+        LEFT JOIN listuserviewfindpet AS listuser ON (p.idposts = listuser.idpost)
+        WHERE ((fl.user_follower = ? AND p.post_status = 1) OR (p.userId = ? AND p.post_method = 1 AND p.post_status = 1) OR (listuser.iduser = ? AND p.post_method = 1 AND p.post_status = 1))
         GROUP BY p.idposts
         ORDER BY p.date_create DESC`;
         db.query(query, [userInfo.id, userInfo.id], (err, data) => {
@@ -49,7 +50,7 @@ export const getPostsPagination = (req, res) => {
         LEFT JOIN friendlist AS fl ON (p.userid = fl.user_followed)
         LEFT JOIN categorypost AS pc ON (p.idposts = pc.idpost)
         LEFT JOIN category AS c ON (pc.idcategory = c.idcategory)
-        WHERE ((fl.user_follower = ? AND p.post_status = 1) OR (p.userId = ? AND p.post_method = 1 AND p.post_status = 1))
+        WHERE ((fl.user_follower = ? AND p.post_status = 1  ) OR (p.userId = ? AND p.post_method = 1 AND p.post_status = 1))
         GROUP BY p.idposts
         ORDER BY p.date_create DESC
         LIMIT ?, ?`;
@@ -91,7 +92,7 @@ export const getByCategory = (req, res) => {
         JOIN users AS u ON p.userid = u.idUser 
         LEFT JOIN categorypost AS pc ON (p.idposts = pc.idpost)
         LEFT JOIN category AS c ON (pc.idcategory = c.idcategory)
-        WHERE c.slug = ?`;
+        WHERE c.slug = ? AND p.post_status = 1`;
         db.query(query, [req.query.slug], (err, data) => {
             if (err) return res.status(500).json(err);
             return res.status(200).json(data);
@@ -117,7 +118,7 @@ export const addPosts = async (req, res) => {
     Jwt.verify(token, "secretkey", async (err, userInfo) => {
       if (err) return res.status(403).json("Token is not valid");
       const id = nanoid(10);
-      const idnoti = nanoid(10)
+      
       const query =
         "INSERT INTO posts (`idposts`, `textcontent`, `post_status`, `userid`, `post_method`, `date_create`, `post_bg`) VALUES (?)";
       const values = [
@@ -129,6 +130,8 @@ export const addPosts = async (req, res) => {
         moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
         req.body.postBg,
       ];
+
+
       
      
       try {
@@ -148,7 +151,6 @@ export const addPosts = async (req, res) => {
           const queryImage =
             "INSERT INTO images (`idimages`, `id_post`, `url`) VALUES (?)";
           for (const image of req.body.images) {
-            console.log(image);
             const idimage = nanoid(10);
             const valuesImage = [idimage, id, image];
             await db.query(queryImage, [valuesImage]);
@@ -169,6 +171,7 @@ export const addPosts = async (req, res) => {
             
             const queryNoti = "INSERT INTO notification (`idnotification`, `idsender`, `iduser`, `content`, `description`, `type`,`status`, `created_at`) VALUES (?)";
                 req.body.listFriend.map(async(item)=>{
+                    const idnoti = nanoid(10)
                     const valuesNoti = [
                         idnoti,
                         userInfo.id,
@@ -179,7 +182,6 @@ export const addPosts = async (req, res) => {
                         1,
                         moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")
                     ];
-                    console.log('ook');
                     await db.query(queryNoti, [valuesNoti]);
                 })    
                 
@@ -239,7 +241,6 @@ export const addPosts = async (req, res) => {
           const queryImage =
             "UPDATE posts set (`idposts`, `textcontent`, `post_status`, `userid`, `post_category`, `post_method`, `date_create`, `post_bg`) VALUES (?)";
           for (const image of req.body.images) {
-            console.log(image);
             const idimage = nanoid(10);
             const valuesImage = [idimage, id, image];
             await db.query(queryImage, [valuesImage]);

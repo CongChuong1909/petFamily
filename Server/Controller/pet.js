@@ -3,7 +3,7 @@ import { db } from "../connectbd.js";
 import Jwt from "jsonwebtoken";
 import moment from "moment/moment.js";
 export const getPets = (req, res) =>{
-    const query = `SELECT * FROM pets WHERE idUser = ?`;
+    const query = `SELECT * FROM pets WHERE idUser = ? AND status = 1`;
     db.query(query, [req.query.idUser], (err, data) => {
         if (err) return res.status(500).json(err);
         return res.status(200).json(data);
@@ -39,7 +39,7 @@ export const addPet = async(req, res) => {
     Jwt.verify(token, "secretkey", async(err, userInfo) => {
         if (err) return res.status(403).json("Token is not valid");
         
-        const query = "INSERT INTO pets (`id_pet`, `iduser`, `name`, `age`, `avatar`, `date_create`, `gender`, `weight`, `description`, `crossbred`, `breed`) VALUES (?)";
+        const query = "INSERT INTO pets (`id_pet`, `iduser`, `name`, `age`, `avatar`, `date_create`, `gender`, `weight`, `description`, `crossbred`, `breed`,`status`,`status_lost`,`type`) VALUES (?)";
         const values = [
             id,
             userInfo.id,
@@ -51,7 +51,10 @@ export const addPet = async(req, res) => {
             req.body.weight,
             req.body.description,
             req.body.crossbred,
-            req.body.breed,  
+            req.body.breed,
+            1,
+            0,
+            req.body.type  
           ];
 
         try {

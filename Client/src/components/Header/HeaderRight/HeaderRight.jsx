@@ -10,6 +10,7 @@ function HeaderRight(props) {
     const [minus, setMinus] = useState(false);
     return (
         <div className={`flex justify-between gap-4 items-center pr-4 ${minus ? 'mr-[5px]': ''}`}>
+                <Link to={'/marketplace'}><i className="fa-sharp fa-solid fa-store"></i></Link>
                 <i className="fa fa-user text-[18px] font-bold cursor-pointer p-2"></i>
                <Link to={"/chat"}>
                 <i className="fa fa-commenting font-bold text-[18px] cursor-pointer p-2"></i>  

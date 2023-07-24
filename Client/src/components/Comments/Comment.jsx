@@ -7,7 +7,7 @@ import Loading from "../Loading/Loading";
 import ReplyComment from "./ReplyComment";
 import InputReply from "./InputReply";
 import { openModalOptionComment } from "~/redux/modalSlices";
- 
+import parse from 'html-react-parser';
 
 function Comment(props) {
     moment.locale('en', {
@@ -102,7 +102,8 @@ function Comment(props) {
     const handleReplyComment = ()=>{
         setShowInputReply(!showInputReply);
     }
-
+    const parsedContent = parse(comment.content);
+    const isArray = Array.isArray(parsedContent)
 
 
     return (
@@ -130,7 +131,15 @@ function Comment(props) {
                  <div className="col-span-4 flex flex-col items-start justify-end">
                      <div className="cursor-pointer flex justify-start">
                          {!showInputUpdate ? (
-                             <p className="text-[#555] text-[14px]">{comment.content}</p>
+                             <p className="text-[#555] link-Comment text-[14px]">
+                                    {Array.isArray(parsedContent) ? (
+                                            parsedContent.map((content, index) => {
+                                                return <React.Fragment key={index}>{content}</React.Fragment>
+                                        })
+                                        ) : (
+                                            <p>{parsedContent}</p>
+                                        )}
+                                </p>
                          ) : (
                              <div>
                                 <div className="flex ">
@@ -150,18 +159,18 @@ function Comment(props) {
                                         className="text-[#555] outline-none border border-[#ccc] rounded-tl-md rounded-bl-md px-3 py-1"
                                     />
                                     <button onClick = {handleUpdateComment} className="bg-[#1877f2] px-1 text-[#fff] rounded-tr-md rounded-br-md text-[12px]">
-                                        Apply
+                                        Lưu
                                     </button>
                                 </div>
                                 <div onClick={()=>{setShowInputUpdate(false);setShowButtonOption(true)}} className="ml-[70%] select-none text-[12px] cursor-pointer text-[#1877f2]">
-                                    <p>Exit</p>
+                                    <p>Thoát</p>
                                 </div>
                              </div>
                          )}
                      </div>
                      <div>
                          <p onClick={handleReplyComment} className="text-[12px] select-none text-[#1877f2] cursor-pointer">
-                             Reply
+                             Trả lời
                          </p>
                      </div>
                  </div>
@@ -186,13 +195,13 @@ function Comment(props) {
                         className="block select-none w-full text-left px-4 py-2 hover:bg-gray-100"
                         onClick={() => {setShowInputUpdate(true); setShowCommentOption(false); setShowButtonOption(false);}}
                     >
-                        Update
+                        Chỉnh sửa
                     </button>
                     <button
                         className="block select-none w-full text-left px-4 py-2 hover:bg-gray-100"
                         onClick={handleDeleteComment}
                     >
-                        Delete
+                        Xóa
                     </button>
                     </div>
                 ) : (

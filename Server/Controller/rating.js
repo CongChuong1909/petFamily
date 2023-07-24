@@ -51,7 +51,6 @@ export const updateRating = (req, res) => {
         ///status: 1: đang báo cáo
         ///status: 2: bỏ qua
         ///status: 0: xóa và thông báo
-        console.log(query);
         db.query(query, values, (err, data) => {
             if (err) return res.status(500).json(err);
             return res.status(200).json("rating has been updated!");

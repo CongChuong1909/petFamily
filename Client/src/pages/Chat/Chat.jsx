@@ -74,18 +74,20 @@ function Chat(props) {
                         </div>
                     }
                         {/* <OnlineFriend/> */}
-                    {
-                    listConversation.map((item, index)=>(
-                            <Conversations choiseConversation = {(choise)=> {setChoiseConversation(choise); setShowAddGroup(false)}} key = {index} item = {item}/>
-                        ))
-                    }
+                    <div className=' scroll-div h-[75vh]'>
+                        {
+                        listConversation.map((item, index)=>(
+                                <Conversations choiseConversation = {(choise)=> {setChoiseConversation(choise); setShowAddGroup(false)}} key = {index} item = {item}/>
+                            ))
+                        }
+                    </div>
                        
                 </div>
                 <div className='col-span-8 item'>
                     {
                         showAddGroup ? <ListFriendAddGroup setShowAddGroup = {setShowAddGroup} nameConversation = {nameConversation}/>
                         :
-                        <div onClick={()=> setShowEmoji(false)} className='flex h-full justify-between flex-col'>
+                        <div onClick={()=> setShowEmoji(false)} className='flex h-full justify-between  flex-col'>
                             <ChatBox socket = {socket} choiseConversation = {choiseConversation} user = {currentUser}/>
                             {choiseConversation !== null && <ChatInput socket = {socket} choiseConversation = {choiseConversation} showEmoji = {showEmoji} setShowEmoji = {setShowEmoji}/>} 
                         </div>

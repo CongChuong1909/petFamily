@@ -4,7 +4,6 @@ import passport from "passport";
 import dotenv from "dotenv";
 dotenv.config();
 const router = Express.Router();
-console.log(process.env.CLIENT_URL);
 router.post("/auth/login", login);
 router.post("/auth/logout", logout);
 router.post("/auth/register", register);

@@ -1,3 +1,4 @@
+import { Avatar } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { makeRequest } from '~/axios';
@@ -14,11 +15,7 @@ function ListCommentFriend({user_follower}) {
     return (
         <>
         {getUserFetch.isSuccess &&
-            <li className='flex mx-[1px]'>
-                <div className='flex'>
-                    <img className='w-[20px] h-[20px] rounded-full ' src={getUserFetch.data.avatar} alt="" />
-                </div>
-            </li>
+            <Avatar sx={{ width: 22, height: 22 }} src= {getUserFetch.data.avatar}/>
         }
         </>
     );

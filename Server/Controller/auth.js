@@ -38,7 +38,6 @@ export const register = (req, res) =>{
            return res.status(200).json("User has been created.")
         })
 
-        console.log(values);
 
     })  
     
@@ -59,11 +58,13 @@ export const login = (req, res) =>{
             return res.status(400).json('Gmail or password incorrect!')
        
             
-            const token = jwt.sign({id:data[0].idUser}, 'secretkey',{expiresIn:'2 days'})
+            const token = jwt.sign({id:data[0].idUser}, 'secretkey',{expiresIn:'365d'})
             const {password, ...orthers} = data[0];
             res.cookie("accessToken", token, {
             httpOnly: true,
             sameSite: 'none',
+            expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // Thời gian sống 365 ngày
+            maxAge: 365 * 24 * 60 * 60 * 1000, // Thời gian sống 365 ngày
             secure: true
           
         }).status(200).json(orthers);

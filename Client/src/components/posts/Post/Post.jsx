@@ -144,7 +144,6 @@ const brightColors = [
     });   
 
     const mutationHidden = useMutation((idpost)=>{
-        console.log(idpost);
         return makeRequest.put("/posts/hidden", idpost)
     },
     {
@@ -185,6 +184,7 @@ const brightColors = [
     //     }
             
     // }, [shareFecth.isSuccess])
+
     return (
       <>
         <div
@@ -247,11 +247,11 @@ const brightColors = [
                  {
                      postItem.post_bg ? 
                      <div className='pt-4 px-12 pb-3 bg-cover bg-right-bottom text-[#fff]  font-bold' style={{ backgroundImage: `url(${dataBg[postItem.post_bg]})`, display: 'flex', alignItems: 'center',  justifyContent: 'center', height: '480px', }} >
-                         <p className='text-[32px]'>{postItem.textcontent}</p>
+                         <p className='text-[32px]' dangerouslySetInnerHTML={{ __html: postItem.textcontent }}/>
                      </div>
                  :
                      <div className='pt-4 px-12 pb-3'>
-                         <p>{postItem.textcontent}</p>
+                         <p dangerouslySetInnerHTML={{ __html: postItem.textcontent }}/>
                          <div>
                             {categoryFetch.isSuccess && categoryFetch.data.map((item, index)=>(
                                 <Link key = {index} to={`/find-by-category/${item.slug}`}>

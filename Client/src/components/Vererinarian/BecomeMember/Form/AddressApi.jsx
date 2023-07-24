@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const host = "https://provinces.open-api.vn/api/";
 
-const AddressApi = ({number, setAddressApi, setAddress2Api}) => {
+const AddressApi = ({number, setAddressApi, isFind,setAddress2Api}) => {
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
@@ -63,8 +63,20 @@ const AddressApi = ({number, setAddressApi, setAddress2Api}) => {
             const districtName = districts.find((district) => district.code === Number(selectedDistrict))?.name;
             const wardName = wards.find((ward) => ward.code === Number(selectedWard))?.name;
             if (provinceName && districtName && wardName) {
-          const result = `${wardName}/${districtName}/${provinceName}`;
-          number === 1 ? setAddressApi(result): setAddress2Api(result);
+                {
+                    if(isFind)
+                    {
+                        const result = `${wardName.replace(/\b0+(\d+)/, ' $1')},${districtName},${provinceName}`;
+                        number === 1 ? setAddressApi(result): setAddress2Api(result);
+                    }
+                    else{
+                        const result = `${wardName}/${districtName}/${provinceName}`;
+                        number === 1 ? setAddressApi(result): setAddress2Api(result);
+                    }
+                }
+                
+          
+          
         }
       }
       return null;

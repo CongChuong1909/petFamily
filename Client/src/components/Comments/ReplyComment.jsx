@@ -3,6 +3,7 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { makeRequest } from "~/axios";
+import parse from 'html-react-parser';
 
 function ReplyComment(props) {
     const {comment, index} = props;
@@ -46,6 +47,8 @@ function ReplyComment(props) {
         mutationDelete.mutate(comment.idComment)
         setShowCommentOption(false);
     };
+    const parsedContent = parse(comment.content);
+    const isArray = Array.isArray(parsedContent)
     return (
         <div className="grid grid-cols-8 ml-7 py-1 border-l border-[#333] gap-1">
             <div className="  grid grid-cols-6 col-span-3 ml-3 h-full ">
@@ -66,7 +69,15 @@ function ReplyComment(props) {
             <div className="col-span-4 flex flex-col items-start">
                 <div className="cursor-pointer flex justify-start items-center">
                     {!showInputUpdate ? (
-                        <p className="text-[#555] text-[14px] ">{comment.content}</p>
+                        <p className="text-[#555] text-[14px] ">
+                            {Array.isArray(parsedContent) ? (
+                                parsedContent.map((content, index) => {
+                                    return <React.Fragment key={index}>{content}</React.Fragment>
+                            })
+                            ) : (
+                                <p>{parsedContent}</p>
+                            )}
+                        </p>
                     ) : (
                         <div>
 
@@ -88,11 +99,11 @@ function ReplyComment(props) {
                                 onClick={handleUpdateComment}
                                 className="bg-[#1877f2] px-1 text-[#fff] rounded-tr-md rounded-br-md text-[12px]"
                             >
-                                Apply
+                                Lưu
                             </button>
                         </div>
                         <div onClick={()=>{setShowInputUpdate(false); setShowButtonOption(true)}} className="ml-[70%] select-none text-[12px] text-[#1877f2]">
-                            <p>Exit</p>
+                            <p>Thoát</p>
                         </div>
                         </div>
                     )}
@@ -123,13 +134,13 @@ function ReplyComment(props) {
                                 setShowButtonOption(false);
                             }}
                         >
-                            Update
+                            Chỉnh sửa
                         </button>
                         <button
                             className="block w-full text-left px-4 py-2 hover:bg-gray-100"
                             onClick={handleDeleteComment}
                         >
-                            Delete
+                            Xóa
                         </button>
                     </div>
                 ) : (

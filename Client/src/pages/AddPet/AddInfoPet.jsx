@@ -80,6 +80,7 @@ function AddInfoPet(props) {
            description: description,
            crossbred: crossbred !== null ? crossbred.name : '',
            breed: infoPet.name,
+           type: infoPet.kind
     }
     mutationAddPet.mutate(value);
     toast("Create pet profile successfully!");
@@ -133,7 +134,7 @@ function AddInfoPet(props) {
                             <i className="text-[28px] p-5 fa-duotone fa-camera"></i>
                         </div>
                         <p className='text-[#333] text-[14px]'>
-                            choise image avatar for pet
+                            Chọn ảnh đại diện thú cưng của bạn
                         </p>
                         <input type="file" multiple className='hidden' ref = {inputRef} onChange={handleFileChange}/>
                     </div>

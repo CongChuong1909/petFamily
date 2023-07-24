@@ -80,3 +80,18 @@ export const addService = (req, res) => {
         });
     });
 };
+export const deleteService = (req, res) => {
+    console.log(req.query);
+    const token = req.cookies.accessToken;
+    if (!token) return res.status(401).json("not logged in!");
+    Jwt.verify(token, "secretkey", (err, userInfo) => {
+        if (err) return res.status(403).json("Token is not valid");
+        const query =
+            "DELETE FROM services WHERE idservice = ?";
+        
+        db.query(query, [req.query.id], (err, data) => {
+            if (err) return res.status(500).json(err);
+            return res.status(200).json("delete service success!");
+        });
+    });
+};

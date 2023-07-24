@@ -20,6 +20,8 @@
             const arr = props.arrImage;
             const postItem = props.postItem;
             const [text, setText] = useState("");
+            const linkRegex = /((?:https?:\/\/)[^\s]+)/g;
+            const replacedText = text.replace(linkRegex, '<a href="$&">$&</a>');
             const [showEmoji, setShowEmoji] = useState(false);
             //
 
@@ -69,12 +71,11 @@
                 e.preventDefault();
                 const data= {
                     idPost : postItem.idposts,
-                    content : text,
+                    content : replacedText,
                     idUserPost: postItem.userid
                 }
                 mutationAdd.mutate(data);
                 setText('');
-
             }
 
 
@@ -139,7 +140,7 @@
                                     <div className="flex items-center gap-3">
                                         <i className=" text-[4px] fa-duotone fa-circle"></i>
                                         <div className="cursor-pointer flex items-center gap-1">
-                                            <p className="text-[#1877f2] ">follow</p>
+                                            <p className="text-[#1877f2] ">Theo dõi</p>
                                             <i className="text-[12px] text-[#1877f2] fa-light fa-user-plus"></i>
                                         </div>
                                     </div>
@@ -178,11 +179,11 @@
                                     type="text"
                                     value={text}
                                     onChange={(e) => setText(e.target.value)}
-                                    placeholder="Add comment..."
+                                    placeholder="Thêm bình luận..."
                                     className="outline-none border-b border-[#b3b3b3] w-full p-4 "
                                 />
                                 <button onClick={handleAddComment} className="p-4 bg-[#1877f2] text-[#fff] rounded-md cursor-pointer ">
-                                    Post
+                                    Đăng
                                 </button>
                             </div>
                         </div>

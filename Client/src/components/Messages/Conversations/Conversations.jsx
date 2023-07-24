@@ -29,7 +29,7 @@ function Conversations(props) {
                         userFetch.isSuccess && 
                         <div onClick={handleClickConversation} className="follower conversation bg-[#fff] hover:bg-[#f1f2f3] transition-all duration-300 cursor-pointer">
                         <div className="gap-4  grid grid-cols-6 items-center px-6 py-3">
-                            <div className="col-span-2">
+                            <div className="col-span-2 relative">
                                 {isUserOnline ? <div className="bg-[#51e200] z-[10] rounded-full absolute w-4 h-4"></div>: <div className="bg-[#999] z-[10] rounded-full absolute w-4 h-4"></div>}
                                 <img
                                     src={userFetch.data.avatar}

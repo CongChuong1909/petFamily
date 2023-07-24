@@ -4,6 +4,7 @@ import { makeRequest } from '~/axios';
 import ListCommentFriend from './ListCommentFriend';
 import ViewListFriend from '~/components/ViewListFriend/ViewListFriend';
 import { useSelector } from 'react-redux';
+import { AvatarGroup } from '@mui/material';
 
 function SuggesstFollowItem({suggestedUser, suggestedUsers, followersNotFollowed}) {
     const [showList, setShowList] = useState(false);
@@ -69,13 +70,15 @@ function SuggesstFollowItem({suggestedUser, suggestedUsers, followersNotFollowed
                                     suggestedUsers[suggestedUser].length === 0 ?
                                     <></>:
                                     <p className='flex text-[#555] text-[12px]'>
-                                        ({suggestedUsers[suggestedUser].length} common follower)
+                                        ({suggestedUsers[suggestedUser].length} bạn chung)
                                     </p>
                                 }  
-                                <ul onClick={handleShowDetailCommonFriend} className='flex'>
-                                    {suggestedUsers[suggestedUser].map((user_follower) => (
-                                        <ListCommentFriend  key={user_follower} user_follower = {user_follower}/>
-                                    ))}
+                                <ul onClick={handleShowDetailCommonFriend} className='flex cursor-pointer'>
+                                    <AvatarGroup max={4}>
+                                        {suggestedUsers[suggestedUser].map((user_follower) => (
+                                            <ListCommentFriend  key={user_follower} user_follower = {user_follower}/>
+                                        ))}
+                                    </AvatarGroup>
                                 </ul>
                             </div> 
                         </div>

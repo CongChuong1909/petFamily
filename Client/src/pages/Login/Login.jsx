@@ -42,8 +42,8 @@ function Login(props) {
            
 
        } catch (error) {
-        console.log(error.response.data);
-            setErr(error.response.data)
+        console.log(error);
+            setErr(error)
             dispatch(loginFailure());
        }
     }

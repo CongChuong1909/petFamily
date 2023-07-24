@@ -39,8 +39,6 @@
                 behavior: 'smooth',
             });
         }
-        const documentScrollHeight = document.documentElement.scrollHeight;
-        console.log(documentScrollHeight);
         return (
             <div className=''>
                 <div className='flex flex-col items-center gap-5 h-full overflow-y-auto scroll-thin bg-[#fff]'>

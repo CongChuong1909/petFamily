@@ -34,7 +34,6 @@ export const addComment = (req, res) => {
             if (err) return res.status(500).json(err);
             else{
                 if (userInfo.id !== req.body.idUserPost) {
-                    console.log(userInfo);
                     const queryNoti = "INSERT INTO notification (`idnotification`, `idsender`, `iduser`, `content`, `description`, `type`,`status`, `created_at`) VALUES (?)";
                     const valuesNoti = [
                         idnoti,
@@ -68,7 +67,6 @@ export const updateComment = (req, res) => {
     Jwt.verify(token, "secretkey", (err, userInfo) => {
         if (err) return res.status(403).json("Token is not valid");
         const query = "UPDATE comment set `content` = ? WHERE idComment = ? AND iduser = ?";
-        console.log(req.body.content,req.body.idComment, userInfo.id);
         db.query(query, [req.body.content,req.body.idComment, userInfo.id], (err, data) => {
             if (err) return res.status(500).json(err);
             return res.status(200).json("comment has been update!");

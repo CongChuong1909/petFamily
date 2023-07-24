@@ -115,11 +115,11 @@ const brightColors = [
                 
                   <div className='flex items-center 2 '>
                       <Link 
-                      to={`/profile/${postItem.userid}`}
+                      to={`/profile/${postItem.id_user  }`}
                       >
                           <div className='flex items-center gap-2'>
-                              <div><img className='w-[40px] h-[40px] rounded-full' src={postItem.avatar} alt="" /></div>
-                              <p className='font-semibold text-[18px]'>{postItem.name}</p>
+                              <div><img className='w-[40px] h-[40px] rounded-full' src={postItem.avatarPost} alt="" /></div>
+                              <p className='font-semibold text-[18px]'>{postItem.namePost}</p>
                               {postItem.userid === 'kaiuIQFPw4' && <div><img className='w-[20px] h-[20px]' src="https://cdn-icons-png.flaticon.com/512/807/807262.png" alt="" /></div>}
                           </div>
                       </Link>

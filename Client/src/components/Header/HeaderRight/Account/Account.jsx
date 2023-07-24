@@ -13,11 +13,13 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { makeRequestAuth } from '~/axios';
 
 export default function Account(props) {
     const {name, avatar, setMinus, currentUser, minus} = props
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const navigate = useNavigate();
   
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -28,6 +30,16 @@ export default function Account(props) {
     setAnchorEl(null);
     setMinus(false)
   };
+  const handleLogout = async()=>{
+    setAnchorEl(null);
+    setMinus(false);
+    const res = await makeRequestAuth.post("auth/logout",{
+        withCredentials:true,
+        credentials: 'include'
+    });
+    localStorage.removeItem('userPetFamily');
+    navigate('/login');
+  }
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -97,7 +109,7 @@ export default function Account(props) {
           </ListItemIcon>
           Cài đặt
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

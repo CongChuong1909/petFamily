@@ -6,9 +6,10 @@ import { makeRequest } from '~/axios';
 function InputReply(props) {
     const [showEmoji, setShowEmoji] = useState(false);
     const {comment} = props
-    console.log(comment);
     const queryClient = useQueryClient();
     const [textReply, setTextReply] = useState(`@${comment.name} `)
+    const linkRegex = /((?:https?:\/\/)[^\s]+)/g;
+    const replacedText = textReply.replace(linkRegex, '<a href="$&">$&</a>');
     const addEmoji = (e) => {
         let sym = e.unified.split("-");
         let codesArray = [];
@@ -26,7 +27,7 @@ function InputReply(props) {
     const handleAddComment = ()=>{
         const value = {
             idComment : comment.idComment,
-            content : textReply,
+            content : replacedText,
             idUserReply: comment.iduser,
             idPost:  comment.idpost
         }
@@ -49,11 +50,11 @@ function InputReply(props) {
                             type="text"
                             value={textReply}
                             onChange={(e) => setTextReply(e.target.value)}
-                            placeholder="Add comment..."
+                            placeholder="Thêm bình luận..."
                             className="outline-none border-b border-[#b3b3b3] w-[80%] px-2 py-1 "
                         />
                         <button onClick={handleAddComment} className="px-2 py-1 bg-[#1877f2] text-[#fff] rounded-md cursor-pointer ">
-                            Add
+                            Thêm
                         </button>
                     </div>
                     {showEmoji && (

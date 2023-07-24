@@ -3,6 +3,7 @@ import PostTag from './PostTag/PostTag';
 import PostMethodShare from './PostMethodShare/PostMethodShare';
 import  Picker  from '@emoji-mart/react';
 import PreviewImages from './PreviewImages/PreviewImage';
+import 'react-quill/dist/quill.snow.css';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { makeRequest} from '~/axios';
 import axios from 'axios';
@@ -10,12 +11,33 @@ import uploadImages from '~/API/uploadAPI';
 import Loading from '~/components/Loading/Loading';
 import { useSelector } from 'react-redux';
 import PostCategory from './PostCategory/PostCategory';
+import { useNavigate } from 'react-router-dom';
+import ReactQuill from 'react-quill';
 const dataBg = [  {    
     imgBg: "https://pety.vn/static/media/p1.562333b0.jpg",    title: "Phá"  },
     {imgBg: "https://pety.vn/static/media/p2.e2fedf9e.jpg",    title: "Đói"  }, 
     {imgBg: "https://pety.vn/static/media/p3.8ddba762.jpg",    title: "hihi"  }, 
     {imgBg: "https://pety.vn/static/media/p4.d230127a.jpg",    title: "Sen đâu"  },
 ];
+
+const modules = {
+    toolbar: [
+      [{ header: [1, 2, 3, 4, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['link', 'image'],
+      [{ align: [] }],
+    ],
+  };
+
+  // Define the formats for the custom toolbar
+  const formats = [
+    'header',
+    'bold', 'italic', 'underline', 'strike',
+    'list', 'bullet',
+    'link', 'image',
+    'align',
+  ];
 
 function PostCreate(props) {
   const [background, setBackground] = useState({url:'', index: null});
@@ -31,11 +53,13 @@ function PostCreate(props) {
   const { list } = useSelector((state) => state.relationship);
   const [listCategory, setListCategory] = useState([]);
 
+  const navigate = useNavigate();
   const handleClickChooseImages = () => {
     fileInputRef.current.click();
   };
   const handleAddBackground = (i,image) => {
     setBackground({index: i, url: image});
+    setListImageURL([]);
     setImages([]);
   };
   const handleFileChange = async (event) => {
@@ -84,14 +108,18 @@ function PostCreate(props) {
         videos: [],
         listFriend: list.filter((user) => user.user_followed === currentUser.idUser),
         listCategory: listCategory,
-        postBg:background.index !== null ? background.index + 1 : null,
+        postBg:listImageURL.length > 0 ? null : background.index !== null ? background.index + 1 : null,
         idpets: listPet
     }
+
+    console.log(list.filter((user) => user.user_followed === currentUser.idUser));
     mutation.mutate(values);
     props.handleClosePostCreate();
     setText("");
     setImages([]);
+    setListImageURL([]);
     setBackground({url:'', index: null});
+    navigate('/');
   }
   const getListPet = (item)=>{
     setListPet(item);
@@ -120,12 +148,20 @@ function PostCreate(props) {
             <div
                 className="bg-cover bg-right-bottom"
                 style={ background.url === '' || background.url === undefined ? { height: '100px' } : {  backgroundImage: `url(${background.url})`, display: 'flex', alignItems: 'center',  justifyContent: 'center', height: '280px', }}>
-                     <textarea
+                    <ReactQuill theme="snow" 
+                        value={text}
+                        onChange={(value) => setText(value)}
+                        modules={modules}
+                        formats={formats}
+                        className={`w-full h-[100px] bg-[rgba(0,0,0,0)] py-[10px] thin-scroll outline-none rounded-md mb-7 ${background.url === '' || background.url === undefined ? '' : 'text-center drop-shadow-md font-bold text-[#fff] drop-shadow-sha shadow-black'}`}
+                        placeholder="Hãy cho tôi biết suy nghĩ của bạn?"
+                    />
+                     {/* <textarea
                      value={text}
                      onChange={(e) => setText(e.target.value)}
                          className={`w-full h-[100px] bg-[rgba(0,0,0,0)] p-[10px] thin-scroll outline-none rounded-md mb-3 text-[24px] ${background.url === '' || background.url === undefined ? '' : 'text-center drop-shadow-md font-bold text-[#fff] drop-shadow-sha shadow-black'}`}
                          placeholder="Hãy cho tôi biết suy nghĩ của bạn?"
-                     />
+                     /> */}
             </div>
         ):
             (
@@ -147,7 +183,7 @@ function PostCreate(props) {
             )
         }
           
-             <div className='flex justify-between gap-4 mt-3 items-center pr-8'>
+             <div className='flex justify-between gap-4 mt-7 items-center pr-8'>
                 <div>
                     Chọn chủ đề bài viết: <PostCategory setListCategory = {setListCategory}/>
                 </div>

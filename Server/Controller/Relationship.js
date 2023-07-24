@@ -78,7 +78,6 @@ export const addRelationshipFisrt = (req, res) => {
                         }
                         else{
                             if (userInfo.id !== req.body.idUser) {
-                                console.log(userInfo);
                                 const queryNoti = "INSERT INTO notification (`idnotification`, `idsender`, `iduser`, `content`, `description`, `type`,`status`, `created_at`) VALUES (?)";
                                 const valuesNoti = [
                                     idnoti,

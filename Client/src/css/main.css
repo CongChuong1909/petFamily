@@ -241,6 +241,18 @@ body{
     background-color: #888; /* Màu của thanh cuộn */
     border-radius: 4px; /* Đường viền cong của thanh cuộn */
   }
+  .ql-toolbar.ql-snow {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  .css-sxh3gq-MuiAvatar-root-MuiAvatarGroup-avatar{
+    width: 22px;
+    height: 22px;
+    font-size: 12px !important;
+  }
+  .css-1ytufz-MuiAvatarGroup-root .MuiAvatar-root {
+    margin-left: -5px !important;
+  }
   
   /* Thiết lập màu khi hover lên thanh cuộn */
   .scroll-div::-webkit-scrollbar-thumb:hover {
@@ -640,4 +652,18 @@ body{
     align-items: center;
     z-index: 80;
 
+}
+
+.link-Comment a{
+    color: rgb(21, 74, 232);
+    text-decoration: underline rgb(21, 74, 232);
+}
+
+.boxchat a{
+    color: rgb(21, 74, 232);
+    text-decoration: underline rgb(21, 74, 232);
+}
+.boxchatself a{
+    color: #ccc;
+    text-decoration: underline #fff;
 }

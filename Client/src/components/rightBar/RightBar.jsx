@@ -8,7 +8,7 @@ function Rightbar(props) {
     return (
         <div>
             <Suggets/>
-            <SuggestGroups/>
+            {/* <SuggestGroups/> */}
             <Category/>
         </div>
     );

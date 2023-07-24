@@ -80,7 +80,6 @@ export const addHistory = (req, res) => {
 
 export const deleteHistory = (req, res) => {
     const token = req.cookies.accessToken;
-    console.log(req.body.idSearch);
     const id = nanoid(10);
     if (!token) return res.status(401).json("not logged in!");
     Jwt.verify(token, "secretkey", (err, userInfo) => {

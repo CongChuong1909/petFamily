@@ -22,7 +22,6 @@ function PetAllergy(props) {
             return res.data;
         },
     });
-    petFetch.isSuccess && console.log(petFetch.data);
 
 
     const mutationAdd = useMutation(

@@ -2,7 +2,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  currentUser: JSON.parse(localStorage.getItem('user')) || null,
+  currentUser: JSON.parse(localStorage.getItem('userPetFamily')) || null,
   loading: false,
   error: false,
 };
@@ -19,7 +19,7 @@ export const userSlice = createSlice({
     loginSuccess: (state, action) => {
       state.loading = false;
       state.currentUser = action.payload;
-        localStorage.setItem("user", JSON.stringify(state.currentUser));
+        localStorage.setItem("userPetFamily", JSON.stringify(state.currentUser));
     },
     loginFailure: (state) => {
       state.loading = false;

@@ -23,8 +23,8 @@ function Register(props) {
         {
             setErr("Password must be more than 6 characters!");
         }
-        else if (!isValidCookieName(inputs.name)){
-            setErr("Please enter name valid!");
+        else if (!inputs.name){
+            setErr("Please enter name!");
         }
         else{
             try {
@@ -42,13 +42,13 @@ function Register(props) {
         }
 
       };
-      const isValidCookieName = (name) =>{
-        if (!name || typeof name !== 'string') return false;
-        if (name.length > 4096)return false;
-        if (/^\s|\s$|\(|\)|\<|\>|\@|\,|\;|\\|\"|\:|\/|\[|\]|\?|\=/.test(name)) return false;
-        if (!/^[\x20-\x7E]*$/.test(name)) return false;
-        return true;
-      }
+    //   const isValidCookieName = (name) =>{
+    //     if (!name || typeof name !== 'string') return false;
+    //     if (name.length > 4096)return false;
+    //     if (/^\s|\s$|\(|\)|\<|\>|\@|\,|\;|\\|\"|\:|\/|\[|\]|\?|\=/.test(name)) return false;
+    //     if (!/^[\x20-\x7E]*$/.test(name)) return false;
+    //     return true;
+    //   }
     return (
         <div>
             <div className="min-h-screen bg-[#e5e7eb] text-[#111827] flex  justify-center">

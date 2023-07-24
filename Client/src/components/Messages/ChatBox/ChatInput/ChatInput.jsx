@@ -10,8 +10,9 @@ function ChatInput(props) {
     const [textChat, setTextChat] = useState('')
     const { currentUser } = useSelector((state) => state.user);
     const queryClient = useQueryClient();
-     const { listOnline } = useSelector((state) => state.chat);
-    
+    const { listOnline } = useSelector((state) => state.chat);
+    const linkRegex = /((?:https?:\/\/)[^\s]+)/g;
+    const replacedText = textChat.replace(linkRegex, '<a href="$&">$&</a>');
     const inputRef = useRef();
     // const socket= useRef(io("http://localhost:4000")); 
     const addEmoji = (e) => {
@@ -19,7 +20,7 @@ function ChatInput(props) {
         let codesArray = [];
         sym.forEach((el) => codesArray.push("0x" + el));
         let emoji = String.fromCodePoint(...codesArray);
-        setTextChat(textChat + emoji);
+        setTextChat(replacedText + emoji);
     };
 
     const mutation = useMutation(
@@ -45,7 +46,7 @@ function ChatInput(props) {
     });
 
     const handleSendMessage = () =>{
-        if(textChat === '')
+        if(replacedText === '')
         {
             inputRef.current.focus();
         }
@@ -56,12 +57,12 @@ function ChatInput(props) {
             socket.current.emit("sendMessage",{
                 senderId: currentUser.idUser,
                 receiverId,
-                textcontent: textChat,
+                textcontent: replacedText,
             })
             
             const values = {
                 idConversation: choiseConversation,
-                textContent: textChat
+                textContent: replacedText,
             }
             mutation.mutate(values);
             setTextChat('');
@@ -81,7 +82,7 @@ function ChatInput(props) {
                 <i onClick={(e) => { setShowEmoji(!showEmoji); e.stopPropagation(); }} className="fa-sharp fa-light fa-face-smile text-[26px] cursor-pointer"></i>
                 <i onClick={handleSendMessage} className="fa-sharp fa-solid fa-paper-plane-top text-[26px] text-[#1467ec] cursor-pointer" ></i>
             </div>
-            {showEmoji && (
+                    {showEmoji && (
                         <div
                             onClick={(e) => {
                                 e.stopPropagation();

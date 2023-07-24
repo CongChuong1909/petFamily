@@ -43,7 +43,6 @@ export const addLike = (req, res) => {
                 return res.status(500).json(err);
             } else {
                 if (userInfo.id !== req.body.idUser) {
-                    console.log(userInfo);
                     const queryNoti = "INSERT INTO notification (`idnotification`, `idsender`, `iduser`, `content`, `description`, `type`,`status`, `created_at`) VALUES (?)";
                     const valuesNoti = [
                         idnoti,

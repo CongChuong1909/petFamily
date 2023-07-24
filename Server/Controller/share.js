@@ -4,20 +4,27 @@ import moment from "moment";
 import { nanoid } from "nanoid";
 export const getList = (req, res) => {
     const token = req.cookies.accessToken;
+    // console.log(req.query.idpost);
     if (!token) return res.status(401).json("not logged in!");
     Jwt.verify(token, "secretkey", (err, userInfo) => {
         if (err) return res.status(403).json("Token is not valid");
-        const query = `SELECT DISTINCT s.*,pp.*, idUser, name, avatar, role AS categories from sharepost as s JOIN 
-        posts as p on s.idpost = p.idposts
-        JOIN users AS u ON (u.idUser = p.userid)
-        LEFT JOIN friendlist AS fl ON (p.userid = fl.user_followed)
-        LEFT JOIN categorypost AS pc ON (p.idposts = pc.idpost)
-        LEFT JOIN category AS c ON (pc.idcategory = c.idcategory)
-        JOIN posts AS pp ON s.idpostshare = pp.idposts
-        WHERE ((fl.user_follower = ? ) OR (p.userId = ? AND p.post_method = 1) AND s.idpost = ?)
+        const query = `SELECT DISTINCT s.*, pp.*, u.idUser AS userId, u.name AS userName, u.avatar AS userAvatar, u.role AS userRole,
+                userpost.name AS namePost, userpost.avatar AS avatarPost, c.slug AS categories
+                FROM sharepost AS s 
+                JOIN posts AS p ON s.idpost = p.idposts
+                JOIN users AS u ON u.idUser = p.userid
+                JOIN users AS userpost ON s.id_user = userpost.idUser
+                LEFT JOIN friendlist AS fl ON p.userid = fl.user_followed
+                LEFT JOIN categorypost AS pc ON p.idposts = pc.idpost
+                LEFT JOIN category AS c ON pc.idcategory = c.idcategory
+                JOIN posts AS pp ON s.idpostshare = pp.idposts
+                WHERE ((fl.user_follower = ? AND p.post_status = 1) 
+                OR (p.userId = ? AND p.post_method = 1 AND p.post_status = 1)) AND s.idpost = ?
+ 
         `;
         db.query(query, [userInfo.id, userInfo.id, req.query.idpost], (err, data) => {
             if (err) return res.status(500).json(err);
+            // console.log(data);
             return res.status(200).json(data);
         });
     });
@@ -138,7 +145,7 @@ export const addShare = async (req, res) => {
             id,
             req.body.textContent,
             1,
-            userInfo.id,
+            req.body.idUserPost,
             1,
             moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
             null,

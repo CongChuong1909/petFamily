@@ -15,6 +15,7 @@ import MedicalBook from "~/components/Pets/MedicalBook";
 import Post from "~/components/Posts/Post/Post";
 import { loginSuccess } from "~/redux/userSlices";
 import ViewImage from "../ViewImage/ViewImage";
+import FindPet from "../Pets/FindPet/FindPet";
 
 function ProfileUser(props) {
     const userId = useLocation().pathname.split("/")[2];
@@ -256,7 +257,7 @@ function ProfileUser(props) {
                                     <Link to={`/${currentUser.idUser}/addpet`}>
                                         <div className="flex justify-center items-center px-7 h-10 cursor-pointer bg-[#ffa000] rounded">
                                             <div className="text-[#fff] flex text-[14px] font-semibold">
-                                                Add profile pet
+                                                Thêm thú cưng
                                             </div>
                                         </div>
                                     </Link>
@@ -271,7 +272,7 @@ function ProfileUser(props) {
                                     )}
                                     <Link to={'/chat'}>
                                         <button className="text-white px-4 bg-[#42cfc3] h-10 text-[#fff] text-[14px] rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
-                                            Message
+                                            Tin nhắn
                                         </button>
                                     </Link>
                                 </div>
@@ -292,7 +293,7 @@ function ProfileUser(props) {
                                                     {arrFriendFollower.length}
                                                 </h3>
                                                 <span className="text-[13px] text-[#555]">
-                                                    Followers
+                                                    Người theo dõi
                                                 </span>
                                             </div>
                                             <div className="flex flex-col items-center justify-center">
@@ -300,7 +301,7 @@ function ProfileUser(props) {
                                                     {arrFriendFollowed.length}
                                                 </h3>
                                                 <span className="text-[13px] text-[#555]">
-                                                    Followed
+                                                    Đang theo dõi
                                                 </span>
                                             </div>
                                         </div>
@@ -310,7 +311,7 @@ function ProfileUser(props) {
                                                     {postFetch.isSuccess && postFetch.data.length}
                                                 </h3>
                                                 <span className="text-[13px] text-[#555]">
-                                                    Posts
+                                                    Bài viết
                                                 </span>
                                             </div>
                                             <div className="flex flex-col items-center justify-center">
@@ -318,7 +319,7 @@ function ProfileUser(props) {
                                                     {totalLikeFetch.isSuccess && totalLikeFetch.data[0].total_likes}
                                                 </h3>
                                                 <span className="text-[13px] text-[#555]">
-                                                    Like
+                                                    Lượt Thích
                                                 </span>
                                             </div>
                                         </div>
@@ -333,7 +334,7 @@ function ProfileUser(props) {
                                     {userFetch.data.address ? (
                                         <p className="font-light text-gray-600 text-[14px] mt-3">
                                             <span className="font-semibold text-[16px]">
-                                                Address:
+                                                Địa chỉ:
                                             </span>{" "}
                                             {userFetch.data.address}
                                         </p>
@@ -346,11 +347,11 @@ function ProfileUser(props) {
                                                 }
                                                 className=" text-center select-none cursor-pointer p-2 border mt-5 text-[#1877f2] border-[#ccc] rounded-xl"
                                             >
-                                                Click me to update Address
+                                                Chọn để cập nhật địa chỉ
                                             </p>
                                         )
                                     ) : (
-                                        <p>The address is not updated</p>
+                                        <p>Địa chỉ chưa được cập nhật</p>
                                     )}
 
                                     {isViewLocation && (
@@ -390,7 +391,7 @@ function ProfileUser(props) {
                                         </p>
                                     </div>
                                     <p className="mt-8 text-gray-500">
-                                        Date of joining petfamily{" "}
+                                        Ngày tham gia petfamily{" "}
                                         {moment(
                                             userFetch.data.date_create,
                                         ).format("DD/MM/YYYY")}
@@ -464,6 +465,9 @@ function ProfileUser(props) {
                                             <button className="text-indigo-500 py-2 px-4  font-medium mt-4">
                                                 Show more
                                             </button>
+                                        </div>
+                                        <div className="mt-12 flex flex-col justify-center">
+                                            <FindPet/>
                                         </div>
                                     </div>
                                 )}

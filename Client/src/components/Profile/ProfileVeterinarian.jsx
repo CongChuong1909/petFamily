@@ -213,7 +213,7 @@ function ProfileVeterinarian(props) {
                             </Box>
                                 <div className="flex items-center justify-center gap-4">
                                     <button className="text-white px-4 bg-[#42cfc3] h-10 text-[#fff] text-[14px] rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
-                                        Message
+                                        Nhắn tin
                                     </button>
                                 </div>
                             </div>

@@ -153,7 +153,6 @@ export const updateFood = (req, res)=>{
                 req.body.isfresh,
                 req.body.isvegetable,
                 req.body.idpet];
-                console.log(values);
         db.query(query, values, (err, data) => {
             if (err) return res.status(500).json(err);
             return res.status(200).json("pet food has been update!");
@@ -245,7 +244,6 @@ export const updateCharacter = (req, res)=>{
                 req.body.isActive,
                 req.body.isShy,
                 req.body.idpet];
-                console.log(values);
         db.query(query, values, (err, data) => {
             if (err) return res.status(500).json(err);
             return res.status(200).json("pet character has been update!");

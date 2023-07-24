@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { makeRequest } from '~/axios';
 import Loading from '../Loading/Loading';
+import FindPet from './FindPet/FindPet';
 
 function ListPet(props) {
     const {userId} = props;
@@ -20,6 +21,7 @@ function ListPet(props) {
     }
     return (
         <div className='flex flex-col rounded-xl border-[#d9d9d9] mt-4 pb-16 border-b'>
+                
                 <div className='flex flex-col gap-4'>
                     <h1 className='text-[#333] text-[16px]'>Pets Family:</h1>
                     {
@@ -38,9 +40,6 @@ function ListPet(props) {
                             </div>
                         ))
                     }
-                </div>
-                <div>
-                    
                 </div>
         </div>
     );
