@@ -103,6 +103,7 @@ function ProfileVeterinarian(props) {
         }
     }, [uploadFilesMutation.isSuccess]);
 
+    console.log(userId);
     const veterinarianFetch = useQuery({
         queryKey: ["veterinarian", userId],
         queryFn: async () => {
@@ -112,7 +113,6 @@ function ProfileVeterinarian(props) {
             return res.data;
         },
     });
-
 
     return (
         <>

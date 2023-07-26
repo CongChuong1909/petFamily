@@ -29,6 +29,10 @@ import PostInfo from "./Pages/Post/PostInfo";
 import FilterPostcategory from "./Pages/FilterPostCategory/FilterPostcategory";
 import ProfilePet from "./components/Profile/ProfilePet";
 import SearchPost from "./Pages/SearchPost/SearchPost";
+import VerifiedEmail from "./Pages/Login/VerifiedEmail";
+import MyAccount from "./Pages/MyAccount/MyAccount";
+import GmailInput from "./Pages/Login/GmailInput";
+import ResetPassword from "./Pages/Login/ResetPassword";
 
 function App() {
   const queryClient = new QueryClient();
@@ -75,7 +79,7 @@ useEffect(() => {
     return (
       <QueryClientProvider client={queryClient}>
         <Header />
-        <div className="thin-scroll grid grid-cols-10 gap-5 pt-[70px] bg-[#f6f3f3] w-[1320px] mx-auto">
+        <div className="thin-scroll grid grid-cols-10 gap-5 pt-[70px] bg-[#a8afba] w-[1320px] mx-auto">
           {currentPath !== "/chat" ? (
             <>
               <div className="col-span-2">
@@ -167,6 +171,10 @@ useEffect(() => {
           path: "/become-member",
           element: <BecomeMember />,
         },
+        {
+            path: "/myAccount",
+            element: <MyAccount />,
+          },
       ],
     },
     {
@@ -176,6 +184,18 @@ useEffect(() => {
     {
       path: "/register",
       element: <Register />,
+    },
+    {
+        path: "/verify-email",
+        element: <VerifiedEmail/>,
+    },
+    {
+        path: "/input-gmail",
+        element: <GmailInput/>,
+    },
+    {
+        path: "/reset-password",
+        element: <ResetPassword/>,
     },
   ]);
 

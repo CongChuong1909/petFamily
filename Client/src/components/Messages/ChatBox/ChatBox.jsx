@@ -39,7 +39,7 @@ function ChatBox(props) {
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messagesFetch.data, messages]);
-
+  messagesFetch.isSuccess &&console.log(messagesFetch.data);
   return (
     <div className="flex flex-col scroll-div h-[550px]">
       {choiseConversation !== null ? (
@@ -48,11 +48,19 @@ function ChatBox(props) {
             <></>
           ) : (
             <>
-              {messages?.map((message, index) => (
-                <div key={index} ref={scrollRef}>
-                  <MessageComponent message={message} currentUser={user} />
-                </div>
-              ))}
+              {messages.length === 0 ? <div className="flex justify-center items-end">
+                    <div className="flex flex-col items-center">
+                        <img width={160} src="https://img6.thuthuatphanmem.vn/uploads/2022/03/04/hinh-anh-vay-tay-chao-powerpoint-dep_021900843.gif" alt="" />
+                        <p>Vẫy tay làm quen trò chuyện nào 👋</p>
+                    </div>
+
+              </div>:
+                messages?.map((message, index) => (
+                    <div key={index} ref={scrollRef}>
+                      <MessageComponent message={message} currentUser={user} />
+                    </div>
+                  ))
+              }
               <div ref={scrollRef} />
             </>
           )}
@@ -76,6 +84,7 @@ const MessageComponent = ({ message, currentUser }) => {
     const isArray = Array.isArray(parsedContent)
     // => ['aaa b c ', {…}, ' aaa']
     // 
+    
     if (message.idsender === currentUser.idUser) {
         return (
             <div

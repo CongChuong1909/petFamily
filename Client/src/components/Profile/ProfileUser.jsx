@@ -154,7 +154,9 @@ function ProfileUser(props) {
     const handleShowMedicalBookpet = (pet) => {
         setChooisePet(pet);
     };
-
+    useEffect(()=>{
+        console.log(currentUser);
+    },[])
     const handleFollow = ()=>{
 
     }

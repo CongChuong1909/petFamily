@@ -22,12 +22,14 @@ function CreateShare({postItem,isShare, setShowShare}) {
             queryClient.invalidateQueries(["posts"]);
         }
       })
+      console.log(postItem);
     const handleAddShare = () =>{
         const values = {
             textContent: textContent,
             listFriend: list.filter((user) => user.user_followed === currentUser.idUser),
             listCategory: listCategory,
-            idPostShare: postItem.idposts
+            idPostShare: postItem.idposts,
+            idUserPost: postItem.idUser
         }
         mutationAddShare.mutate(values);
         setShowShare(false);

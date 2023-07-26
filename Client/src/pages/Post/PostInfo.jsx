@@ -38,7 +38,7 @@ const brightColors = [
         return (
             <div>
                 {
-                    postFetch.isSuccess && <PostInfoItem postItem = {postFetch.data[0]}/>
+                    postFetch.isSuccess && postFetch.data[0].post_status === 1 ? <PostInfoItem postItem = {postFetch.data[0]} />: <div className='item flex gap-2'> <img width={30} src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/2219px-Warning.svg.png" alt="" />Xin lỗi bài viết này có thể đã xóa</div>
                 }
             </div>
         )

@@ -44,7 +44,7 @@ app.use(
     const server = http.createServer(app);
     const socketServer = new Server(server , {
         cors: {
-            origin: ["http://127.0.0.1:5173", "http://127.0.0.1:5174", "http://localhost:5173", "http://localhost:5174"],
+            origin: [ "http://localhost:5173", "http://localhost:5174"],
         }
     });
 let users = [];

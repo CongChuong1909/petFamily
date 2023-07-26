@@ -27,6 +27,7 @@ function Login(props) {
                 withCredentials:true,
                 credentials: 'include'
             });
+            console.log(res);
            if(res.status === 200)
            {
             if(res.data.status === 0)
@@ -57,7 +58,7 @@ function Login(props) {
                 <div className="max-w-screen-xl m-0 sm:m-10 bg-[#fff] shadow sm:rounded-lg flex justify-center flex-1">
                 <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
                     <div className="mt-5 flex flex-col items-center">
-                        <h1 className="text-2xl xl:text-3xl font-extrabold">Sign in</h1>
+                        <h1 className="text-2xl xl:text-3xl font-extrabold">Đăng nhập</h1>
                         <div className="w-full flex-1 mt-8">
                             <div className="flex flex-col items-center">
                                 <button onClick={google} className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-[#e0e7ff] text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
@@ -81,7 +82,7 @@ function Login(props) {
                                             ></path>
                                         </svg>
                                     </div>
-                                    <span className="ml-4">Sign in with Google</span>
+                                    <span className="ml-4">Đăng nhập với Google</span>
                                 </button>
                                 <button className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-[#e0e7ff] text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline mt-5">
                                     <div className="bg-white p-1 rounded-full">
@@ -92,12 +93,12 @@ function Login(props) {
                                             ></path>
                                         </svg>
                                     </div>
-                                    <span className="ml-4 ">Sign in with GitHub</span>
+                                    <span className="ml-4 ">Đăng nhập với github</span>
                                 </button>
                             </div>
                             <div className="my-12 border-b border-[#eee] text-center">
                                 <div className="leading-none px-2 inline-block text-sm text-[#666] tracking-wide font-medium bg-[#fff] transform translate-y-1/2">
-                                    Sign in up with e-mail
+                                    Đăng nhập với e-mail
                                 </div>
                             </div>
                             <div className="mx-auto max-w-xs">
@@ -118,6 +119,7 @@ function Login(props) {
                                     name="password"
                                     onChange={handleChangeValue}
                                 />
+                                <Link to={'/input-gmail'}><p className="text-[#3539ff] underline">Quên mật khẩu?</p></Link>
                                 <button onClick={handleLogin} className="mt-5 tracking-wide font-semibold bg-[#6366f1] text-[#eee] w-full py-4 rounded-lg hover:bg-[#4338ca] transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -135,9 +137,9 @@ function Login(props) {
                                         <polyline points="10 17 15 12 10 7"></polyline>
                                         <line x1="15" y1="12" x2="3" y2="12"></line>
                                     </svg>
-                                    <span className="ml-3">Sign in</span>
+                                    <span className="ml-3">ĐĂNG NHẬP</span>
                                 </button>
-                                {err && <p className="text-[#f00] text-[14px] py-4">{err}</p>}
+                                {err && <p className="text-[#f00] text-[14px] py-4">{err.response.data}</p>}
                                 </form>
                                 <div className="mt-6 text-xs text-gray-600 text-center">
                                     I agree to abide by SnapShare's

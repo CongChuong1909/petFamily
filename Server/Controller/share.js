@@ -131,7 +131,7 @@ export const addShare = async (req, res) => {
         if (!token) return res.status(401).json("not logged in!");
         const id = nanoid(10);
         const idShare = nanoid(10);
-        const idnoti = nanoid(10);
+        
         const userInfo = await new Promise((resolve, reject) => {
             Jwt.verify(token, "secretkey", (err, userInfo) => {
                 if (err) reject("Token is not valid");
@@ -145,7 +145,7 @@ export const addShare = async (req, res) => {
             id,
             req.body.textContent,
             1,
-            req.body.idUserPost,
+            userInfo.id,
             1,
             moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
             null,
@@ -164,7 +164,7 @@ export const addShare = async (req, res) => {
             idShare,
             id,
             moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
-            userInfo.id,
+            req.body.idUserPost,
             req.body.idPostShare,
         ];
 
@@ -191,8 +191,9 @@ export const addShare = async (req, res) => {
 
         if (req.body.listFriend.length > 0) {
             const queryNoti =
-                "INSERT INTO notification (`idnotification`, `idsender`, `iduser`, `content`, `description`, `type`,`status`, `created_at`) VALUES (?)";
+            "INSERT INTO notification (`idnotification`, `idsender`, `iduser`, `content`, `description`, `type`,`status`, `created_at`) VALUES (?)";
             for (const item of req.body.listFriend) {
+                const idnoti = nanoid(10);
                 const valuesNoti = [
                     idnoti,
                     userInfo.id,

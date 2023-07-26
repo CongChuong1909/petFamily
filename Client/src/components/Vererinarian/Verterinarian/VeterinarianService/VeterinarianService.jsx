@@ -9,6 +9,7 @@ import Loading from '~/components/Loading/Loading';
 
 function VeterinarianService(props) {
     const {idProfile, currentProfile} = props;
+    console.log(idProfile, currentProfile);
     const { currentUser } = useSelector((state) => state.user);
     const [showAddService, setShowAddService] = useState(false);
     const [showButtonUpload, setShowButtonUpload] = useState(true);
@@ -32,7 +33,7 @@ function VeterinarianService(props) {
             return res.data;
         },
     });
-
+    serviceFetch.isLoading && console.log(serviceFetch.data);
     const mutationAdd = useMutation(
         (service) => {
             return makeRequest.post("/veterinarian/addService", service);

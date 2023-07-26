@@ -73,7 +73,7 @@ function Rating(props) {
           setRating(ratingCounts);
         }
       }, [idProfileVeterinarian, ratingFetch.isSuccess]);
-
+      ratingFetch.isSuccess && console.log(ratingFetch.data.filter((item) => item.iduser === currentUser.idUser).length === 0);
     return (
         <div>
             {
@@ -123,13 +123,14 @@ function Rating(props) {
                         </div>
                         <span className="text-sm font-medium text-blue-600 dark:text-blue-500">{Math.floor((rating.star1/ratingFetch.data.length)*100)}%</span>
                     </div>
-                    {userId !== currentUser.idUser ?<div className='mt-5'>
+                    {userId !== currentUser.idUser && ratingFetch.data.filter((item) => item.iduser === currentUser.idUser).length === 0 ?<div className='mt-5'>
                         <button onClick={()=>setShowAddRating(!showAddRating)} className='bg-[#006fa5] text-[#fff] w-full rounded-lg border-2 border-[#cbcaca] py-2 hover:bg-[#008bd0] duration-300'>Thêm đánh giá</button>
                     </div>:
                         <div className='pb-8'></div>
                     }
                     { 
-                         showAddRating && <AddRating idProfileVeterinarian = {idProfileVeterinarian} onClose = {()=>setShowAddRating(false)}/>
+                         showAddRating  &&
+                          <AddRating idProfileVeterinarian = {idProfileVeterinarian} onClose = {()=>setShowAddRating(false)}/>
                     }
                     {
                         ratingFetch.data.slice(0, displayedReviews).map((item, index) => (

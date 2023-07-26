@@ -39,7 +39,7 @@ const brightColors = [
       setShowMore(!showMore);
     };
     const { postItem } = props;
-
+    console.log(postItem);
     const imagesQuery = useQuery({
       queryKey: ["images", postItem.idposts],
       queryFn: async () => {
