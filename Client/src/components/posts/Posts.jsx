@@ -28,6 +28,7 @@ function Posts(props) {
     }
   )
 
+  isSuccess && console.log(data);
   useEffect(() => {
     let fetching = false;
     const handleScroll = async (e) => {

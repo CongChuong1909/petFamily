@@ -10,6 +10,7 @@ import { Avatar, Box, Tab, Tabs } from '@mui/material';
 import moment from "moment";
 import ReportImage from './ReportImage';
 
+
 export default function Report() {
   const [expanded, setExpanded] = useState([]);
   const queryClient = useQueryClient();

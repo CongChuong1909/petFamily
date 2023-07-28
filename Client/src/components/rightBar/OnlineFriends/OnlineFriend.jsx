@@ -19,7 +19,7 @@ function OnlineFriend(props) {
                     <img src="https://res.cloudinary.com/dohmfb8tt/image/upload/v1685933682/img_pet_social/f8jpd6lm1kkialof5lgx.png" alt="" />
                 </div>
                 {
-                    listOnline && listOnline.map((item, index)=>(
+                    listOnline.length !== 0 &&  listOnline.map((item, index)=>(
                         <OnlineItem key={index} item = {item}/>
                     ))
                 }

@@ -74,7 +74,8 @@ function FollowRecommendations({data, idUser , userData}) {
 
   return (
     <div className='h-[220px] overflow-x-auto thin-scroll'>
-      {Object.keys(suggestedUsers).map((suggestedUser) => ( ///// thay vì dùng map 2 lần bị lặp thì dùng objectkey
+       { suggestedUsers &&
+        Object.keys(suggestedUsers).map((suggestedUser) => ( ///// thay vì dùng map 2 lần bị lặp thì dùng objectkey
         <SuggesstFollowItem followersNotFollowed = {followersNotFollowed} key={suggestedUser} suggestedUsers = {suggestedUsers} suggestedUser = {suggestedUser}/>
       ))}
     </div>

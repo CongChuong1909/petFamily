@@ -148,25 +148,33 @@ function PostCreate(props) {
             <div
                 className="bg-cover bg-right-bottom"
                 style={ background.url === '' || background.url === undefined ? { height: '100px' } : {  backgroundImage: `url(${background.url})`, display: 'flex', alignItems: 'center',  justifyContent: 'center', height: '280px', }}>
-                    <ReactQuill theme="snow" 
+                   {background.url === '' || background.url === undefined ? <ReactQuill theme="snow" 
                         value={text}
                         onChange={(value) => setText(value)}
                         modules={modules}
                         formats={formats}
                         className={`w-full h-[100px] bg-[rgba(0,0,0,0)] py-[10px] thin-scroll outline-none rounded-md mb-7 ${background.url === '' || background.url === undefined ? '' : 'text-center drop-shadow-md font-bold text-[#fff] drop-shadow-sha shadow-black'}`}
                         placeholder="Hãy cho tôi biết suy nghĩ của bạn?"
-                    />
-                     {/* <textarea
+                    />:
+                      <textarea
                      value={text}
                      onChange={(e) => setText(e.target.value)}
                          className={`w-full h-[100px] bg-[rgba(0,0,0,0)] p-[10px] thin-scroll outline-none rounded-md mb-3 text-[24px] ${background.url === '' || background.url === undefined ? '' : 'text-center drop-shadow-md font-bold text-[#fff] drop-shadow-sha shadow-black'}`}
                          placeholder="Hãy cho tôi biết suy nghĩ của bạn?"
-                     /> */}
+                     />
+                    }
             </div>
         ):
             (
                 <div className=" h-96">
-                    <textarea value={text} onChange={(e)=>setText(e.target.value)} className='outline-none thin-scroll p-2 w-full' placeholder="Hãy cho tôi biết suy nghĩ của bạn?" type="text"/>
+                    <ReactQuill theme="snow" 
+                        value={text}
+                        onChange={(value) => setText(value)}
+                        modules={modules}
+                        formats={formats}
+                        className={`w-full h-[100px] bg-[rgba(0,0,0,0)] py-[10px] thin-scroll outline-none rounded-md mb-7 ${background.url === '' || background.url === undefined ? '' : 'text-center drop-shadow-md font-bold text-[#fff] drop-shadow-sha shadow-black'}`}
+                       
+                    />
                     {uploadFilesMutation.isLoading? 
                     <Loading/>
                     :

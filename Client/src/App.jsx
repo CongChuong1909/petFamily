@@ -33,6 +33,7 @@ import VerifiedEmail from "./Pages/Login/VerifiedEmail";
 import MyAccount from "./Pages/MyAccount/MyAccount";
 import GmailInput from "./Pages/Login/GmailInput";
 import ResetPassword from "./Pages/Login/ResetPassword";
+import NotificationSystem from "./Pages/Notification/NotificationSystem";
 
 function App() {
   const queryClient = new QueryClient();
@@ -171,6 +172,10 @@ useEffect(() => {
           path: "/become-member",
           element: <BecomeMember />,
         },
+        {
+            path: "/notification/:id",
+            element: <NotificationSystem />,
+          },
         {
             path: "/myAccount",
             element: <MyAccount />,

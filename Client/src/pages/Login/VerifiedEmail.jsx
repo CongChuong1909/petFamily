@@ -13,11 +13,10 @@ function VerifiedEmail(props) {
     const dispatch = useDispatch();
     const emailToken= searchParams.get("emailToken")
     const navigate = useNavigate();
-    console.log("refresh");
-    // console.log(currentUser?.isVerfied === true);
-    console.log(currentUser);
+
    useEffect(() => {
   const verifyEmail = async () => {
+    localStorage.removeItem('userPetFamily')
     if (currentUser?.isVerify === 1) {
         console.log(1);
       setTimeout(() => {
@@ -32,6 +31,7 @@ function VerifiedEmail(props) {
             if (res.error) {
               return setError(res);
             } else {
+                
               const valueUpdate = {
                 ...currentUser,
                 isVerify: res.data.isVerfied,

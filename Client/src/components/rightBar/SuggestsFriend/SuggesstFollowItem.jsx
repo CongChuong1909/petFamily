@@ -75,7 +75,7 @@ function SuggesstFollowItem({suggestedUser, suggestedUsers, followersNotFollowed
                                 }  
                                 <ul onClick={handleShowDetailCommonFriend} className='flex cursor-pointer'>
                                     <AvatarGroup max={4}>
-                                        {suggestedUsers[suggestedUser].map((user_follower) => (
+                                        {suggestedUsers[suggestedUser]?.map((user_follower) => (
                                             <ListCommentFriend  key={user_follower} user_follower = {user_follower}/>
                                         ))}
                                     </AvatarGroup>

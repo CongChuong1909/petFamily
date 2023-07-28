@@ -98,12 +98,12 @@ function NotificationItem({notification}) {
                         style={{padding:'6px', paddingLeft: '0px', paddingRight:'0px'}}
                         
                     >
-                        <Link to = {`${notification.type === 'post'? `post/${notification.description}`: ``}`}>
+                        <Link to = {`${notification.type === 'post'? `post/${notification.description}`: notification.type === 'system'? `notification/${notification.idnotification}`: ``}`}>
                             <div className='flex items-center gap-5 w-[300px] text-nowrap'>
                                  <Avatar src={userFetch.data.avatar} style={{marginRight:'0px'}}>
                                 </Avatar>
                                 <div className='flex flex-col gap-2'>
-                                    <span className=' text-nowrap' style={{ fontSize: '13px', width:'250px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}><span className='font-bold' >{userFetch.data.name}</span> {notification.content}</span>
+                                    <span className=' text-nowrap' style={{ fontSize: '13px', width:'250px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}><span className='font-bold' >{userFetch.data.name}</span> {convertHtmlToPlainText(notification.content)}</span>
                                     <div className='flex gap-3 items-center'>
                                         {imageFetch.isSuccess && imageFetch.data !==undefined ? <img width={40} src={imageFetch.data.url} alt="" />:<></>}
                                         <Typography ref={typographyRef} style={{ fontSize: '13px', overflow: 'hidden' }}  className='w-[250px]' level="body5">

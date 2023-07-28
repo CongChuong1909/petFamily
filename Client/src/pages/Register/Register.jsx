@@ -32,8 +32,9 @@ function Register(props) {
           console.log(res);
           if(res.status === 200)
             {
-                toast("Regiter successfully!")
-                navigate("/login")
+                localStorage.removeItem('userPetFamily')
+                toast("Đăng ký thành công, kiểm tra email của bạn để nhận mã xác nhận!")
+                // navigate("/login")
             }
         } catch (err) {
             if(err.response)

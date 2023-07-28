@@ -35,11 +35,11 @@ function Login(props) {
                 alert("tài khoản của bạn đã bị khóa")
             }
             else{
+                // localStorage.removeItem('userPetFamily')
                 navigate("/")
                 dispatch(loginSuccess(res.data))
             };
            }
-           console.log(res.data.role === 2)
            
 
        } catch (error) {

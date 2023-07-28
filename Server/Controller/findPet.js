@@ -8,14 +8,15 @@ import axios from "axios";
 // 1: lost
 // 2: isfind
 const checkDistance = async (address1, address2) => {
+    console.log(address1, address2);
     try {
       const response = await axios.get(
         `https://api.mapbox.com/directions/v5/mapbox/cycling/${address1.longitude},${address1.latitude};${address2.longitude},${address2.latitude}?geometries=geojson&access_token=pk.eyJ1IjoiY29uZ2NodW9uZyIsImEiOiJjbGs5OThpNjEwbWxmM2ZxaWEweGF0bzdsIn0.i6C4TMolt4phtGR7w9dXJw`
       );
   
       const distance = response.data.routes[0].distance / 1000;
-      if (distance > 5) return true;
-      return false;
+      if (distance > 5) return false;
+      return true;
     } catch (error) {
       throw new Error(error.message);
     }
@@ -61,7 +62,7 @@ export const addPostFind = async (req, res) => {
                         }
                         const resuleCheck = await checkDistance(req.body.addressCoordinates, coordinates)
 
-                        if(!resuleCheck)
+                        if(resuleCheck)
                         {
                             const queryAddUserToListUser = 'INSERT INTO listuserviewfindpet (`iduser`, `idpost`) VALUE (?)'
                             const valuesAddUserToListUser = [

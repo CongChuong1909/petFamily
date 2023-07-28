@@ -16,6 +16,48 @@ export const getNotificationByUser = (req, res) =>{
     });
 
 } 
+export const getContentNotification = (req, res) =>{
+    const token = req.cookies.accessToken;
+    if (!token) return res.status(401).json("not logged in!");
+    Jwt.verify(token, "secretkey", (err, userInfo) => {
+        if (err) return res.status(403).json("Token is not valid");
+        
+        const query = ` SELECT * FROM notification WHERE idnotification = ?`;
+        db.query(query, [req.query.idNoti], (err, data) => {
+            if (err) return res.status(500).json(err);
+            return res.status(200).json(data);
+        });
+    });
+
+} 
+
+export const addNotification = (req, res) =>{
+    const token = req.cookies.accessToken;
+    if (!token) return res.status(401).json("not logged in!");
+    Jwt.verify(token, "secretkey", (err, userInfo) => {
+        if (err) return res.status(403).json("Token is not valid");
+        
+        const query = 'INSERT INTO notification (`idnotification`, `idsender`, `iduser`, `content`, `description`, `type`,`status`, `created_at`) VALUES (?)';
+        req.body.listUser.map(async(item)=>{
+            const idnoti = nanoid(10)
+            const valuesNoti = [
+                idnoti,
+                'admin',
+                item,
+                req.body.content,
+                'notification system',
+                'system',
+                1,
+                moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")
+            ];
+            db.query(query, [valuesNoti], (err, data) => {
+                if (err) return res.status(500).json(err);
+                return res.status(200).json('add notification success');
+            });
+        })
+    });
+
+} 
 export const updateNotification = (req, res) =>{
     const token = req.cookies.accessToken;
     if (!token) return res.status(401).json("not logged in!");
