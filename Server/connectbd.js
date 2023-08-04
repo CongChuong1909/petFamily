@@ -8,10 +8,4 @@ export const db = mysql.createConnection({
     database:'dbpetsocial',
     charset: 'utf8mb4'
 })
-// export const db = mysql.createConnection({
-//     host:process.env.MYSQLHOST,
-//     user:'root',
-//     password:process.env.MYSQLPASSWORD,
-//     database:process.env.MYSQLDATABASE,
-//     charset: 'utf8mb4'
-// })
+

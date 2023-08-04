@@ -1,4 +1,4 @@
-import { createMailTransporter } from "./CreateMailTransporter.js"
+import { createMailTransporter } from "./createMailTransporter.js"
 
 export const sendVerificationEmail = (name, email, emailToken)=>{
     console.log(process.env.CLIENT_URL);

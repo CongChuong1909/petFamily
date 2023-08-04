@@ -36,6 +36,7 @@ export const getPosts = (req, res) => {
 };
 export const getPostsPagination = (req, res) => {
     const token = req.cookies.accessToken;
+    console.log(req.cookies);
     if (!token) return res.status(401).json("not logged in!");
     Jwt.verify(token, "secretkey", (err, userInfo) => {
       if (err) return res.status(403).json("Token is not valid");
