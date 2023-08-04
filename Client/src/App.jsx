@@ -23,7 +23,7 @@ import Friends from "./Pages/Friends/Friends";
 import Chat from "./Pages/Chat/Chat";
 import BecomeMember from "./components/Vererinarian/BecomeMember/BecomeMember";
 import { io } from 'socket.io-client';
-import { addList } from '~/redux/chatSlices';
+import { addList } from './redux/chatSlices';
 import Group from "./Pages/Group/Group";
 import PostInfo from "./Pages/Post/PostInfo";
 import FilterPostcategory from "./Pages/FilterPostCategory/FilterPostcategory";
