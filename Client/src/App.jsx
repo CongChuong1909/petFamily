@@ -11,6 +11,7 @@ import {
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "./components/Header/Header";
+// import Leftbar from "./components/Leftbar/Leftbar";
 import Leftbar from "./components/Leftbar/Leftbar";
 import Rightbar from "./components/Rightbar/Rightbar";
 import OnlineFriend from "./components/Rightbar/OnlineFriends/OnlineFriend";
