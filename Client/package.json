@@ -20,6 +20,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "@tanstack/react-query": "^4.29.5",
     "axios": "^1.4.0",
+    "chokidar": "^3.5.3",
     "emoji-js": "^3.7.0",
     "emoji-mart": "^5.5.2",
     "emoji-regex": "^10.2.1",
