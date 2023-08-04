@@ -30,7 +30,7 @@
     "react-dom": "^18.2.0",
     "react-infinite-scroll-component": "^6.1.0",
     "react-map-gl": "^7.1.2",
-    "react-quill": "^2.0.0",
+    "react-quill": "^0.0.2",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.11.1",
     "react-slick": "^0.29.0",
