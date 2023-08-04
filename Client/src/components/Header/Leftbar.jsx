@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
-import Weather from './Weather';
+import Weather from '../Leftbar/Weather';
 function Leftbar(props) {
     const { currentUser } = useSelector((state) => state.user);
     return (
