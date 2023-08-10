@@ -26,6 +26,9 @@ const commonConfig = {
   server: {
     host: "localhost",
   },
+  define: {
+    global:'window'
+  },
   resolve: {
     alias: {
       "~": path.resolve(__dirname, "src"),
