@@ -10,8 +10,8 @@ import {
 } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
-import Header from "./components/Header/Header";
-import Login from "./Pages/Login/Login";
+import Header from "./src/components/Header/Header";
+import Login from "./src/Pages/Login/Login";
 import Register from "./Pages/Register/Register";
 import Profile from "./Pages/Profiles/Profile";
 import Home from "./Pages/Home/Home";
