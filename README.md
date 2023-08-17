@@ -99,28 +99,42 @@ Admins can do the following:
 Home Page:
 ![image](https://github.com/CongChuong1909/petFamily/assets/92925332/2baac466-cf44-403a-a878-1ce170976301)
 
-Login and Register page:
+
+
+- Login and Register page:
 ![image](https://github.com/CongChuong1909/petFamily/assets/92925332/0ab0a5a3-0cd3-48f8-a029-7c8012c5259c)
 
-Suggesting mutual friends based on who you followed, showing the list of mutual friends
+
+
+- Suggesting mutual friends based on who you followed, showing the list of mutual friends
 ![image](https://github.com/CongChuong1909/petFamily/assets/92925332/10beeac9-0aac-4e51-8cba-00bb60fa02a1)
 
-Create post with status, image, emoji-icon
+
+
+- Create post with status, image, emoji-icon:
 ![image](https://github.com/CongChuong1909/petFamily/assets/92925332/0007e089-f97e-4323-85b8-b2bde3016bae)
 
-Like and comment post:
+
+
+- Like and comment post:
 ![image](https://github.com/CongChuong1909/petFamily/assets/92925332/0d5abb61-6338-4c2d-9282-a8376ce465cc)
 
-Share post:
+- Share post:
 ![image](https://github.com/CongChuong1909/petFamily/assets/92925332/8896f816-03f1-4f21-80b7-e4744b9d4f7f)
-Announce related activities:
+
+
+- Announce related activities:
 ![image](https://github.com/CongChuong1909/petFamily/assets/92925332/53d6fece-e698-45a0-b9d9-0c11077f999d)
-ChatBox realtime using Socket.io
+
+
+- ChatBox realtime using Socket.io:
 ![image](https://github.com/CongChuong1909/petFamily/assets/92925332/43289966-3a4a-45ce-b699-dd28092f96e0)
-My Profile:
+
+
+- My Profile:
 ![image](https://github.com/CongChuong1909/petFamily/assets/92925332/cde3bc3a-a881-434f-a2d7-eae7091060f3)
 
-Profile pet: 
+- Profile pet: 
 ![image](https://github.com/CongChuong1909/petFamily/assets/92925332/b03136ed-1ba8-4787-8486-ba4f1695743a)
 Use mapbox to support users to post articles displayed on pages of nearby users within 5km.
 ![image](https://github.com/CongChuong1909/petFamily/assets/92925332/faaf662e-e08c-42d2-a18d-291cf9472884)
@@ -129,10 +143,10 @@ Use mapbox to support users to post articles displayed on pages of nearby users 
 Admin Managerment dashboard: Statistics of the number of posts over time
 ![image](https://github.com/CongChuong1909/petFamily/assets/92925332/79f84c5c-6308-447c-a339-85a3320b640f)
 
-User, post Managerment
+- User, post Managerment
 ![image](https://github.com/CongChuong1909/petFamily/assets/92925332/8279d43c-7fc0-4e13-b2c3-b4d71277849d)
 
-Processing reports of posts submitted by users
+- Processing reports of posts submitted by users
 ![image](https://github.com/CongChuong1909/petFamily/assets/92925332/fa83b374-d843-4f99-87d3-ad8277894696)
 
 
