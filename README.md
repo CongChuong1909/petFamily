@@ -1,4 +1,4 @@
-# BOOKSHOPS
+# PETFAMILY
 
 ## Table of contents
 
@@ -97,8 +97,8 @@ Admins can do the following:
 ## Page
 - USER
 Home Page:
-![image](![image](https://github.com/CongChuong1909/petFamily/assets/92925332/3e68126e-a501-40c1-9a7f-01e053b1105a)
-)
+![image](https://github.com/CongChuong1909/petFamily/assets/92925332/2eb65588-71e0-447a-95b7-a288056b9435)
+
 
 Login and Register page:
 ![image](![image](https://github.com/CongChuong1909/petFamily/assets/92925332/f89a77db-a719-4946-9f75-a353438fb464)
