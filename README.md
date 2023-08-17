@@ -22,11 +22,11 @@ NOTE: Please read the RUN section before opening an issue.
 ![image](![image](https://github.com/CongChuong1909/petFamily/assets/92925332/da3312c5-0031-48a9-8aed-4201aac6860b)
 )
 
-The application is deployed to Reder.com and app.netify.com and can be accessed through the following link:
+The application is deployed to VPS of AWS and can be accessed through the following link:
 
- - Petfamily social pages on netify:[ updating.../](...)
- - Petfamily Dashboard Admin on netify:[ updating.../](...)
- - Petfamily api on render:[ updating...](...)
+ - Petfamily social pages :([https://petfamily.click](https://petfamily.click))
+ - Petfamily Dashboard Admin :([https://admin.petfamily.click](https://admin.petfamily.click))
+ - Petfamily api :([https://api.petfamily.click](https://api.petfamily.click))
 
 the site can function normally as a social networking site.You can post, interact with articles, the user can create their pet profile and manage them like an electronic health book. In addition, the website has other features of doctors or clinics, features of website administrators
 
@@ -120,10 +120,13 @@ Home Page:
 ![image](https://github.com/CongChuong1909/petFamily/assets/92925332/0d5abb61-6338-4c2d-9282-a8376ce465cc)
 
 - Share post:
+  
 ![image](https://github.com/CongChuong1909/petFamily/assets/92925332/8896f816-03f1-4f21-80b7-e4744b9d4f7f)
 
 
 - Announce related activities:
+
+ 
 ![image](https://github.com/CongChuong1909/petFamily/assets/92925332/53d6fece-e698-45a0-b9d9-0c11077f999d)
 
 
