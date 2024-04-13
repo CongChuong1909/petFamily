@@ -11,7 +11,7 @@ function Login(props) {
         password:""
     })
 
-    
+    const [loading, setLoading] = useState(false);
 
     const handleChangeValue = (e) =>{
         setLogin(prev =>({...prev, [e.target.name]: e.target.value }))
@@ -19,6 +19,7 @@ function Login(props) {
 
     const handleLogin = async(e)=>{
         e.preventDefault();
+        setLoading(true);
        try {
             const res = await makeRequestAuth.post("auth/login", login,{
                 withCredentials:true,
@@ -26,17 +27,16 @@ function Login(props) {
             });
            if(res.status === 200)
            {
-            navigate("/")
+                navigate("/")
            }
-           console.log(res.data.role === 2)
-           
-
        } catch (error) {
             setErr(error.response.data)
-       }
+       }finally {
+        setLoading(false); 
+      }
     }
     const google = () =>{
-        window.open("http://localhost:4000/google","_self");
+        window.open("http://petfamily.click/google","_self");
     }
 
 
@@ -75,14 +75,25 @@ function Login(props) {
           <input type="email" name = "email" value={login.email} onChange={handleChangeValue} placeholder="Email" required />
           <input type="password" name="password" value={login.password} onChange={handleChangeValue} placeholder="Password" required />
           <button type="submit" onClick={handleLogin}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path
-                fillRule="evenodd"
-                d="M18.707 4.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7a1 1 0 011.414-1.414L10 10.586l6.293-6.293a1 1 0 011.414 0z"
-                clipRule="evenodd"
-              />
-            </svg>
-            Sign In
+              
+            {loading ? (
+                <img src="../../../public/" alt="" />
+              ) : (
+                <>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                        fillRule="evenodd"
+                        d="M18.707 4.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7a1 1 0 011.414-1.414L10 10.586l6.293-6.293a1 1 0 011.414 0z"
+                        clipRule="evenodd"
+                    />
+                  </svg>
+                  Sign In
+                </>
+              )}
           </button>
         </form>
         <div className="error-message"></div>

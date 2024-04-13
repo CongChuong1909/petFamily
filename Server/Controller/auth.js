@@ -115,7 +115,7 @@ export const login = (req, res) =>{
             sameSite: 'none',
             expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // Thời gian sống 365 ngày
             maxAge: 365 * 24 * 60 * 60 * 1000, // Thời gian sống 365 ngày
-            // secure: true
+            secure: true
           
         }).status(200).json(orthers);
     })

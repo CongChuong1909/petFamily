@@ -65,7 +65,6 @@ export const uploadImages = {
       }
     },
   };
-  
 
     const removeTmp = (path) => {
     fs.unlink(path, (err) => {

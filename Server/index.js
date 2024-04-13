@@ -26,10 +26,15 @@ app.use(express.urlencoded({extended: true , limit: '50mb'}))
 app.use(express.json());
 /// only use api
 app.use(cors({
-    origin: ["http://127.0.0.1:5173", "http://127.0.0.1:5174", "http://localhost:5173", "http://localhost:5174"],
+    origin: [
+        "http://127.0.0.1:5173",
+         "https://petfamily.click",
+         "https://api.petfamily.click",
+         "https://auth.petfamily.click"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true
 }));
+
 app.use(
     fileUpload({
       useTempFiles: true,
@@ -44,7 +49,10 @@ app.use(
     const server = http.createServer(app);
     const socketServer = new Server(server , {
         cors: {
-            origin: [ "http://localhost:5173", "http://localhost:5174"],
+            origin: [
+                "https://petfamily.click",
+                "https://api.petfamily.click",
+                "https://auth.petfamily.click",],
         }
     });
 let users = [];

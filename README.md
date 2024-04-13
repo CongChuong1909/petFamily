@@ -1,4 +1,4 @@
-# PETFAMILY
+# BOOKSHOPS
 
 ## Table of contents
 
@@ -22,11 +22,11 @@ NOTE: Please read the RUN section before opening an issue.
 ![image](![image](https://github.com/CongChuong1909/petFamily/assets/92925332/da3312c5-0031-48a9-8aed-4201aac6860b)
 )
 
-The application is deployed to VPS of AWS and can be accessed through the following link:
+The application is deployed to Reder.com and app.netify.com and can be accessed through the following link:
 
- - Petfamily social pages :([https://petfamily.click](https://petfamily.click))
- - Petfamily Dashboard Admin :([https://admin.petfamily.click](https://admin.petfamily.click))
- - Petfamily api :([https://api.petfamily.click](https://api.petfamily.click))
+ - Petfamily social pages on netify:[ updating.../](...)
+ - Petfamily Dashboard Admin on netify:[ updating.../](...)
+ - Petfamily api on render:[ updating...](...)
 
 the site can function normally as a social networking site.You can post, interact with articles, the user can create their pet profile and manage them like an electronic health book. In addition, the website has other features of doctors or clinics, features of website administrators
 
@@ -97,60 +97,24 @@ Admins can do the following:
 ## Page
 - USER
 Home Page:
-![image](https://github.com/CongChuong1909/petFamily/assets/92925332/2baac466-cf44-403a-a878-1ce170976301)
+![image](![image](https://github.com/CongChuong1909/petFamily/assets/92925332/3e68126e-a501-40c1-9a7f-01e053b1105a)
+)
 
-
-
-- Login and Register page:
-![image](https://github.com/CongChuong1909/petFamily/assets/92925332/0ab0a5a3-0cd3-48f8-a029-7c8012c5259c)
-
-
-
-- Suggesting mutual friends based on who you followed, showing the list of mutual friends
-![image](https://github.com/CongChuong1909/petFamily/assets/92925332/10beeac9-0aac-4e51-8cba-00bb60fa02a1)
-
-
-
-- Create post with status, image, emoji-icon:
-![image](https://github.com/CongChuong1909/petFamily/assets/92925332/0007e089-f97e-4323-85b8-b2bde3016bae)
-
-
-
-- Like and comment post:
-![image](https://github.com/CongChuong1909/petFamily/assets/92925332/0d5abb61-6338-4c2d-9282-a8376ce465cc)
-
-- Share post:
-  
-![image](https://github.com/CongChuong1909/petFamily/assets/92925332/8896f816-03f1-4f21-80b7-e4744b9d4f7f)
-
-
-- Announce related activities:
-
- 
-![image](https://github.com/CongChuong1909/petFamily/assets/92925332/53d6fece-e698-45a0-b9d9-0c11077f999d)
-
-
-- ChatBox realtime using Socket.io:
-![image](https://github.com/CongChuong1909/petFamily/assets/92925332/43289966-3a4a-45ce-b699-dd28092f96e0)
-
-
-- My Profile:
-![image](https://github.com/CongChuong1909/petFamily/assets/92925332/cde3bc3a-a881-434f-a2d7-eae7091060f3)
-
-- Profile pet: 
-![image](https://github.com/CongChuong1909/petFamily/assets/92925332/b03136ed-1ba8-4787-8486-ba4f1695743a)
-Use mapbox to support users to post articles displayed on pages of nearby users within 5km.
-![image](https://github.com/CongChuong1909/petFamily/assets/92925332/faaf662e-e08c-42d2-a18d-291cf9472884)
+Login and Register page:
+![image](![image](https://github.com/CongChuong1909/petFamily/assets/92925332/f89a77db-a719-4946-9f75-a353438fb464)
+)
+Cart page:
+![image](https://user-images.githubusercontent.com/92925332/222942693-7c06317e-95a8-4b33-b6f6-ed12352fbf1d.png)
+Payment page:
+![image](https://user-images.githubusercontent.com/92925332/222942713-23aaa97f-1220-4ab0-a90b-7650f263e9a6.png)
+My invoice page:
+![image](https://user-images.githubusercontent.com/92925332/222942739-03f73c4f-48dd-4ed7-86ef-dace73227d0b.png)
 
 - ADMIN
-Admin Managerment dashboard: Statistics of the number of posts over time
-![image](https://github.com/CongChuong1909/petFamily/assets/92925332/79f84c5c-6308-447c-a339-85a3320b640f)
-
-- User, post Managerment
-![image](https://github.com/CongChuong1909/petFamily/assets/92925332/8279d43c-7fc0-4e13-b2c3-b4d71277849d)
-
-- Processing reports of posts submitted by users
-![image](https://github.com/CongChuong1909/petFamily/assets/92925332/fa83b374-d843-4f99-87d3-ad8277894696)
+Admin Managerment:
+![image](https://user-images.githubusercontent.com/92925332/222942812-6acec78b-87a9-4cdb-af82-6fd82f5bc83a.png)
+Invoice Managerment
+![image](https://user-images.githubusercontent.com/92925332/222942832-0005092e-6232-431e-97fa-13d4fa207683.png)
 
 
 # THANKS FOR WATCH

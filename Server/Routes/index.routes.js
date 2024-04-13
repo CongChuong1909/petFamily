@@ -4,7 +4,6 @@ import imageRoutes from "./image.js"
 import likeRoutes from "./likes.js"
 import petRouters from  "./Pets.js"
 import commentRoutes from "./comments.js"
-import authRoutes from "./auth.js"
 import uploadRoutes from "./upload.js"
 import messagesRoutes from "./messages.js"
 import relationShipRoutes from "./Relationships.js"
@@ -18,6 +17,7 @@ import petDetailRoutes from './petDetails.js'
 import shareRoutes from './shares.js'
 import searchRoutes from './search.js'
 import findPetRoutes from './findPet.js'
+import authRoutes from "./auth.js"
 export default function route(app) {
 app.use("/", authRoutes);
 app.use("/api/user", userRoutes);
